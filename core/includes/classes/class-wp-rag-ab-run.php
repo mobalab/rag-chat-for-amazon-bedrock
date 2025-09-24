@@ -210,13 +210,11 @@ class Wp_Rag_Ab_Run {
 
 			register_setting(
 				'wp_rag_ab_options',
-                $cls::OPTION_NAME,
-				array(
-					'sanitize_callback' => array( $cls, 'save_config_api' ),
-				),
+				$cls::OPTION_NAME,
 			);
 
-			$cls->add_config_section_and_fields();
+			$cls->add_wordpress_authentication_section_and_fields();
+			$cls->add_aws_section_and_fields();
 		} elseif ( 'wp-rag-ab-content-management' === $current_page || 'wp-rag-ab-content-management' === $referer_page ) {
 			$cls = WPRAGAB()->pages['content-management'];
 

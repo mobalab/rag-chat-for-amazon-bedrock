@@ -16,7 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since       0.0.1
  */
 class Wp_Rag_Ab_Page_GeneralSettings {
-	const OPTION_NAME = 'wp_rag_ab_options';
+
+	const OPTION_NAME = 'wp_rag_ab_general_settings';
 
 	/**
 	 * Executed before saving the options.
@@ -34,20 +35,20 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 			<form action="options.php" method="post">
 				<?php
-				settings_fields( self::OPTION_NAME );
+				settings_fields( 'wp_rag_ab_options' );
 				do_settings_sections( 'wp-rag-ab-general-settings' );
-                submit_button( __( 'Save Settings' ) );
+				submit_button( __( 'Save Settings' ) );
 				?>
 			</form>
 		</div>
 		<?php
 	}
 
-	public function add_config_section_and_fields() {
+	public function add_wordpress_authentication_section_and_fields() {
 		add_settings_section(
 			'wordpress_authentication_section', // Section ID
-			'WP RAG for Amazon Bedrock Configuration', // Title
-			array( $this, 'config_section_callback' ), // Callback
+			'WordPress Configuration', // Title
+			array( $this, 'wordpress_authentication_section_callback' ), // Callback
 			'wp-rag-ab-general-settings' // Slug of the page
 		);
 
@@ -68,16 +69,15 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 		);
 	}
 
-	function config_section_callback() {
-		echo 'Configure your plugin settings here.';
+	function wordpress_authentication_section_callback() {
+		echo 'Configure WprdPress authentication settings here.';
 	}
 
 	function wordpress_user_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[wordpress_username]"
+		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[wordpress_username]"
 				value="<?php echo esc_attr( $options['wordpress_username'] ?? '' ); ?>"
-			<?php WPRAG()->form->disabled_unless_verified(); ?>
 		/>
 		<?php
 	}
@@ -85,14 +85,107 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 	function wordpress_password_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[wordpress_password]"
+		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[wordpress_password]"
 				value="<?php echo esc_attr( $options['wordpress_password'] ?? '' ); ?>"
-			<?php WPRAG()->form->disabled_unless_verified(); ?>
 		/>
 		<?php
 	}
 
-	public function terms_pp_section_callback() {
-		// Empty for separator.
+	public function add_aws_section_and_fields() {
+		add_settings_section(
+			'aws_section', // Section ID
+			'AWS Configuration', // Title
+			array( $this, 'aws_section_callback' ), // Callback
+			'wp-rag-ab-general-settings' // Slug of the page
+		);
+
+		add_settings_field(
+			'wp_rag_ab_aws_region', // Field ID
+			'Region', // Title
+			array( $this, 'aws_region_field_render' ), // callback
+			'wp-rag-ab-general-settings', // Page slug
+			'aws_section' // Section this field belongs to
+		);
+
+		add_settings_field(
+			'wp_rag_ab_aws_access_key', // Field ID
+			'IAM Access Key', // Title
+			array( $this, 'aws_access_key_field_render' ), // callback
+			'wp-rag-ab-general-settings', // Page slug
+			'aws_section' // Section this field belongs to
+		);
+
+		add_settings_field(
+			'wp_rag_ab_aws_secret_key', // Field ID
+			'IAM Secret Key', // Title
+			array( $this, 'aws_secret_key_field_render' ), // callback
+			'wp-rag-ab-general-settings', // Page slug
+			'aws_section' // Section this field belongs to
+		);
+
+		add_settings_field(
+			'wp_rag_ab_bedorck_knowledge_base_id', // Field ID
+			'Knowledge Base ID', // Title
+			array( $this, 'knowledge_base_id_field_render' ), // callback
+			'wp-rag-ab-general-settings', // Page slug
+			'aws_section' // Section this field belongs to
+		);
+
+		add_settings_field(
+			'wp_rag_ab_bedorck_data_source_id', // Field ID
+			'Data source ID', // Title
+			array( $this, 'data_source_id_field_render' ), // callback
+			'wp-rag-ab-general-settings', // Page slug
+			'aws_section' // Section this field belongs to
+		);
+	}
+
+	function aws_section_callback() {
+		echo 'Configure AWS settings here.';
+	}
+
+	function aws_region_field_render() {
+		$options = get_option( self::OPTION_NAME );
+		?>
+		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[aws_region]"
+				value="<?php echo esc_attr( $options['aws_region'] ?? '' ); ?>"
+		/>
+		<?php
+	}
+
+	function aws_access_key_field_render() {
+		$options = get_option( self::OPTION_NAME );
+		?>
+		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[aws_access_key]"
+				value="<?php echo esc_attr( $options['aws_access_key'] ?? '' ); ?>"
+		/>
+		<?php
+	}
+
+	function aws_secret_key_field_render() {
+		$options = get_option( self::OPTION_NAME );
+		?>
+		<input type="password" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[aws_secret_key]"
+				value="<?php echo esc_attr( $options['aws_secret_key'] ?? '' ); ?>"
+		/>
+		<?php
+	}
+
+	function knowledge_base_id_field_render() {
+		$options = get_option( self::OPTION_NAME );
+		?>
+		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[knowledge_base_id]"
+				value="<?php echo esc_attr( $options['knowledge_base_id'] ?? '' ); ?>"
+		/>
+		<?php
+	}
+
+	function data_source_id_field_render() {
+		$options = get_option( self::OPTION_NAME );
+		?>
+		<input type="text" name="<?php echo self::OPTION_NAME; ?>[data_source_id]"
+				value="<?php echo esc_attr( $options['data_source_id'] ?? '' ); ?>"
+		/>
+		<?php
 	}
 }
