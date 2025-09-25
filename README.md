@@ -1,6 +1,6 @@
 # WP RAG for Amazon Bedrock
 
-WP RAG for Amazon Bedrock is a WordPress plugin that integrates your WordPress site witg Amazon Bedrock. By syncing your existing WordPress content with Amazon Bedrock Knowledge Bases, WP RAG for Amazon Bedrock creates an intelligent chatbot that can answer visitors' questions based on your site's content.
+WP RAG for Amazon Bedrock is a WordPress plugin that integrates your WordPress site with Amazon Bedrock. By syncing your existing WordPress content with Amazon Bedrock Knowledge Bases, WP RAG for Amazon Bedrock creates an intelligent chatbot that can answer visitors' questions based on your site's content.
 
 ## Support
 
