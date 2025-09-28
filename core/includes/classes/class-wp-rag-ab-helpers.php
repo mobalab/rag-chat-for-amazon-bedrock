@@ -54,7 +54,7 @@ class Wp_Rag_Ab_Helpers {
 	public function log_error( $message, $context = array() ) {
 		$formatted_message = sprintf(
 			'[%s] [%s] %s',
-			WPRAG_NAME,
+			WPRAGAB_NAME,
 			current_time( 'Y-m-d H:i:s' ),
 			$message
 		);
