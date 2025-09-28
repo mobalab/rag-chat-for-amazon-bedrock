@@ -29,7 +29,6 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 	 * @subpackage  Classes/Wp_Rag_Ab
 	 * @since       0.0.1
 	 * @author      Kashima, Kazuo
-	 *
 	 */
 	final class Wp_Rag_Ab {
 
@@ -128,18 +127,18 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 				self::$instance = new Wp_Rag_Ab();
 				self::$instance->base_hooks();
 				self::$instance->includes();
-				self::$instance->helpers         = new Wp_Rag_Ab_Helpers();
-				self::$instance->settings        = new Wp_Rag_Ab_Settings();
-				self::$instance->pages           = array(
+				self::$instance->helpers   = new Wp_Rag_Ab_Helpers();
+				self::$instance->settings  = new Wp_Rag_Ab_Settings();
+				self::$instance->pages     = array(
 					'main'               => new Wp_Rag_Ab_Page_Main(),
 					'general-settings'   => new Wp_Rag_Ab_Page_GeneralSettings(),
 					'content-management' => new Wp_Rag_Ab_Page_ContentManagement(),
 					'chat-ui'            => new Wp_Rag_Ab_Page_ChatUI(),
 				);
-				self::$instance->frontend        = new Wp_Rag_Ab_Frontend();
-				self::$instance->posthooks       = new Wp_Rag_Ab_PostHooks();
+				self::$instance->frontend  = new Wp_Rag_Ab_Frontend();
+				self::$instance->posthooks = new Wp_Rag_Ab_PostHooks();
 
-				// Fire the plugin logic
+				// Fire the plugin logic.
 				new Wp_Rag_Ab_Run();
 
 				/**
