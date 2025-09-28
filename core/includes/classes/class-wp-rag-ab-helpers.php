@@ -67,6 +67,15 @@ class Wp_Rag_Ab_Helpers {
 		error_log($formatted_message);
 	}
 
+	public function get_bedrock_client() {
+		$options = get_option( Wp_Rag_Ab::instance()->pages['general-settings']::OPTION_NAME );
+		if ( empty( $options['aws_region'] ) || empty( $options['aws_access_key'] ) || empty( $options['aws_secret_key'] ) || empty( $options['knowledge_base_id'] ) || empty( $options['data_source_id'] ) ) {
+			return null;
+		}
+
+		return new Wp_Rag_Ab_Amazon_Bedrock_Client( $options['aws_access_key'], $options['aws_secret_key'], $options['aws_region'], $options['knowledge_base_id'], $options['data_source_id'] );
+	}
+
 	/**
 	 * Saves authentication data by serializing it and updating the specified option name.
 	 *
