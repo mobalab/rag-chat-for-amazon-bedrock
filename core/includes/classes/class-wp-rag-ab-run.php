@@ -90,6 +90,7 @@ class Wp_Rag_Ab_Run {
 
 		add_action( 'pre_post_update', array( WPRAGAB()->posthooks, 'store_previous_status' ), 10, 2 );
 		add_action( 'save_post', array( WPRAGAB()->posthooks, 'handle_post_save' ), 10, 3 );
+		add_action( 'wp_trash_post', array( WPRAGAB()->posthooks, 'handle_post_delete' ), 10, 1 );
 		add_action( 'before_delete_post', array( WPRAGAB()->posthooks, 'handle_post_delete' ), 10, 1 );
 	}
 
