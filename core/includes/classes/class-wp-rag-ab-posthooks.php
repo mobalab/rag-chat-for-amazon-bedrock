@@ -13,44 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package     WPRAGAB
  * @subpackage  Classes/Wp_Rag_Ab_PostHooks
  * @author      Kashima, Kazuo
- * @since       0.0.3
+ * @since       0.0.1
  */
 class Wp_Rag_Ab_PostHooks {
 	/**
 	 * @var array wp_post_id => status string
 	 */
 	private $previous_status = array();
-
-	/**
-	 * Calls the endpoint for POSTing / adding the post.
-	 *
-	 * @param array $post_data
-	 * @return void
-	 */
-	private function call_post_api( array $post_data ) {
-        //TODO
-	}
-
-	/**
-	 * Calls the endpoint for PUTting / updating the post.
-	 *
-	 * @param array $post_data
-	 * @return void
-	 */
-	private function call_put_api( array $post_data ) {
-        //TODO
-	}
-
-	/**
-	 * Calls the endpoint for DELETing the post.
-	 *
-	 * @param int $wp_post_id
-	 * @return void
-	 */
-	private function call_delete_api( int $wp_post_id ) {
-        //TODO
-	}
-
 
 	/**
 	 * Stores the previous status of the post/page before saving it.
@@ -100,28 +69,17 @@ class Wp_Rag_Ab_PostHooks {
 
 		if ( ( 'draft' === $old_status || 'auto-draft' === $old_status ) && 'publish' === $new_status ) {
 			// Draft to publish -> new post.
-			$this->handle_post_create( $post );
+			$this->send_to_bedrock( $post );
 		} elseif ( 'publish' === $old_status && 'publish' === $new_status ) {
 			// Publish to publish -> updating an existing post.
-			$this->handle_post_update( $post );
+			$this->send_to_bedrock( $post );
 		} elseif ( 'publish' === $old_status && 'draft' === $new_status ) {
 			// Published to draft -> deleting the post.
-			$this->handle_post_remove( $post_id );
+			$this->delete_from_bedrock( $post_id );
 		}
 
 		// Remove the status once the process is complete.
 		unset( $this->previous_status[ $post_id ] );
-	}
-
-	/**
-	 * Prepares the data for the API endpoints that handle posts.
-	 *
-	 * @param WP_Post $post Post data to send to the API.
-	 * @return array Data for the API endpoints.
-	 */
-	private function prepare_post_data( WP_Post $post ) {
-        //TODO
-		return array();
 	}
 
 	/**
@@ -142,33 +100,67 @@ class Wp_Rag_Ab_PostHooks {
 		}
 
 		if ( 'publish' === $post->post_status ) {
-			$this->handle_post_remove( $post_id );
+			$this->delete_from_bedrock( $post_id );
 		}
 	}
 
-	private function handle_post_create( WP_Post $post ) {
-		$post_data = $this->prepare_post_data( $post );
+	private function send_to_bedrock( WP_Post $post ) {
+		$client = WPRAGAB()->helpers->get_bedrock_client();
+
+		$documents = array(
+			array(
+				'content'  => array(
+					'dataSourceType' => 'CUSTOM',
+					'custom'         => array(
+						'customDocumentIdentifier' => array(
+							'id' => (string) $post->ID,
+						),
+						'inlineContent'            => array(
+							'type'        => 'TEXT',
+							'textContent' => array(
+								// TODO Should add the title?
+								'data' => $post->post_content,
+							),
+						),
+						'sourceType'               => 'IN_LINE',
+					),
+				),
+				'metadata' => array(
+					'type'             => 'IN_LINE_ATTRIBUTE',
+					'inlineAttributes' => array(
+						array(
+							'key'   => 'title',
+							'value' => array(
+								'type'        => 'STRING',
+								'stringValue' => $post->post_title,
+							),
+						),
+						array(
+							'key'   => 'url',
+							'value' => array(
+								'type'        => 'STRING',
+								'stringValue' => get_permalink( $post ),
+							),
+						),
+					),
+				),
+			),
+		);
 
 		try {
-			$this->call_post_api( $post_data );
+			$respopnse = $client->ingest_documents( $documents );
+			WPRAGAB()->helpers->log_error( wp_json_encode( $respopnse ) );
 		} catch ( Exception $e ) {
-            WPRAGAB()->helpers->log_error( 'API Error (Create): ' . $e->getMessage() );
+			WPRAGAB()->helpers->log_error( 'API Error (Create): ' . $e->getMessage() );
 		}
 	}
 
-	private function handle_post_update( WP_Post $post ) {
-		$post_data = $this->prepare_post_data( $post );
+	private function delete_from_bedrock( int $post_id ) {
+		$client = WPRAGAB()->helpers->get_bedrock_client();
 
 		try {
-			$this->call_put_api( $post_data );
-		} catch ( Exception $e ) {
-            WPRAGAB()->helpers->log_error( 'API Error (Update): ' . $e->getMessage() );
-		}
-	}
-
-	private function handle_post_remove( int $post_id ) {
-		try {
-			$this->call_delete_api( $post_id );
+			$response = $client->delete_document( (string) $post_id );
+			WPRAGAB()->helpers->log_error( wp_json_encode( $response ) );
 		} catch ( Exception $e ) {
 			WPRAGAB()->helpers->log_error( 'Error (Remove): ' . $e->getMessage() );
 		}

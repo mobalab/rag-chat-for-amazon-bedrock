@@ -54,7 +54,7 @@ class Wp_Rag_Ab_Helpers {
 	public function log_error( $message, $context = array() ) {
 		$formatted_message = sprintf(
 			'[%s] [%s] %s',
-			WPRAG_NAME,
+			WPRAGAB_NAME,
 			current_time( 'Y-m-d H:i:s' ),
 			$message
 		);
@@ -65,6 +65,15 @@ class Wp_Rag_Ab_Helpers {
 
 		// @codingStandardsIgnoreLine
 		error_log($formatted_message);
+	}
+
+	public function get_bedrock_client() {
+		$options = get_option( Wp_Rag_Ab::instance()->pages['general-settings']::OPTION_NAME );
+		if ( empty( $options['aws_region'] ) || empty( $options['aws_access_key'] ) || empty( $options['aws_secret_key'] ) || empty( $options['knowledge_base_id'] ) || empty( $options['data_source_id'] ) ) {
+			return null;
+		}
+
+		return new Wp_Rag_Ab_Amazon_Bedrock_Client( $options['aws_access_key'], $options['aws_secret_key'], $options['aws_region'], $options['knowledge_base_id'], $options['data_source_id'] );
 	}
 
 	/**
