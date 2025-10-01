@@ -172,6 +172,7 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 
 			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-aws-sigv4.php';
 			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-amazon-bedrock-client.php';
+			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-sync-service.php';
 
 			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-run.php';
 		}
