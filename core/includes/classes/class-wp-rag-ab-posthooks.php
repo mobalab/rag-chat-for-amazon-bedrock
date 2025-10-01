@@ -153,10 +153,14 @@ class Wp_Rag_Ab_PostHooks {
 		);
 
 		try {
-			$respopnse = $client->ingest_documents( $documents );
-			WPRAGAB()->helpers->log_error( wp_json_encode( $respopnse ) );
+			$response    = $client->ingest_documents( $documents );
+			$sync_status = 202 === $response['status_code'] ? 1 : 2; // 1: success, 2: error.
+			if ( 2 === $sync_status ) {
+				WPRAGAB()->helpers->log_error( 'Error (Save): ' . wp_json_encode( $response ) );
+			}
+			update_post_meta( $post->ID, '_wpragab_sync_status', $sync_status );
 		} catch ( Exception $e ) {
-			WPRAGAB()->helpers->log_error( 'API Error (Create): ' . $e->getMessage() );
+			WPRAGAB()->helpers->log_error( 'Error (Save): ' . $e->getMessage() );
 		}
 	}
 
@@ -165,7 +169,11 @@ class Wp_Rag_Ab_PostHooks {
 
 		try {
 			$response = $client->delete_document( (string) $post_id );
-			WPRAGAB()->helpers->log_error( wp_json_encode( $response ) );
+			if ( 202 === $response['status_code'] ) {
+				delete_post_meta( $post_id, '_wpragab_sync_status' );
+			} else {
+				WPRAGAB()->helpers->log_error( 'Error (Remove): ' . wp_json_encode( $response ) );
+			}
 		} catch ( Exception $e ) {
 			WPRAGAB()->helpers->log_error( 'Error (Remove): ' . $e->getMessage() );
 		}
