@@ -17,31 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Wp_Rag_Ab_Page_ContentManagement {
 	public function page_content() {
-		// TODO: Move this to a separate class.q
-		global $wpdb;
-		$posts_table    = $wpdb->prefix . 'posts';
-		$postmeta_table = $wpdb->prefix . 'postmeta';
-		$meta_key       = '_wpragab_sync_status';
-
-		$stats = $wpdb->get_row(
-			"
-        SELECT
-            COUNT(DISTINCT p.ID) as total,
-            SUM(CASE
-                WHEN pm.meta_value IS NULL OR pm.meta_value = '0' THEN 1
-                ELSE 0
-            END) as not_synced,
-            SUM(CASE WHEN pm.meta_value = '1' THEN 1 ELSE 0 END) as synced,
-            SUM(CASE WHEN pm.meta_value = '2' THEN 1 ELSE 0 END) as error
-        FROM $posts_table p
-        LEFT JOIN $postmeta_table pm
-            ON p.ID = pm.post_id
-            AND pm.meta_key = '$meta_key'
-        WHERE p.post_status = 'publish'
-            AND p.post_type IN ('post', 'page')
-    "
-		);
-
+		$sync_service = new Wp_Rag_Ab_SyncService();
+		$stats        = $sync_service->get_sync_status_summary();
 		?>
 		<div class="wrap">
 			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
