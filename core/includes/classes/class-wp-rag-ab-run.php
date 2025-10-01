@@ -219,14 +219,11 @@ class Wp_Rag_Ab_Run {
 		} elseif ( 'wp-rag-ab-content-management' === $current_page || 'wp-rag-ab-content-management' === $referer_page ) {
 			$cls = WPRAGAB()->pages['content-management'];
 
-			if ( isset( $_POST['wp_rag_ab_import_submit'] ) ) {
-				$cls->handle_import_form_submission();
-			}
-			if ( isset( $_POST['wp_rag_ab_generate_submit'] ) ) {
-				$cls->handle_generate_form_submission();
+			if ( isset( $_POST['wp_rag_ab_export_submit'] ) ) {
+				$cls->handle_export_form_submission();
 			}
 
-			$cls->add_import_posts_section_and_fields();
+			$cls->add_export_posts_section_and_fields();
 		} elseif ( 'wp-rag-ab-chat-ui' === $current_page || 'wp-rag-ab-chat-ui' === $referer_page ) {
 			$cls = WPRAGAB()->pages['chat-ui'];
 
