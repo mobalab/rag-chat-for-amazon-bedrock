@@ -50,7 +50,7 @@ class Wp_Rag_Ab_Settings {
 	 *
 	 * @since 0.0.1
 	 */
-	function __construct() {
+	public function __construct() {
 		$this->plugin_name = WPRAGAB_NAME;
 	}
 

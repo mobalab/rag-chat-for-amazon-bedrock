@@ -44,9 +44,8 @@ class Wp_Rag_Ab_PostHooks {
 	 *
 	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post Post object.
-	 * @param bool    $update Whether updating or not (creating).
 	 */
-	public function handle_post_save( int $post_id, WP_Post $post, bool $update ) {
+	public function handle_post_save( int $post_id, WP_Post $post ) {
 		// Do not process revisions.
 		if ( wp_is_post_revision( $post_id ) ) {
 			return;
@@ -104,6 +103,12 @@ class Wp_Rag_Ab_PostHooks {
 		}
 	}
 
+	/**
+	 * Send the post to Bedrock. If the post is already in Bedrock, update it.
+	 *
+	 * @param WP_Post $post post object.
+	 * @return void
+	 */
 	private function send_to_bedrock( WP_Post $post ) {
 		$client = WPRAGAB()->helpers->get_bedrock_client();
 

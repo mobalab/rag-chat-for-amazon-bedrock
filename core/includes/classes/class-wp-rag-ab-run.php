@@ -187,7 +187,7 @@ class Wp_Rag_Ab_Run {
 		if ( isset( $_POST['_wp_http_referer'] ) ) {
 			$_wp_http_referer = sanitize_text_field( wp_unslash( $_POST['_wp_http_referer'] ) );
 			$referer_page     = wp_unslash( $_wp_http_referer );
-			$referer_query    = parse_url( $referer_page, PHP_URL_QUERY );
+			$referer_query    = wp_parse_url( $referer_page, PHP_URL_QUERY );
 			parse_str( $referer_query, $params );
 			$referer_page = $params['page'];
 		} else {
