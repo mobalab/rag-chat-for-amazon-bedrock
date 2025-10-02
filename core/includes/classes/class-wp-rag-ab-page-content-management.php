@@ -24,7 +24,7 @@ class Wp_Rag_Ab_Page_ContentManagement {
 			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<form method="post" action="">
 				<h2>Post Sync Controls</h2>
-				<p>Posts / pages, published date of which are in the range, will be exported to Amazon Bedrock.</p>
+				<p>Posts and pages with published dates within the specified range will be exported to Amazon Bedrock.</p>
 				<?php
 				settings_fields( 'wp_rag_ab_options' );
 
@@ -49,7 +49,7 @@ class Wp_Rag_Ab_Page_ContentManagement {
 				</tr>
 				<tr>
 					<th scope="row">
-						Number of the posts not synced with Amazon Bedrock
+						Number of posts not synced with Amazon Bedrock
 					</th>
 					<td>
 						<?php echo esc_html( $stats->not_synced ); ?>
@@ -57,7 +57,7 @@ class Wp_Rag_Ab_Page_ContentManagement {
 				</tr>
 				<tr>
 					<th scope="row">
-						Number of the posts synced with Amazon Bedrock
+						Number of posts synced with Amazon Bedrock
 					</th>
 					<td>
 						<?php echo esc_html( $stats->synced ); ?>
