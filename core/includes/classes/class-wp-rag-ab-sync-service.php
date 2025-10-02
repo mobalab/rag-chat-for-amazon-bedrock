@@ -44,6 +44,54 @@ class Wp_Rag_Ab_SyncService {
 	}
 
 	/**
+	 * Convert a post to an array that can be sent to Bedrock.
+	 *
+	 * @param WP_Post $post post object.
+	 * @return array[] equivalent to KnowledgeBaseDocument.
+	 * @see https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_IngestKnowledgeBaseDocuments.html .
+	 */
+	private function convert_post_to_bedrock_document( WP_Post $post ) {
+		return array(
+			'content'  => array(
+				'dataSourceType' => 'CUSTOM',
+				'custom'         => array(
+					'customDocumentIdentifier' => array(
+						'id' => (string) $post->ID,
+					),
+					'inlineContent'            => array(
+						'type'        => 'TEXT',
+						'textContent' => array(
+							// TODO Should add the title?
+							'data' => $post->post_content,
+						),
+					),
+					'sourceType'               => 'IN_LINE',
+				),
+			),
+			'metadata' => array(
+				'type'             => 'IN_LINE_ATTRIBUTE',
+				'inlineAttributes' => array(
+					array(
+						'key'   => 'title',
+						'value' => array(
+							'type'        => 'STRING',
+							'stringValue' => $post->post_title,
+						),
+					),
+					array(
+						'key'   => 'url',
+						'value' => array(
+							'type'        => 'STRING',
+							'stringValue' => get_permalink( $post ),
+						),
+					),
+				),
+			),
+		);
+	}
+
+
+	/**
 	 * Send the post to Bedrock. If the post is already in Bedrock, update it.
 	 *
 	 * @param WP_Post $post post object.
@@ -53,43 +101,7 @@ class Wp_Rag_Ab_SyncService {
 		$client = WPRAGAB()->helpers->get_bedrock_client();
 
 		$documents = array(
-			array(
-				'content'  => array(
-					'dataSourceType' => 'CUSTOM',
-					'custom'         => array(
-						'customDocumentIdentifier' => array(
-							'id' => (string) $post->ID,
-						),
-						'inlineContent'            => array(
-							'type'        => 'TEXT',
-							'textContent' => array(
-								// TODO Should add the title?
-								'data' => $post->post_content,
-							),
-						),
-						'sourceType'               => 'IN_LINE',
-					),
-				),
-				'metadata' => array(
-					'type'             => 'IN_LINE_ATTRIBUTE',
-					'inlineAttributes' => array(
-						array(
-							'key'   => 'title',
-							'value' => array(
-								'type'        => 'STRING',
-								'stringValue' => $post->post_title,
-							),
-						),
-						array(
-							'key'   => 'url',
-							'value' => array(
-								'type'        => 'STRING',
-								'stringValue' => get_permalink( $post ),
-							),
-						),
-					),
-				),
-			),
+			$this->convert_post_to_bedrock_document( $post ),
 		);
 
 		try {
