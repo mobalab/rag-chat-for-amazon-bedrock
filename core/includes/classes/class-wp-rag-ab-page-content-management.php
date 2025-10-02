@@ -24,6 +24,7 @@ class Wp_Rag_Ab_Page_ContentManagement {
 			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<form method="post" action="">
 				<h2>Post Sync Controls</h2>
+				<p>Posts / pages, published date of which are in the range, will be exported to Amazon Bedrock.</p>
 				<?php
 				settings_fields( 'wp_rag_ab_options' );
 
@@ -84,11 +85,19 @@ class Wp_Rag_Ab_Page_ContentManagement {
 		);
 
 		add_settings_field(
-			'import_type',
-			'Import type',
-			array( $this, 'import_type_field_render' ),
+			'export_to',
+			'To date:',
+			array( $this, 'export_to_field_render' ),
 			'wp-rag-ab-content-management',
-			'import_posts_section'
+			'export_posts_section'
+		);
+
+		add_settings_field(
+			'export_type',
+			'Export type',
+			array( $this, 'export_type_field_render' ),
+			'wp-rag-ab-content-management',
+			'export_posts_section'
 		);
 	}
 
@@ -96,6 +105,12 @@ class Wp_Rag_Ab_Page_ContentManagement {
 	public function export_from_field_render() {
 		?>
 		<input type="date" name="wp_rag_ab_export_from" value="" />
+		<?php
+	}
+
+	public function export_to_field_render() {
+		?>
+		<input type="date" name="wp_rag_ab_export_to" value="" />
 		<?php
 	}
 
