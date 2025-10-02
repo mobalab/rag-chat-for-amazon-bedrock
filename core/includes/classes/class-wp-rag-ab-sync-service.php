@@ -90,6 +90,39 @@ class Wp_Rag_Ab_SyncService {
 		);
 	}
 
+	/**
+	 * Send the posts to Bedrock. If there are already some posts in Bedrock, update them.
+	 *
+	 * @param array<WP_Post> $posts Posts to send to Bedrock.
+	 * @return bool true if all posts are sent successfully, false otherwise.
+	 */
+	public function send_posts_to_bedrock( array $posts ) {
+		$client = WPRAGAB()->helpers->get_bedrock_client();
+
+		foreach ( array_chunk( $posts, 10 ) as $at_most_10_posts ) {
+			$post_ids  = array();
+			$documents = array();
+			foreach ( $at_most_10_posts as $post ) {
+				$post_ids[]  = $post->ID;
+				$documents[] = $this->convert_post_to_bedrock_document( $post );
+			}
+			try {
+				$response    = $client->ingest_documents( $documents );
+				$sync_status = 202 === $response['status_code'] ? 1 : 2; // 1: success, 2: error.
+				if ( 2 === $sync_status ) {
+					WPRAGAB()->helpers->log_error( 'Error (Save): ' . wp_json_encode( $response ) );
+					return false;
+				}
+				foreach ( $post_ids as $post_id ) {
+					update_post_meta( $post_id, '_wpragab_sync_status', $sync_status );
+				}
+				return true;
+			} catch ( Exception $e ) {
+				WPRAGAB()->helpers->log_error( 'Error (Save): ' . $e->getMessage() );
+				return false;
+			}
+		}
+	}
 
 	/**
 	 * Send the post to Bedrock. If the post is already in Bedrock, update it.
