@@ -133,36 +133,44 @@ class Wp_Rag_Ab_Page_ContentManagement {
 	 */
 	function handle_export_form_submission() {
 		check_admin_referer( 'wp_rag_ab_options-options' );
-		$post_type = isset( $_POST['wp_rag_ab_export_type'] ) ? sanitize_text_field( wp_unslash( $_POST['wp_rag_ab_export_type'] ) ) : 'post';
-		$params    = array( 'post_type' => $post_type );
-		if ( ! empty( $_POST['wp_rag_ab_import_from'] ) ) {
-			// <input type="date" /> sends a date of ISO 8601 format.
-			$timezone = wp_timezone();
-			$date_str = sanitize_text_field( wp_unslash( $_POST['wp_rag_ab_export_from'] ) );
-			$date     = new DateTime( $date_str, $timezone );
 
-			$params['modified_after'] = $date->format( 'Y-m-d\TH:i:s' );
+		$post_type = isset( $_POST['wp_rag_ab_export_type'] ) ? sanitize_text_field( wp_unslash( $_POST['wp_rag_ab_export_type'] ) ) : array( 'post', 'page' );
+
+		$args = array(
+			'post_type'      => $post_type,
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+		);
+
+		// <input type="date" /> sends a date of ISO 8601 format.
+		$timezone = wp_timezone();
+
+		if ( ! empty( $_POST['wp_rag_ab_export_from'] ) || ! empty( $_POST['wp_rag_ab_export_to'] ) ) {
+			$date_query = array(
+				'inclusive' => true,
+				'column'    => 'post_date_gmt',  // Use UTC.
+			);
+
+			if ( ! empty( $_POST['wp_rag_ab_export_from'] ) ) {
+				$date_str            = sanitize_text_field( wp_unslash( $_POST['wp_rag_ab_export_from'] ) );
+				$date                = new DateTime( $date_str, $timezone );
+				$date_query['after'] = $date->format( 'Y-m-d\TH:i:s' );
+			}
+
+			if ( ! empty( $_POST['wp_rag_ab_export_to'] ) ) {
+				$date_str             = sanitize_text_field( wp_unslash( $_POST['wp_rag_ab_export_to'] ) );
+				$date                 = new DateTime( $date_str, $timezone );
+				$date_query['before'] = $date->format( 'Y-m-d\TH:i:s' );
+			}
+
+			$args['date_query'] = array( $date_query );
 		}
 
-		$data     = array(
-			'task_type' => 'ImportWordpressPosts',
-			'params'    => $params,
-		);
-		$response = WPRAG()->helpers->call_api_for_site( '/tasks', 'POST', $data );
+		$posts = get_posts( $args );
 
-		if ( 202 === $response['httpCode'] ) {
-			$type    = 'success';
-			$message = 'Successfully launch the import task.';
-		} else {
-			$type    = 'error';
-			$message = 'API call failed.';
-		}
-
-		$messages = Wp_Rag_AdminMessages::get_instance();
-		$messages->add_message(
-			$message,
-			$response,
-			$type
-		);
+		$sync_service = new Wp_Rag_Ab_SyncService();
+		$sync_service->send_posts_to_bedrock( $posts );
 	}
 }
