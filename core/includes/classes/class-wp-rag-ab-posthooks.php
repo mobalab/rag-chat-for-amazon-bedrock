@@ -44,9 +44,8 @@ class Wp_Rag_Ab_PostHooks {
 	 *
 	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post Post object.
-	 * @param bool    $update Whether updating or not (creating).
 	 */
-	public function handle_post_save( int $post_id, WP_Post $post, bool $update ) {
+	public function handle_post_save( int $post_id, WP_Post $post ) {
 		// Do not process revisions.
 		if ( wp_is_post_revision( $post_id ) ) {
 			return;
@@ -62,6 +61,8 @@ class Wp_Rag_Ab_PostHooks {
 			return;
 		}
 
+		$sync_service = new Wp_Rag_Ab_SyncService();
+
 		$new_status = $post->post_status;
 		$old_status = isset( $this->previous_status[ $post_id ] )
 			? $this->previous_status[ $post_id ]
@@ -69,13 +70,13 @@ class Wp_Rag_Ab_PostHooks {
 
 		if ( ( 'draft' === $old_status || 'auto-draft' === $old_status ) && 'publish' === $new_status ) {
 			// Draft to publish -> new post.
-			$this->send_to_bedrock( $post );
+			$sync_service->send_post_to_bedrock( $post );
 		} elseif ( 'publish' === $old_status && 'publish' === $new_status ) {
 			// Publish to publish -> updating an existing post.
-			$this->send_to_bedrock( $post );
+			$sync_service->send_post_to_bedrock( $post );
 		} elseif ( 'publish' === $old_status && 'draft' === $new_status ) {
 			// Published to draft -> deleting the post.
-			$this->delete_from_bedrock( $post_id );
+			$sync_service->delete_post_from_bedrock( $post_id );
 		}
 
 		// Remove the status once the process is complete.
@@ -100,69 +101,8 @@ class Wp_Rag_Ab_PostHooks {
 		}
 
 		if ( 'publish' === $post->post_status ) {
-			$this->delete_from_bedrock( $post_id );
-		}
-	}
-
-	private function send_to_bedrock( WP_Post $post ) {
-		$client = WPRAGAB()->helpers->get_bedrock_client();
-
-		$documents = array(
-			array(
-				'content'  => array(
-					'dataSourceType' => 'CUSTOM',
-					'custom'         => array(
-						'customDocumentIdentifier' => array(
-							'id' => (string) $post->ID,
-						),
-						'inlineContent'            => array(
-							'type'        => 'TEXT',
-							'textContent' => array(
-								// TODO Should add the title?
-								'data' => $post->post_content,
-							),
-						),
-						'sourceType'               => 'IN_LINE',
-					),
-				),
-				'metadata' => array(
-					'type'             => 'IN_LINE_ATTRIBUTE',
-					'inlineAttributes' => array(
-						array(
-							'key'   => 'title',
-							'value' => array(
-								'type'        => 'STRING',
-								'stringValue' => $post->post_title,
-							),
-						),
-						array(
-							'key'   => 'url',
-							'value' => array(
-								'type'        => 'STRING',
-								'stringValue' => get_permalink( $post ),
-							),
-						),
-					),
-				),
-			),
-		);
-
-		try {
-			$respopnse = $client->ingest_documents( $documents );
-			WPRAGAB()->helpers->log_error( wp_json_encode( $respopnse ) );
-		} catch ( Exception $e ) {
-			WPRAGAB()->helpers->log_error( 'API Error (Create): ' . $e->getMessage() );
-		}
-	}
-
-	private function delete_from_bedrock( int $post_id ) {
-		$client = WPRAGAB()->helpers->get_bedrock_client();
-
-		try {
-			$response = $client->delete_document( (string) $post_id );
-			WPRAGAB()->helpers->log_error( wp_json_encode( $response ) );
-		} catch ( Exception $e ) {
-			WPRAGAB()->helpers->log_error( 'Error (Remove): ' . $e->getMessage() );
+			$sync_service = new Wp_Rag_Ab_SyncService();
+			$sync_service->delete_from_bedrock( $post_id );
 		}
 	}
 }
