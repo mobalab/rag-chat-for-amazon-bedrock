@@ -128,7 +128,7 @@ class Wp_Rag_Ab_SyncService {
 	 * Send the post to Bedrock. If the post is already in Bedrock, update it.
 	 *
 	 * @param WP_Post $post post object.
-	 * @return void
+	 * @return bool
 	 */
 	public function send_post_to_bedrock( WP_Post $post ) {
 		$client = WPRAGAB()->helpers->get_bedrock_client();
@@ -144,8 +144,10 @@ class Wp_Rag_Ab_SyncService {
 				WPRAGAB()->helpers->log_error( 'Error (Save): ' . wp_json_encode( $response ) );
 			}
 			update_post_meta( $post->ID, '_wpragab_sync_status', $sync_status );
+			return true;
 		} catch ( Exception $e ) {
 			WPRAGAB()->helpers->log_error( 'Error (Save): ' . $e->getMessage() );
+			return false;
 		}
 	}
 
