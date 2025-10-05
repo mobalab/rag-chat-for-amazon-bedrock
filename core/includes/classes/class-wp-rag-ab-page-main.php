@@ -28,13 +28,14 @@ class Wp_Rag_Ab_Page_Main {
 	 * @return void
 	 */
 	public function render_main_page() {
-        $status = array( 'post_count' => 0 );
+		$sync_service = new Wp_Rag_Ab_SyncService();
+		$stats        = $sync_service->get_sync_status_summary();
 		?>
 		<div class="wrap">
-			<h2><?php echo esc_html( WPRAGAB()->settings->get_plugin_name() ) ?></h2>
+			<h2><?php echo esc_html( WPRAGAB()->settings->get_plugin_name() ); ?></h2>
 			<h3>System Status</h3>
 			<ul>
-				<li><?php echo $status['post_count'] > 0 ? '✅' : '❌'; ?>: Number of the posts imported to Amazon Bedrock is <?php echo esc_html( $status['post_count'] ); ?>.</li>
+				<li><?php echo $stats->total > 0 ? '✅' : '❌'; ?>: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->total ); ?>.</li>
 			</ul>
 			<h3>Operations</h3>
 			<form method="post" action="">
