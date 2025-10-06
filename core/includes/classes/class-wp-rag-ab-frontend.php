@@ -83,12 +83,52 @@ class Wp_Rag_Ab_Frontend {
 		<?php
 	}
 
+	/**
+	 * @param array $body The response body from the Bedrock API's retrieveAndGenerate endpoint.
+	 * @return array
+	 */
+	private function format_bedrock_response_body( $body ) {
+		$formatted_response = array(
+			'session_id' => $body['sessionId'],
+			'answer'     => $body['output']['text'],
+		);
+		$contexts           = array();
+		foreach ( $body['citations'] as $citation ) {
+			foreach ( $citation['retrievedReferences'] as $reference ) {
+				$contexts[] = array(
+					'title' => $reference['metadata']['title'],
+					'url'   => $reference['metadata']['url'],
+					// 'content' => $reference['content']['text'],
+				);
+			}
+		}
+		// Remove duplicate contexts.
+		$formatted_response['contexts'] = array_map( 'unserialize', array_unique( array_map( 'serialize', $contexts ) ) );
+		return $formatted_response;
+	}
+
+	/**
+	 * Receive the chat message and output the response.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
 	public function process_chat() {
 		if ( empty( $_POST['message'] ) ) {
 			return;
 		}
-		$message  = sanitize_text_field( wp_unslash( $_POST['message'] ) );
-        //TODO
+
+		$message    = sanitize_text_field( wp_unslash( $_POST['message'] ) );
+		$gs_options = get_option( WPRAGAB()->pages['general-settings']::OPTION_NAME );
+		$client     = WPRAGAB()->helpers->get_bedrock_client();
+		$client->set_model_arn( $gs_options['model_arn'] ?? null );
+		$response = $client->retrieve_and_generate( sanitize_text_field( wp_unslash( $message ) ) );
+
+		if ( 200 === $response['status_code'] ) {
+			wp_send_json_success( $this->format_bedrock_response_body( $response['body'] ) );
+		} else {
+			wp_send_json_error( $response['body']['message'], $response['status_code'] );
+		}
 
 		wp_die();
 	}
