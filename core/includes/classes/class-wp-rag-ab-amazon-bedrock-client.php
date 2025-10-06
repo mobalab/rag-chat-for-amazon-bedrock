@@ -207,17 +207,19 @@ class Wp_Rag_Ab_Amazon_Bedrock_Client {
 	 * Call `set_model_arn` before calling this method.
 	 *
 	 * @param string $query Query text.
+	 * @param string $session_id Session ID.
 	 * @return array Response from the API.
 	 * @throws Exception
+	 * @see https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html .
 	 */
-	public function retrieve_and_generate( $query ) {
+	public function retrieve_and_generate( $query, $session_id = null ) {
 		$this->set_base_url_for_runtime();
 
 		if ( null === $this->model_arn ) {
 			throw new Exception( 'Model ARN is not set.' );
 		}
 
-		$data    = array(
+		$data = array(
 			'input'                            => array( 'text' => $query ),
 			'retrieveAndGenerateConfiguration' => array(
 				'knowledgeBaseConfiguration' => array(
@@ -227,6 +229,10 @@ class Wp_Rag_Ab_Amazon_Bedrock_Client {
 				'type'                       => 'KNOWLEDGE_BASE',
 			),
 		);
+
+		if ( null !== $session_id ) {
+			$data['sessionId'] = $session_id;
+		}
 		$uri     = '/retrieveAndGenerate';
 		$payload = wp_json_encode( $data );
 
