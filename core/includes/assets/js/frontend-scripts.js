@@ -133,7 +133,7 @@ Frontend related javascript
 							url: wpRagAb.ajaxurl,
 							type: 'POST',
 							data: {
-								action: 'wp_rag_process_chat',
+								action: 'wp_rag_ab_process_chat',
 								message: message
 							},
 							success: function (response) {
