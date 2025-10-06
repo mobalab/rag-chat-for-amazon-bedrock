@@ -89,6 +89,8 @@ Frontend related javascript
 			const botName        = wpRagAb.chat_ui_options['bot_name'] || 'Bot';
 			const initialMessage = wpRagAb.chat_ui_options['initial_message'];
 
+			let sessionId = null;
+
 			if ( initialMessage ) {
 				showBotMessage( messages, botName, initialMessage );
 			}
@@ -128,18 +130,28 @@ Frontend related javascript
 
 					submitButton.prop( 'disabled', true ).addClass( 'wp-rag-ab-chat__submit--loading' );
 
+					const ajaxData = {
+						action: 'wp_rag_ab_process_chat',
+						message: message
+					};
+
+					if (sessionId) {
+						ajaxData.session_id = sessionId;
+					}
+
 					$.ajax(
 						{
 							url: wpRagAb.ajaxurl,
 							type: 'POST',
-							data: {
-								action: 'wp_rag_ab_process_chat',
-								message: message
-							},
+							data: ajaxData,
 							success: function (response) {
 								if (response.success) {
+									if (response.data.session_id) {
+										sessionId = response.data.session_id;
+									}
+
 									showUserMessage( messages, userName, message );
-									if ('yes' === wpRagAb.chat_ui_options['display_context_links']) {
+									if ('yes' !== wpRagAb.chat_ui_options['display_context_links']) {
 										showBotMessage( messages, botName, response.data.answer, response.data.contexts );
 									} else {
 										showBotMessage( messages, botName, response.data.answer );
