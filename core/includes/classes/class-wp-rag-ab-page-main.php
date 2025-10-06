@@ -28,13 +28,14 @@ class Wp_Rag_Ab_Page_Main {
 	 * @return void
 	 */
 	public function render_main_page() {
-        $status = array( 'post_count' => 0 );
+		$sync_service = new Wp_Rag_Ab_SyncService();
+		$stats        = $sync_service->get_sync_status_summary();
 		?>
 		<div class="wrap">
-			<h2><?php echo esc_html( WPRAGAB()->settings->get_plugin_name() ) ?></h2>
+			<h2><?php echo esc_html( WPRAGAB()->settings->get_plugin_name() ); ?></h2>
 			<h3>System Status</h3>
 			<ul>
-				<li><?php echo $status['post_count'] > 0 ? '✅' : '❌'; ?>: Number of the posts imported to Amazon Bedrock is <?php echo esc_html( $status['post_count'] ); ?>.</li>
+				<li><?php echo $stats->total > 0 ? '✅' : '❌'; ?>: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->total ); ?>.</li>
 			</ul>
 			<h3>Operations</h3>
 			<form method="post" action="">
@@ -48,14 +49,20 @@ class Wp_Rag_Ab_Page_Main {
 				<input type="submit" name="wp_rag_ab_query_submit" class="button button-primary" value="Query">
 			</form>
 			<?php if ( ! empty( $this->response ) ) : ?>
-				<p>Question: <?php echo esc_html( wp_unslash( $_POST['wp_rag_ab_question'] ) ); ?></p>
-				<p>Answer: <?php echo esc_html( $this->response['response']['answer'] ); ?></p>
-				Context posts:
-				<ul>
-					<?php foreach ( $this->response['response']['context_posts'] as $post ) : ?>
-						<li><a href="<?php echo esc_attr( $post['url'] ); ?>" target="_blank"><?php echo esc_html( $post['title'] ); ?></a></li>
-					<?php endforeach; ?>
-				</ul>
+				<?php if ( 200 === $this->response['status_code'] ) : ?>
+					<p>Question: <?php echo esc_html( wp_unslash( $_POST['wp_rag_ab_question'] ) ); ?></p>
+					<p>Answer: <?php echo esc_html( $this->response['body']['output']['text'] ); ?></p>
+					Context posts:
+					<ul>
+						<?php foreach ( $this->response['body']['citations'] as $citation ) : ?>
+							<?php foreach ( $citation['retrievedReferences'] as $reference ) : ?>
+								<li><a href="<?php echo esc_url( $reference['metadata']['url'] ); ?>"><?php echo esc_html( $reference['metadata']['title'] ); ?></a></li>
+							<?php endforeach; ?>
+						<?php endforeach; ?>
+					</ul>
+				<?php else : ?>
+					<p>Error: <?php esc_attr( $this->response['body']['message'] ); ?></p>
+				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -77,9 +84,11 @@ class Wp_Rag_Ab_Page_Main {
 		if ( empty( $_POST['wp_rag_ab_question'] ) ) {
 			return;
 		}
-		$data     = array( 'question' => sanitize_text_field( wp_unslash( $_POST['wp_rag_ab_question'] ) ) );
-		//$response = WPRAG()->helpers->call_api_for_site( '/posts/query', 'POST', $data );
+		$gs_options = get_option( WPRAGAB()->pages['general-settings']::OPTION_NAME );
+		$client     = WPRAGAB()->helpers->get_bedrock_client();
+		$client->set_model_arn( $gs_options['model_arn'] ?? null );
+		$response = $client->retrieve_and_generate( sanitize_text_field( wp_unslash( $_POST['wp_rag_ab_question'] ) ) );
 
-		//$this->response = $response;
+		$this->response = $response;
 	}
 }

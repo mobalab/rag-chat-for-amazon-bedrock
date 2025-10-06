@@ -52,18 +52,23 @@ class Wp_Rag_Ab_Frontend {
 			return '';
 		}
 
-		$options     = get_option( Wp_Rag_Ab::instance()->pages['chat-ui']::OPTION_NAME );
-		$title       = ! empty( $options['window_title'] ) ? $options['window_title'] : 'Chat';
-		$placeholder = ! empty( $options['input_placeholder_text'] ) ? $options['input_placeholder_text']
+		$options          = get_option( Wp_Rag_Ab::instance()->pages['chat-ui']::OPTION_NAME );
+		$title            = ! empty( $options['window_title'] ) ? $options['window_title'] : 'Chat';
+		$placeholder      = ! empty( $options['input_placeholder_text'] ) ? $options['input_placeholder_text']
 			: 'Enter your message here...';
 		$send_button_text = ! empty( $options['send_button_text'] ) ? $options['send_button_text'] : 'Send';
 		?>
 		<div id="wp-rag-ab-chat-window" class="wp-rag-ab-chat">
 			<div class="wp-rag-ab-chat__header">
 				<span class="wp-rag-ab-chat__title"><?php echo esc_html( $title ); ?></span>
-				<button type="button" class="wp-rag-ab-chat__minimize">
-					<span class="dashicons dashicons-minus"></span>
-				</button>
+				<div class="wp-rag-ab-chat__header-buttons">
+					<button type="button" class="wp-rag-ab-chat__clear" title="Clear chat history">
+						<span class="dashicons dashicons-trash"></span>
+					</button>
+					<button type="button" class="wp-rag-ab-chat__minimize" title="Minimize chat">
+						<span class="dashicons dashicons-minus"></span>
+					</button>
+				</div>
 			</div>
 			<div class="wp-rag-ab-chat__content">
 				<div id="wp-rag-ab-chat-messages" class="wp-rag-ab-chat__messages"></div>
@@ -83,12 +88,53 @@ class Wp_Rag_Ab_Frontend {
 		<?php
 	}
 
+	/**
+	 * @param array $body The response body from the Bedrock API's retrieveAndGenerate endpoint.
+	 * @return array
+	 */
+	private function format_bedrock_response_body( $body ) {
+		$formatted_response = array(
+			'session_id' => $body['sessionId'],
+			'answer'     => $body['output']['text'],
+		);
+		$contexts           = array();
+		foreach ( $body['citations'] as $citation ) {
+			foreach ( $citation['retrievedReferences'] as $reference ) {
+				$contexts[] = array(
+					'title' => $reference['metadata']['title'],
+					'url'   => $reference['metadata']['url'],
+					// 'content' => $reference['content']['text'],
+				);
+			}
+		}
+		// Remove duplicate contexts.
+		$formatted_response['contexts'] = array_map( 'unserialize', array_unique( array_map( 'serialize', $contexts ) ) );
+		return $formatted_response;
+	}
+
+	/**
+	 * Receive the chat message and output the response.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
 	public function process_chat() {
 		if ( empty( $_POST['message'] ) ) {
 			return;
 		}
-		$message  = sanitize_text_field( wp_unslash( $_POST['message'] ) );
-        //TODO
+
+		$message    = sanitize_text_field( wp_unslash( $_POST['message'] ) );
+		$session_id = ! empty( $_POST['session_id'] ) ? sanitize_text_field( wp_unslash( $_POST['session_id'] ) ) : null;
+		$gs_options = get_option( WPRAGAB()->pages['general-settings']::OPTION_NAME );
+		$client     = WPRAGAB()->helpers->get_bedrock_client();
+		$client->set_model_arn( $gs_options['model_arn'] ?? null );
+		$response = $client->retrieve_and_generate( $message, $session_id );
+
+		if ( 200 === $response['status_code'] ) {
+			wp_send_json_success( $this->format_bedrock_response_body( $response['body'] ) );
+		} else {
+			wp_send_json_error( $response['body']['message'], $response['status_code'] );
+		}
 
 		wp_die();
 	}
@@ -126,7 +172,7 @@ class Wp_Rag_Ab_Frontend {
 	 * @since   0.0.1
 	 */
 	public function output_custom_css() {
-        $options = get_option( Wp_Rag_Ab::instance()->pages['chat-ui']::OPTION_NAME );
+		$options = get_option( Wp_Rag_Ab::instance()->pages['chat-ui']::OPTION_NAME );
 
 		if ( ! empty( $options['custom_css'] ) ) {
 			echo '<style lang="text/css">' . esc_html( $options['custom_css'] ) . '</style>';

@@ -35,23 +35,23 @@ Frontend related javascript
 
 	function showUserMessage(messages, userName, message) {
 		const container = $( '<div class="wp-rag-ab-message wp-rag-ab-message--user"></div>' );
-		container.append( $(' <div class="wp-rag-ab-message__author">').text( userName ) )
-		container.append( $( '<div class="wp-rag-ab-message__text--user">').text( message ) );
+		container.append( $( '<div class="wp-rag-ab-message__author">' ).text( userName ) )
+		container.append( $( '<div class="wp-rag-ab-message__text--user">' ).text( message ) );
 		messages.append( container );
 	}
 
-	function showBotMessage(messages, botName, message, contextPosts = null) {
+	function showBotMessage(messages, botName, message, contexts = null) {
 		const container = $( '<div class="wp-rag-ab-message wp-rag-ab-message--bot"></div>' );
-		container.append( $(' <div class="wp-rag-ab-message__author--bot">').text( botName ) )
-		container.append( $( '<div class="wp-rag-ab-message__text--bot">').text( message ) );
-		if (contextPosts !== null) {
-			showContextLinks(container, contextPosts)
+		container.append( $( '<div class="wp-rag-ab-message__author--bot">' ).text( botName ) )
+		container.append( $( '<div class="wp-rag-ab-message__text--bot">' ).text( message ) );
+		if (contexts !== null) {
+			showContexts(container, contexts)
 		}
 		messages.append( container );
 	}
 
-	function showContextLinks(container, contextPosts) {
-		if (contextPosts.length === 0) {
+	function showContexts(container, contexts) {
+		if (contexts.length === 0) {
 			return;
 		}
 
@@ -62,12 +62,12 @@ Frontend related javascript
 		titleDiv.append( '<span class="wp-rag-ab-related__text">Related info</span>' );
 		relatedInfoDiv.append( titleDiv );
 
-		const linksDiv = $( '<div class="wp-rag-ab-related__links"></div>' );
-		contextPosts.forEach(
-			post => {
-				const a = $( `<a href="${post.url}" target="_blank" class="wp-rag-ab-related__link"></a>` );
+		const linksDiv  = $( '<div class="wp-rag-ab-related__links"></div>' );
+		contexts.forEach(
+			context => {
+				const a = $( `<a href="${context.url}" target="_blank" class="wp-rag-ab-related__link"></a>` );
 				a.append( '<span class="wp-rag-ab-related__link-icon">🔗</span>' );
-				a.append( $( '<span class="wp-rag-ab-related__link-text"></span>' ).text( post.title ) );
+				a.append( $( '<span class="wp-rag-ab-related__link-text"></span>' ).text( context.title ) );
 				linksDiv.append(a);
 			}
 		)
@@ -84,13 +84,24 @@ Frontend related javascript
 			const submitButton   = form.find( '.wp-rag-ab-chat__submit' );
 			const messages       = $( '#wp-rag-ab-chat-messages' );
 			const minimizeButton = $( '.wp-rag-ab-chat__minimize' );
+			const clearButton    = $( '.wp-rag-ab-chat__clear' );
 
 			const userName       = wpRagAb.chat_ui_options['user_name'] || 'You';
 			const botName        = wpRagAb.chat_ui_options['bot_name'] || 'Bot';
 			const initialMessage = wpRagAb.chat_ui_options['initial_message'];
 
+			let sessionId = null;
+
+			function clearChatHistory() {
+				messages.empty();
+				sessionId = null;
+				if ( initialMessage ) {
+					showBotMessage( messages, botName, initialMessage );
+				}
+			}
+
 			if ( initialMessage ) {
-				showBotMessage(messages, botName, initialMessage);
+				showBotMessage( messages, botName, initialMessage );
 			}
 
 			const isMinimized = localStorage.getItem( 'wp-rag-ab-chat-minimized' ) === 'true';
@@ -116,6 +127,15 @@ Frontend related javascript
 				}
 			);
 
+			clearButton.on(
+				'click',
+				function () {
+					if (confirm('Are you sure you want to clear the chat history?')) {
+						clearChatHistory();
+					}
+				}
+			);
+
 			form.on(
 				'submit',
 				function (e) {
@@ -128,21 +148,31 @@ Frontend related javascript
 
 					submitButton.prop( 'disabled', true ).addClass( 'wp-rag-ab-chat__submit--loading' );
 
+					const ajaxData = {
+						action: 'wp_rag_ab_process_chat',
+						message: message
+					};
+
+					if (sessionId) {
+						ajaxData.session_id = sessionId;
+					}
+
 					$.ajax(
 						{
 							url: wpRagAb.ajaxurl,
 							type: 'POST',
-							data: {
-								action: 'wp_rag_process_chat',
-								message: message
-							},
+							data: ajaxData,
 							success: function (response) {
 								if (response.success) {
-									showUserMessage(messages, userName, message);
-									if ('yes' === wpRagAb.chat_ui_options['display_context_links']) {
-										showBotMessage(messages, botName, response.data.answer, response.data.context_posts);
+									if (response.data.session_id) {
+										sessionId = response.data.session_id;
+									}
+
+									showUserMessage( messages, userName, message );
+									if ('yes' !== wpRagAb.chat_ui_options['display_context_links']) {
+										showBotMessage( messages, botName, response.data.answer, response.data.contexts );
 									} else {
-										showBotMessage(messages, botName, response.data.answer);
+										showBotMessage( messages, botName, response.data.answer );
 									}
 								} else {
 									messages.append( '<p><strong>Error:</strong> ' + response.data + '</p>' );

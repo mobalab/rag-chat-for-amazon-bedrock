@@ -24,6 +24,8 @@ class Wp_Rag_Ab_Amazon_Bedrock_Client {
 	private $data_source_id;
 	private $base_url;
 
+	private $model_arn = null;
+
 	/**
 	 * @param string $access_key IAM access key.
 	 * @param string $secret_key IAM secret key.
@@ -162,5 +164,78 @@ class Wp_Rag_Ab_Amazon_Bedrock_Client {
 			'body'         => $decoded_response,
 			'raw_response' => $raw_body,
 		);
+	}
+
+	/**
+	 * Set the base URL for Agents for Amazon Bedrock Runtime.
+	 *
+	 * @return void
+	 */
+	private function set_base_url_for_runtime() {
+		$this->base_url = "https://bedrock-agent-runtime.{$this->region}.amazonaws.com";
+	}
+
+	/**
+	 * Set the model ARN.
+	 *
+	 * @param string $model_arn ARN of the model for retrieveAndGenerate.
+	 * @return void
+	 */
+	public function set_model_arn( $model_arn ) {
+		$this->model_arn = $model_arn;
+	}
+
+	/**
+	 * Execute the `retrieve` API with the given query.
+	 *
+	 * @param string $query Query text.
+	 * @return array Response from the API.
+	 * @throws Exception
+	 */
+	public function retrieve( $query ) {
+		$this->set_base_url_for_runtime();
+		$data = array( 'retrievalQuery' => array( 'text' => $query ) );
+
+		$uri     = "/knowledgebases/{$this->knowledge_base_id}/retrieve";
+		$payload = wp_json_encode( $data );
+
+		return $this->make_request( 'POST', $uri, $payload );
+	}
+
+	/**
+	 * Execute the `retrieveAndGenerate` API with the given query.
+	 * Call `set_model_arn` before calling this method.
+	 *
+	 * @param string $query Query text.
+	 * @param string $session_id Session ID.
+	 * @return array Response from the API.
+	 * @throws Exception
+	 * @see https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html .
+	 */
+	public function retrieve_and_generate( $query, $session_id = null ) {
+		$this->set_base_url_for_runtime();
+
+		if ( null === $this->model_arn ) {
+			throw new Exception( 'Model ARN is not set.' );
+		}
+
+		$data = array(
+			'input'                            => array( 'text' => $query ),
+			'retrieveAndGenerateConfiguration' => array(
+				'knowledgeBaseConfiguration' => array(
+					'knowledgeBaseId' => $this->knowledge_base_id,
+					'modelArn'        => $this->model_arn,
+				),
+				'type'                       => 'KNOWLEDGE_BASE',
+			),
+		);
+
+		if ( null !== $session_id ) {
+			$data['sessionId'] = $session_id;
+		}
+		$uri     = '/retrieveAndGenerate';
+		$payload = wp_json_encode( $data );
+
+		return $this->make_request( 'POST', $uri, $payload );
 	}
 }

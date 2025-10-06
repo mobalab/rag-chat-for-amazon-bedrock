@@ -39,6 +39,13 @@ Frontend related CSS
 	font-weight: bold;
 }
 
+.wp-rag-ab-chat__header-buttons {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.wp-rag-ab-chat__clear,
 .wp-rag-ab-chat__minimize {
 	background: none;
 	border: none;
@@ -50,10 +57,12 @@ Frontend related CSS
 	justify-content: center;
 }
 
+.wp-rag-ab-chat__clear:hover,
 .wp-rag-ab-chat__minimize:hover {
 	opacity: 0.8;
 }
 
+.wp-rag-ab-chat__clear .dashicons,
 .wp-rag-ab-chat__minimize .dashicons {
 	width: 20px;
 	height: 20px;
