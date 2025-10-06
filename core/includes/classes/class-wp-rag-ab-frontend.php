@@ -119,10 +119,11 @@ class Wp_Rag_Ab_Frontend {
 		}
 
 		$message    = sanitize_text_field( wp_unslash( $_POST['message'] ) );
+		$session_id = ! empty( $_POST['session_id'] ) ? sanitize_text_field( wp_unslash( $_POST['session_id'] ) ) : null;
 		$gs_options = get_option( WPRAGAB()->pages['general-settings']::OPTION_NAME );
 		$client     = WPRAGAB()->helpers->get_bedrock_client();
 		$client->set_model_arn( $gs_options['model_arn'] ?? null );
-		$response = $client->retrieve_and_generate( sanitize_text_field( wp_unslash( $message ) ) );
+		$response = $client->retrieve_and_generate( $message, $session_id );
 
 		if ( 200 === $response['status_code'] ) {
 			wp_send_json_success( $this->format_bedrock_response_body( $response['body'] ) );
