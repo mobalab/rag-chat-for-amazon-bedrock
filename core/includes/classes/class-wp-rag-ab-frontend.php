@@ -52,9 +52,9 @@ class Wp_Rag_Ab_Frontend {
 			return '';
 		}
 
-		$options     = get_option( Wp_Rag_Ab::instance()->pages['chat-ui']::OPTION_NAME );
-		$title       = ! empty( $options['window_title'] ) ? $options['window_title'] : 'Chat';
-		$placeholder = ! empty( $options['input_placeholder_text'] ) ? $options['input_placeholder_text']
+		$options          = get_option( Wp_Rag_Ab::instance()->pages['chat-ui']::OPTION_NAME );
+		$title            = ! empty( $options['window_title'] ) ? $options['window_title'] : 'Chat';
+		$placeholder      = ! empty( $options['input_placeholder_text'] ) ? $options['input_placeholder_text']
 			: 'Enter your message here...';
 		$send_button_text = ! empty( $options['send_button_text'] ) ? $options['send_button_text'] : 'Send';
 		?>
@@ -126,7 +126,7 @@ class Wp_Rag_Ab_Frontend {
 	 * @since   0.0.1
 	 */
 	public function output_custom_css() {
-        $options = get_option( Wp_Rag_Ab::instance()->pages['chat-ui']::OPTION_NAME );
+		$options = get_option( Wp_Rag_Ab::instance()->pages['chat-ui']::OPTION_NAME );
 
 		if ( ! empty( $options['custom_css'] ) ) {
 			echo '<style lang="text/css">' . esc_html( $options['custom_css'] ) . '</style>';

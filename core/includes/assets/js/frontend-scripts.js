@@ -35,15 +35,15 @@ Frontend related javascript
 
 	function showUserMessage(messages, userName, message) {
 		const container = $( '<div class="wp-rag-ab-message wp-rag-ab-message--user"></div>' );
-		container.append( $(' <div class="wp-rag-ab-message__author">').text( userName ) )
-		container.append( $( '<div class="wp-rag-ab-message__text--user">').text( message ) );
+		container.append( $( '<div class="wp-rag-ab-message__author">' ).text( userName ) )
+		container.append( $( '<div class="wp-rag-ab-message__text--user">' ).text( message ) );
 		messages.append( container );
 	}
 
 	function showBotMessage(messages, botName, message, contextPosts = null) {
 		const container = $( '<div class="wp-rag-ab-message wp-rag-ab-message--bot"></div>' );
-		container.append( $(' <div class="wp-rag-ab-message__author--bot">').text( botName ) )
-		container.append( $( '<div class="wp-rag-ab-message__text--bot">').text( message ) );
+		container.append( $( '<div class="wp-rag-ab-message__author--bot">' ).text( botName ) )
+		container.append( $( '<div class="wp-rag-ab-message__text--bot">' ).text( message ) );
 		if (contextPosts !== null) {
 			showContextLinks(container, contextPosts)
 		}
@@ -90,7 +90,7 @@ Frontend related javascript
 			const initialMessage = wpRagAb.chat_ui_options['initial_message'];
 
 			if ( initialMessage ) {
-				showBotMessage(messages, botName, initialMessage);
+				showBotMessage( messages, botName, initialMessage );
 			}
 
 			const isMinimized = localStorage.getItem( 'wp-rag-ab-chat-minimized' ) === 'true';
@@ -138,11 +138,11 @@ Frontend related javascript
 							},
 							success: function (response) {
 								if (response.success) {
-									showUserMessage(messages, userName, message);
+									showUserMessage( messages, userName, message );
 									if ('yes' === wpRagAb.chat_ui_options['display_context_links']) {
 										showBotMessage(messages, botName, response.data.answer, response.data.context_posts);
 									} else {
-										showBotMessage(messages, botName, response.data.answer);
+										showBotMessage( messages, botName, response.data.answer );
 									}
 								} else {
 									messages.append( '<p><strong>Error:</strong> ' + response.data + '</p>' );
