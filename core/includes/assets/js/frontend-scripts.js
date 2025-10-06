@@ -84,12 +84,21 @@ Frontend related javascript
 			const submitButton   = form.find( '.wp-rag-ab-chat__submit' );
 			const messages       = $( '#wp-rag-ab-chat-messages' );
 			const minimizeButton = $( '.wp-rag-ab-chat__minimize' );
+			const clearButton    = $( '.wp-rag-ab-chat__clear' );
 
 			const userName       = wpRagAb.chat_ui_options['user_name'] || 'You';
 			const botName        = wpRagAb.chat_ui_options['bot_name'] || 'Bot';
 			const initialMessage = wpRagAb.chat_ui_options['initial_message'];
 
 			let sessionId = null;
+
+			function clearChatHistory() {
+				messages.empty();
+				sessionId = null;
+				if ( initialMessage ) {
+					showBotMessage( messages, botName, initialMessage );
+				}
+			}
 
 			if ( initialMessage ) {
 				showBotMessage( messages, botName, initialMessage );
@@ -115,6 +124,15 @@ Frontend related javascript
 					chatIcon.addClass( 'wp-rag-ab--hidden' );
 					localStorage.setItem( 'wp-rag-ab-chat-minimized', 'false' );
 					input.focus();
+				}
+			);
+
+			clearButton.on(
+				'click',
+				function () {
+					if (confirm('Are you sure you want to clear the chat history?')) {
+						clearChatHistory();
+					}
 				}
 			);
 

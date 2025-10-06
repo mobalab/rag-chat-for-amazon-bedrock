@@ -61,9 +61,14 @@ class Wp_Rag_Ab_Frontend {
 		<div id="wp-rag-ab-chat-window" class="wp-rag-ab-chat">
 			<div class="wp-rag-ab-chat__header">
 				<span class="wp-rag-ab-chat__title"><?php echo esc_html( $title ); ?></span>
-				<button type="button" class="wp-rag-ab-chat__minimize">
-					<span class="dashicons dashicons-minus"></span>
-				</button>
+				<div class="wp-rag-ab-chat__header-buttons">
+					<button type="button" class="wp-rag-ab-chat__clear" title="Clear chat history">
+						<span class="dashicons dashicons-trash"></span>
+					</button>
+					<button type="button" class="wp-rag-ab-chat__minimize" title="Minimize chat">
+						<span class="dashicons dashicons-minus"></span>
+					</button>
+				</div>
 			</div>
 			<div class="wp-rag-ab-chat__content">
 				<div id="wp-rag-ab-chat-messages" class="wp-rag-ab-chat__messages"></div>
