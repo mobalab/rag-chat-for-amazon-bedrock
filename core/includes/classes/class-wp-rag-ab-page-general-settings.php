@@ -138,6 +138,14 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 			'wp-rag-ab-general-settings', // Page slug
 			'aws_section' // Section this field belongs to
 		);
+
+		add_settings_field(
+			'wp_rag_ab_model_arn',
+			'Model ARN',
+			array( $this, 'model_arn_field_render' ),
+			'wp-rag-ab-general-settings',
+			'aws_section'
+		);
 	}
 
 	function aws_section_callback() {
@@ -186,6 +194,19 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 		<input type="text" name="<?php echo self::OPTION_NAME; ?>[data_source_id]"
 				value="<?php echo esc_attr( $options['data_source_id'] ?? '' ); ?>"
 		/>
+		<?php
+	}
+
+	function model_arn_field_render() {
+		$options = get_option( self::OPTION_NAME );
+		?>
+		<input type="text" name="<?php echo self::OPTION_NAME; ?>[model_arn]"
+				value="<?php echo esc_attr( $options['model_arn'] ?? '' ); ?>"
+				class="widefat"
+		/>
+		<p class="description">
+			ARN of the model to use for the RAG.
+		</p>
 		<?php
 	}
 }
