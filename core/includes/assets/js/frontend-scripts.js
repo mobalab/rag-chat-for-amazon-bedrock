@@ -40,18 +40,18 @@ Frontend related javascript
 		messages.append( container );
 	}
 
-	function showBotMessage(messages, botName, message, contextPosts = null) {
+	function showBotMessage(messages, botName, message, contexts = null) {
 		const container = $( '<div class="wp-rag-ab-message wp-rag-ab-message--bot"></div>' );
 		container.append( $( '<div class="wp-rag-ab-message__author--bot">' ).text( botName ) )
 		container.append( $( '<div class="wp-rag-ab-message__text--bot">' ).text( message ) );
-		if (contextPosts !== null) {
-			showContextLinks(container, contextPosts)
+		if (contexts !== null) {
+			showContexts(container, contexts)
 		}
 		messages.append( container );
 	}
 
-	function showContextLinks(container, contextPosts) {
-		if (contextPosts.length === 0) {
+	function showContexts(container, contexts) {
+		if (contexts.length === 0) {
 			return;
 		}
 
@@ -62,12 +62,12 @@ Frontend related javascript
 		titleDiv.append( '<span class="wp-rag-ab-related__text">Related info</span>' );
 		relatedInfoDiv.append( titleDiv );
 
-		const linksDiv = $( '<div class="wp-rag-ab-related__links"></div>' );
-		contextPosts.forEach(
-			post => {
-				const a = $( `<a href="${post.url}" target="_blank" class="wp-rag-ab-related__link"></a>` );
+		const linksDiv  = $( '<div class="wp-rag-ab-related__links"></div>' );
+		contexts.forEach(
+			context => {
+				const a = $( `<a href="${context.url}" target="_blank" class="wp-rag-ab-related__link"></a>` );
 				a.append( '<span class="wp-rag-ab-related__link-icon">🔗</span>' );
-				a.append( $( '<span class="wp-rag-ab-related__link-text"></span>' ).text( post.title ) );
+				a.append( $( '<span class="wp-rag-ab-related__link-text"></span>' ).text( context.title ) );
 				linksDiv.append(a);
 			}
 		)
@@ -140,7 +140,7 @@ Frontend related javascript
 								if (response.success) {
 									showUserMessage( messages, userName, message );
 									if ('yes' === wpRagAb.chat_ui_options['display_context_links']) {
-										showBotMessage(messages, botName, response.data.answer, response.data.context_posts);
+										showBotMessage( messages, botName, response.data.answer, response.data.contexts );
 									} else {
 										showBotMessage( messages, botName, response.data.answer );
 									}
