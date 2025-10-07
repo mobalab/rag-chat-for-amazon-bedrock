@@ -195,15 +195,15 @@ class Wp_Rag_Ab_Run {
 		}
 
 		if ( 'wp-rag-ab-main' === $current_page || 'wp-rag-ab-main' === $referer_page ) {
-			// TODO Check nonce.
 			$cls = WPRAGAB()->pages['main'];
 
 			$cls->enqueue_scripts_and_styles();
 
-			if ( isset( $_POST['wp_rag_ab_import_submit'] ) ) {
-				$cls->handle_import_form_submission();
-			}
 			if ( isset( $_POST['wp_rag_ab_query_submit'] ) ) {
+				$nonce = isset( $_POST['wp_rag_ab_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wp_rag_ab_nonce'] ) ) : '';
+				if ( ! wp_verify_nonce( $nonce, 'wp_rag_ab_query_submit' ) ) {
+					wp_die( esc_html__( 'Security check failed. Please try again.', 'wp-rag-ab' ) );
+				}
 				$cls->handle_query_form_submission();
 			}
 		} elseif ( 'wp-rag-ab-general-settings' === $current_page || 'wp-rag-ab-general-settings' === $referer_page ) {

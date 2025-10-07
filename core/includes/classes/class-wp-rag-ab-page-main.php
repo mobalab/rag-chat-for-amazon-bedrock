@@ -35,13 +35,8 @@ class Wp_Rag_Ab_Page_Main {
 			<h2><?php echo esc_html( WPRAGAB()->settings->get_plugin_name() ); ?></h2>
 			<h3>System Status</h3>
 			<ul>
-				<li><?php echo $stats->total > 0 ? '✅' : '❌'; ?>: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->total ); ?>.</li>
+				<li><?php echo $stats->synced > 0 ? '✅' : '❌'; ?>: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->synced ); ?>.</li>
 			</ul>
-			<h3>Operations</h3>
-			<form method="post" action="">
-				<?php wp_nonce_field( 'wp_rag_ab_operation_submit', 'wp_rag_ab_nonce' ); ?>
-				<input type="submit" name="wp_rag_ab_import_submit" class="button button-primary" value="Import Posts">
-			</form>
 			<h3>Test Query</h3>
 			<form method="post" action="">
 				<?php wp_nonce_field( 'wp_rag_ab_query_submit', 'wp_rag_ab_nonce' ); ?>
@@ -66,12 +61,6 @@ class Wp_Rag_Ab_Page_Main {
 			<?php endif; ?>
 		</div>
 		<?php
-	}
-
-	/**
-	 * @return void
-	 */
-	function handle_import_form_submission() {
 	}
 
 	/**
