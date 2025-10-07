@@ -10,7 +10,7 @@
  * @wordpress-plugin
  * Plugin Name:   WP RAG for Amazon Bedrock
  * Plugin URI:    https://github.com/mobalab/wp-rag-for-amazon-bedrock
- * Description:   A WordPress plugin for building RAG
+ * Description:   Integrates WordPress content with Amazon Bedrock Knowledge Bases to create an intelligent RAG (Retrieval-Augmented Generation) chatbot system with automatic content synchronization.
  * Version:       0.0.1
  * Author:        Mobalab, KK
  * Author URI:    https://github.com/mobalab
