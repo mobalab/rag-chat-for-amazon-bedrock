@@ -169,7 +169,7 @@ Frontend related javascript
 									}
 
 									showUserMessage( messages, userName, message );
-									if ('yes' !== wpRagAb.chat_ui_options['display_context_links']) {
+									if ('yes' === wpRagAb.chat_ui_options['display_context_links']) {
 										showBotMessage( messages, botName, response.data.answer, response.data.contexts );
 									} else {
 										showBotMessage( messages, botName, response.data.answer );
