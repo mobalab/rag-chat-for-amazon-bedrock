@@ -35,7 +35,7 @@ class Wp_Rag_Ab_Page_Main {
 			<h2><?php echo esc_html( WPRAGAB()->settings->get_plugin_name() ); ?></h2>
 			<h3>System Status</h3>
 			<ul>
-				<li><?php echo $stats->total > 0 ? '✅' : '❌'; ?>: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->total ); ?>.</li>
+				<li><?php echo $stats->synced > 0 ? '✅' : '❌'; ?>: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->synced ); ?>.</li>
 			</ul>
 			<h3>Operations</h3>
 			<form method="post" action="">
