@@ -71,6 +71,10 @@ Your content is synchronized directly to your Amazon Bedrock Knowledge Base. No 
 
 Not at the moment, but this feature is planned for future versions.
 
+== Related Projects ==
+
+This plugin is based on **WP RAG** (https://github.com/mobalab/wp-rag), which provides RAG functionality using external servers and OpenAI's APIs. WP RAG for Amazon Bedrock offers a different approach by integrating directly with Amazon Bedrock Knowledge Bases for users who prefer AWS-native solutions.
+
 == Changelog ==
 
 = 0.0.1: October 7th, 2025 =
