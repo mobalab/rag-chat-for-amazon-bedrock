@@ -71,6 +71,10 @@ Your content is synchronized directly to your Amazon Bedrock Knowledge Base. No 
 
 Not at the moment, but this feature is planned for future versions.
 
+= Do you offer professional setup and integration services? =
+
+Yes! While this plugin is free to use, we understand that setting up AWS and Amazon Bedrock can be complex. We offer professional integration services to help you get your RAG system up and running smoothly. For more information about our integration services, please contact us at https://tally.so/r/3jjoga
+
 == Related Projects ==
 
 This plugin is based on **WP RAG** (https://github.com/mobalab/wp-rag), which provides RAG functionality using external servers and OpenAI's APIs. WP RAG for Amazon Bedrock offers a different approach by integrating directly with Amazon Bedrock Knowledge Bases for users who prefer AWS-native solutions.
