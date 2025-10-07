@@ -37,7 +37,7 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 				<?php
 				settings_fields( 'wp_rag_ab_options' );
 				do_settings_sections( 'wp-rag-ab-general-settings' );
-				submit_button( __( 'Save Settings' ) );
+				submit_button( __( 'Save Settings', 'wp-rag-ab' ) );
 				?>
 			</form>
 		</div>

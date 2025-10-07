@@ -51,7 +51,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 				<?php
 				settings_fields( 'wp_rag_ab_options' );
 				do_settings_sections( 'wp-rag-ab-chat-ui' );
-				submit_button( __( 'Submit' ) );
+				submit_button( __( 'Submit', 'wp-rag-ab' ) );
 				?>
 			</form>
 		</div>
