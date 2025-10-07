@@ -121,7 +121,6 @@ class Wp_Rag_Ab_Amazon_Bedrock_Client {
 	 * @param string $payload Request payload.
 	 * @param string $query_string Query string.
 	 * @return array
-	 * @throws Exception
 	 */
 	private function make_request( $method, $path, $payload = '', $query_string = '' ) {
 		$url = $this->base_url . $path;
@@ -149,13 +148,17 @@ class Wp_Rag_Ab_Amazon_Bedrock_Client {
 
 		$response = wp_remote_request( $url, $args );
 
-		if ( is_wp_error( $response ) ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-			throw new Exception( 'HTTP Request Error: ' . $response->get_error_message() );
-		}
-
 		$http_code = wp_remote_retrieve_response_code( $response );
 		$raw_body  = wp_remote_retrieve_body( $response );
+
+		if ( is_wp_error( $response ) ) {
+			$error = 'HTTP Request Error: ' . $response->get_error_message();
+			return array(
+				'status_code'  => $http_code,
+				'body'         => $error,
+				'raw_response' => $raw_body,
+			);
+		}
 
 		$decoded_response = json_decode( $raw_body, true );
 
@@ -190,7 +193,6 @@ class Wp_Rag_Ab_Amazon_Bedrock_Client {
 	 *
 	 * @param string $query Query text.
 	 * @return array Response from the API.
-	 * @throws Exception
 	 */
 	public function retrieve( $query ) {
 		$this->set_base_url_for_runtime();
@@ -209,7 +211,6 @@ class Wp_Rag_Ab_Amazon_Bedrock_Client {
 	 * @param string $query Query text.
 	 * @param string $session_id Session ID.
 	 * @return array Response from the API.
-	 * @throws Exception
 	 * @see https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html .
 	 */
 	public function retrieve_and_generate( $query, $session_id = null ) {

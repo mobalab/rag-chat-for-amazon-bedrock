@@ -33,11 +33,16 @@ Frontend related javascript
 
 	"use strict";
 
+	function scrollToBottom(messages) {
+		messages[0].scrollTop = messages[0].scrollHeight;
+	}
+
 	function showUserMessage(messages, userName, message) {
 		const container = $( '<div class="wp-rag-ab-message wp-rag-ab-message--user"></div>' );
 		container.append( $( '<div class="wp-rag-ab-message__author">' ).text( userName ) )
 		container.append( $( '<div class="wp-rag-ab-message__text--user">' ).text( message ) );
 		messages.append( container );
+		scrollToBottom( messages );
 	}
 
 	function showBotMessage(messages, botName, message, contexts = null) {
@@ -48,6 +53,7 @@ Frontend related javascript
 			showContexts(container, contexts)
 		}
 		messages.append( container );
+		scrollToBottom( messages );
 	}
 
 	function showContexts(container, contexts) {
@@ -169,13 +175,14 @@ Frontend related javascript
 									}
 
 									showUserMessage( messages, userName, message );
-									if ('yes' !== wpRagAb.chat_ui_options['display_context_links']) {
+									if ('yes' === wpRagAb.chat_ui_options['display_context_links']) {
 										showBotMessage( messages, botName, response.data.answer, response.data.contexts );
 									} else {
 										showBotMessage( messages, botName, response.data.answer );
 									}
 								} else {
 									messages.append( '<p><strong>Error:</strong> ' + response.data + '</p>' );
+									scrollToBottom( messages );
 								}
 							},
 							error: function (jqXHR) {
@@ -185,6 +192,7 @@ Frontend related javascript
 								}
 
 								messages.append( '<p><strong>Error:</strong> ' + errorMessage + '</p>' );
+								scrollToBottom( messages );
 							},
 							complete: function () {
 								input.val( '' ).focus();

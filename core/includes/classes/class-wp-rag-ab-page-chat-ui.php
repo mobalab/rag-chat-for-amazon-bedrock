@@ -87,15 +87,12 @@ class Wp_Rag_Ab_Page_ChatUI {
 		$options = get_option( self::OPTION_NAME );
 		?>
 		<textarea name="<?php echo self::OPTION_NAME; ?>[custom_css]" rows="5" cols="50" style="resize: both;"
-			<?php
-			WPRAG()->form->disabled_unless_verified()
-			?>
 			><?php echo esc_textarea( $options['custom_css'] ?? '' ); ?></textarea>
 		<?php
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function add_windows_settings_section_and_fields() {
 		$section_id = 'windows_settings_section';
@@ -124,7 +121,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function windows_settings_section_callback() {
 		echo '<h3>Windows Settings</h3>';
@@ -135,30 +132,24 @@ class Wp_Rag_Ab_Page_ChatUI {
 		?>
 		<input type="text" name="<?php echo self::OPTION_NAME; ?>[initial_message]"
 				value="<?php echo esc_attr( $options['initial_message'] ?? '' ); ?>"
-			<?php
-			WPRAG()->form->disabled_unless_verified()
-			?>
 		/>
 		<?php
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function window_title_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
 		<input type="text" name="<?php echo self::OPTION_NAME; ?>[window_title]"
 				value="<?php echo esc_attr( $options['window_title'] ?? '' ); ?>"
-			<?php
-			WPRAG()->form->disabled_unless_verified()
-			?>
 		/>
 		<?php
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function add_input_and_button_labels_section_and_fields() {
 		$section_id = 'input_and_button_labels_section';
@@ -187,44 +178,38 @@ class Wp_Rag_Ab_Page_ChatUI {
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function input_and_button_labels_section_callback() {
 		echo '<h3>Input & Button Labels</h3>';
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function input_placeholder_text_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
 		<input type="text" name="<?php echo self::OPTION_NAME; ?>[input_placeholder_text]"
 				value="<?php echo esc_attr( $options['input_placeholder_text'] ?? '' ); ?>"
-			<?php
-			WPRAG()->form->disabled_unless_verified()
-			?>
 		/>
 		<?php
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function send_button_text_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
 		<input type="text" name="<?php echo self::OPTION_NAME; ?>[send_button_text]"
 				value="<?php echo esc_attr( $options['send_button_text'] ?? '' ); ?>"
-			<?php
-			WPRAG()->form->disabled_unless_verified()
-			?>
 		/>
 		<?php
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function add_participant_names_section_and_fields() {
 		$section_id = 'participant_names_section';
@@ -256,38 +241,32 @@ class Wp_Rag_Ab_Page_ChatUI {
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function participant_names_section_callback() {
 		echo '<h3>Participant Names</h3>';
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function bot_name_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
 		<input type="text" name="<?php echo self::OPTION_NAME; ?>[bot_name]"
 				value="<?php echo esc_attr( $options['bot_name'] ?? '' ); ?>"
-			<?php
-			WPRAG()->form->disabled_unless_verified()
-			?>
 		/>
 		<?php
 	}
 
 	/**
-	 * @since 0.0.4
+	 * @since 0.0.1
 	 */
 	public function user_name_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
 		<input type="text" name="<?php echo self::OPTION_NAME; ?>[user_name]"
 				value="<?php echo esc_attr( $options['user_name'] ?? '' ); ?>"
-			<?php
-			WPRAG()->form->disabled_unless_verified()
-			?>
 		/>
 		<?php
 	}
