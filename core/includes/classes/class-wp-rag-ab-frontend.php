@@ -38,7 +38,7 @@ class Wp_Rag_Ab_Frontend {
 			array(
 				'chat_ui_options' => $chat_ui_options,
 				'ajaxurl'         => admin_url( 'admin-ajax.php' ),
-				'security_nonce'  => wp_create_nonce( 'your-nonce-name' ),
+				'security_nonce'  => wp_create_nonce( 'wp_rag_ab_chat_nonce' ),
 			)
 		);
 	}
@@ -119,6 +119,11 @@ class Wp_Rag_Ab_Frontend {
 	 * @throws Exception
 	 */
 	public function process_chat() {
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'wp_rag_ab_chat_nonce' ) ) {
+			wp_send_json_error( __( 'Security check failed. Please refresh the page and try again.', 'wp-rag-ab' ), 403 );
+		}
+
 		if ( empty( $_POST['message'] ) ) {
 			return;
 		}

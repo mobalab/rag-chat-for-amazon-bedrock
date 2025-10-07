@@ -156,7 +156,8 @@ Frontend related javascript
 
 					const ajaxData = {
 						action: 'wp_rag_ab_process_chat',
-						message: message
+						message: message,
+						nonce: wpRagAb.security_nonce
 					};
 
 					if (sessionId) {
