@@ -108,7 +108,7 @@ class Wp_Rag_Ab_Frontend {
 			}
 		}
 		// Remove duplicate contexts.
-		$formatted_response['contexts'] = array_map( 'unserialize', array_unique( array_map( 'serialize', $contexts ) ) );
+		$formatted_response['contexts'] = array_values( array_map( 'unserialize', array_unique( array_map( 'serialize', $contexts ) ) ) );
 		return $formatted_response;
 	}
 
