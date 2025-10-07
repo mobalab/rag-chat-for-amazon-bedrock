@@ -133,7 +133,7 @@ class Wp_Rag_Ab_Frontend {
 		if ( 200 === $response['status_code'] ) {
 			wp_send_json_success( $this->format_bedrock_response_body( $response['body'] ) );
 		} else {
-			wp_send_json_error( $response['body']['message'], $response['status_code'] );
+			wp_send_json_error( $response['body'], $response['status_code'] );
 		}
 
 		wp_die();
