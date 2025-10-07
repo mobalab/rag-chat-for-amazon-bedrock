@@ -200,9 +200,6 @@ class Wp_Rag_Ab_Run {
 
 			$cls->enqueue_scripts_and_styles();
 
-			if ( isset( $_POST['wp_rag_ab_import_submit'] ) ) {
-				$cls->handle_import_form_submission();
-			}
 			if ( isset( $_POST['wp_rag_ab_query_submit'] ) ) {
 				$cls->handle_query_form_submission();
 			}
