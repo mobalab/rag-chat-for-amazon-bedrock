@@ -32,7 +32,7 @@ class Wp_Rag_Ab_Page_ContentManagement {
 				do_settings_fields( 'wp-rag-ab-content-management', 'export_posts_section' );
 				echo '</table>';
 
-				submit_button( __( 'Export Posts to Amazon Bedrock' ), 'primary', 'wp_rag_ab_export_submit' );
+				submit_button( __( 'Export Posts to Amazon Bedrock', 'wp-rag-ab' ), 'primary', 'wp_rag_ab_export_submit' );
 				?>
 			</form>
 			<hr />

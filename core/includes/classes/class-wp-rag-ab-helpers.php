@@ -77,6 +77,21 @@ class Wp_Rag_Ab_Helpers {
 	}
 
 	/**
+	 * Sanitize array.
+	 *
+	 * @param array $raw_array
+	 * @return array|string[]
+	 */
+	public function sanitize_array( $raw_array ) {
+		return array_map(
+			function ( $value ) {
+				return sanitize_text_field( $value );
+			},
+			$raw_array
+		);
+	}
+
+	/**
 	 * Saves authentication data by serializing it and updating the specified option name.
 	 *
 	 * @param mixed $data The authentication data to be saved.

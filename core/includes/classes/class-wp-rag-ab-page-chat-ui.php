@@ -51,7 +51,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 				<?php
 				settings_fields( 'wp_rag_ab_options' );
 				do_settings_sections( 'wp-rag-ab-chat-ui' );
-				submit_button( __( 'Submit' ) );
+				submit_button( __( 'Submit', 'wp-rag-ab' ) );
 				?>
 			</form>
 		</div>
@@ -86,7 +86,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 	public function custom_css_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<textarea name="<?php echo self::OPTION_NAME; ?>[custom_css]" rows="5" cols="50" style="resize: both;"
+		<textarea name="<?php echo esc_html( self::OPTION_NAME ); ?>[custom_css]" rows="5" cols="50" style="resize: both;"
 			><?php echo esc_textarea( $options['custom_css'] ?? '' ); ?></textarea>
 		<?php
 	}
@@ -130,7 +130,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 	public function initial_message_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[initial_message]"
+		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[initial_message]"
 				value="<?php echo esc_attr( $options['initial_message'] ?? '' ); ?>"
 		/>
 		<?php
@@ -142,7 +142,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 	public function window_title_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[window_title]"
+		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[window_title]"
 				value="<?php echo esc_attr( $options['window_title'] ?? '' ); ?>"
 		/>
 		<?php
@@ -190,7 +190,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 	public function input_placeholder_text_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[input_placeholder_text]"
+		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[input_placeholder_text]"
 				value="<?php echo esc_attr( $options['input_placeholder_text'] ?? '' ); ?>"
 		/>
 		<?php
@@ -202,7 +202,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 	public function send_button_text_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[send_button_text]"
+		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[send_button_text]"
 				value="<?php echo esc_attr( $options['send_button_text'] ?? '' ); ?>"
 		/>
 		<?php
@@ -253,7 +253,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 	public function bot_name_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[bot_name]"
+		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[bot_name]"
 				value="<?php echo esc_attr( $options['bot_name'] ?? '' ); ?>"
 		/>
 		<?php
@@ -265,7 +265,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 	public function user_name_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[user_name]"
+		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[user_name]"
 				value="<?php echo esc_attr( $options['user_name'] ?? '' ); ?>"
 		/>
 		<?php
@@ -296,7 +296,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 		$options = get_option( self::OPTION_NAME );
 		$value   = $options['display_context_links'] ?? 'no';
 		?>
-		<input type="radio" name="<?php echo self::OPTION_NAME; ?>[display_context_links]" value="no"
+		<input type="radio" name="<?php echo esc_html( self::OPTION_NAME ); ?>[display_context_links]" value="no"
 				<?php
 				if ( 'no' === $value ) {
 					echo 'checked="checked"';
@@ -304,7 +304,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 				?>
 
 		/>No
-		<input type="radio" name="<?php echo self::OPTION_NAME; ?>[display_context_links]" value="yes"
+		<input type="radio" name="<?php echo esc_html( self::OPTION_NAME ); ?>[display_context_links]" value="yes"
 			<?php
 			if ( 'yes' === $value ) {
 				echo 'checked="checked"';

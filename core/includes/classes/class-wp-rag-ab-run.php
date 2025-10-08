@@ -212,6 +212,9 @@ class Wp_Rag_Ab_Run {
 			register_setting(
 				'wp_rag_ab_options',
 				$cls::OPTION_NAME,
+				array(
+					'sanitize_callback' => array( WPRAGAB()->helpers, 'sanitize_array' ),
+				)
 			);
 
 			$cls->add_wordpress_authentication_section_and_fields();
@@ -230,6 +233,9 @@ class Wp_Rag_Ab_Run {
 			register_setting(
 				'wp_rag_ab_options',
 				$cls::OPTION_NAME,
+				array(
+					'sanitize_callback' => array( WPRAGAB()->helpers, 'sanitize_array' ),
+				)
 			);
 
 			$cls->add_appearance_section_and_fields();

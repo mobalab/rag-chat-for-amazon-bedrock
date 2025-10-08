@@ -37,7 +37,7 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 				<?php
 				settings_fields( 'wp_rag_ab_options' );
 				do_settings_sections( 'wp-rag-ab-general-settings' );
-				submit_button( __( 'Save Settings' ) );
+				submit_button( __( 'Save Settings', 'wp-rag-ab' ) );
 				?>
 			</form>
 		</div>
@@ -191,7 +191,7 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 	function data_source_id_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[data_source_id]"
+		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[data_source_id]"
 				value="<?php echo esc_attr( $options['data_source_id'] ?? '' ); ?>"
 		/>
 		<?php
@@ -200,7 +200,7 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 	function model_arn_field_render() {
 		$options = get_option( self::OPTION_NAME );
 		?>
-		<input type="text" name="<?php echo self::OPTION_NAME; ?>[model_arn]"
+		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[model_arn]"
 				value="<?php echo esc_attr( $options['model_arn'] ?? '' ); ?>"
 				class="widefat"
 		/>
