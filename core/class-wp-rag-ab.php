@@ -97,7 +97,7 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 		 * @return  void
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, __( 'You are not allowed to clone this class.', 'wp-rag-ab' ), '0.0.1' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'You are not allowed to clone this class.', 'wp-rag-ab' ), '0.0.1' );
 		}
 
 		/**
@@ -108,7 +108,7 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 		 * @return  void
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, __( 'You are not allowed to unserialize this class.', 'wp-rag-ab' ), '0.0.1' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'You are not allowed to unserialize this class.', 'wp-rag-ab' ), '0.0.1' );
 		}
 
 		/**
