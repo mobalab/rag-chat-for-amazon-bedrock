@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Wp_Rag_Ab_Aws_SigV4
+ * Class Rag_Chat_Ab_Aws_SigV4
  *
- * @package     WPRAGAB
- * @subpackage  Classes/Wp_Rag_Ab_Aws_SigV4
+ * @package     RAGCHATAB
+ * @subpackage  Classes/Rag_Chat_Ab_Aws_SigV4
  * @author      Kashima, Kazuo
  * @since       0.0.1
  */
-class Wp_Rag_Ab_Aws_SigV4 {
+class Rag_Chat_Ab_Aws_SigV4 {
 
 	private $access_key;
 	private $secret_key;

@@ -34,19 +34,19 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 
 /**
- * Class Wp_Rag_Run
+ * Class Rag_Chat_Ab_Run
  *
  * Thats where we bring the plugin to life
  *
- * @package     WPRAGAB
- * @subpackage  Classes/Wp_Rag_Ab_Run
+ * @package     RAGCHATAB
+ * @subpackage  Classes/Rag_Chat_Ab_Run
  * @author      Kashima, Kazuo
  * @since       0.0.1
  */
-class Wp_Rag_Ab_Run {
+class Rag_Chat_Ab_Run {
 
 	/**
-	 * Our Wp_Rag_Ab_Run constructor
+	 * Our Rag_Chat_Ab_Run constructor
 	 * to run the plugin logic.
 	 *
 	 * @since 0.0.1
@@ -72,26 +72,26 @@ class Wp_Rag_Ab_Run {
 	 */
 	private function add_hooks() {
 
-		add_action( 'plugin_action_links_' . WPRAGAB_PLUGIN_DIR, array( $this, 'add_plugin_action_link' ), 20 );
-		add_action( 'wp_enqueue_scripts', array( WPRAGAB()->frontend, 'enqueue_scripts_and_styles' ), 20 );
+		add_action( 'plugin_action_links_' . RAGCHATAB_PLUGIN_DIR, array( $this, 'add_plugin_action_link' ), 20 );
+		add_action( 'wp_enqueue_scripts', array( RAGCHATAB()->frontend, 'enqueue_scripts_and_styles' ), 20 );
 
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 20 );
 		add_action( 'admin_init', array( $this, 'settings_init' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
-		add_action( 'wp_ajax_wp_rag_ab_process_chat', array( WPRAGAB()->frontend, 'process_chat' ) );
-		add_action( 'wp_ajax_nopriv_wp_rag_ab_process_chat', array( WPRAGAB()->frontend, 'process_chat' ) );
+		add_action( 'wp_ajax_rag_chat_ab_process_chat', array( RAGCHATAB()->frontend, 'process_chat' ) );
+		add_action( 'wp_ajax_nopriv_rag_chat_ab_process_chat', array( RAGCHATAB()->frontend, 'process_chat' ) );
 
-		add_action( 'wp_head', array( WPRAGAB()->frontend, 'output_custom_css' ) );
+		add_action( 'wp_head', array( RAGCHATAB()->frontend, 'output_custom_css' ) );
 
-		add_shortcode( 'wp_rag_ab_chat', array( WPRAGAB()->frontend, 'shortcode' ) );
+		add_shortcode( 'rag_chat_ab_chat', array( RAGCHATAB()->frontend, 'shortcode' ) );
 		// Render the chat window after the footer.
-		add_action( 'wp_footer', array( WPRAGAB()->frontend, 'show_chat_window' ) );
+		add_action( 'wp_footer', array( RAGCHATAB()->frontend, 'show_chat_window' ) );
 
-		add_action( 'pre_post_update', array( WPRAGAB()->posthooks, 'store_previous_status' ), 10, 2 );
-		add_action( 'save_post', array( WPRAGAB()->posthooks, 'handle_post_save' ), 10, 3 );
-		add_action( 'wp_trash_post', array( WPRAGAB()->posthooks, 'handle_post_delete' ), 10, 1 );
-		add_action( 'before_delete_post', array( WPRAGAB()->posthooks, 'handle_post_delete' ), 10, 1 );
+		add_action( 'pre_post_update', array( RAGCHATAB()->posthooks, 'store_previous_status' ), 10, 2 );
+		add_action( 'save_post', array( RAGCHATAB()->posthooks, 'handle_post_save' ), 10, 3 );
+		add_action( 'wp_trash_post', array( RAGCHATAB()->posthooks, 'handle_post_delete' ), 10, 1 );
+		add_action( 'before_delete_post', array( RAGCHATAB()->posthooks, 'handle_post_delete' ), 10, 1 );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Wp_Rag_Ab_Run {
 	 */
 	public function add_plugin_action_link( $links ) {
 
-		$links['our_shop'] = sprintf( '<a href="%s" target="_blank title="Documentation" style="font-weight:700;">%s</a>', 'https://github.com/mobalab/wp-rag-for-amazon-bedrock', __( 'Documentation', 'wp-rag-ab' ) );
+		$links['our_shop'] = sprintf( '<a href="%s" target="_blank title="Documentation" style="font-weight:700;">%s</a>', 'https://github.com/mobalab/wp-rag-for-amazon-bedrock', __( 'Documentation', 'rag-chat-ab' ) );
 
 		return $links;
 	}
@@ -133,46 +133,46 @@ class Wp_Rag_Ab_Run {
 	 */
 	public function add_admin_menu( $tabs ) {
 		add_menu_page(
-			'WP RAG for Amazon Bedrock',
-			'WP RAG Bedrock',
+			'RAG Chat for Amazon Bedrock',
+			'RAG Chat Bedrock',
 			'manage_options',
-			'wp-rag-ab-main',
-			array( WPRAGAB()->pages['main'], 'render_main_page' ),
+			'rag-chat-ab-main',
+			array( RAGCHATAB()->pages['main'], 'render_main_page' ),
 			'dashicons-admin-generic',
 			100
 		);
 
 		add_submenu_page(
-			'wp-rag-ab-main',
-			'WP RAG for Amazon Bedrock General Settings', // Page title
+			'rag-chat-ab-main',
+			'RAG Chat for Amazon Bedrock General Settings', // Page title
 			'General Settings', // Title on the left menu
 			'manage_options', // Capability
-			'wp-rag-ab-general-settings', // Menu slug
-			array( WPRAGAB()->pages['general-settings'], 'page_content' ) // Callback function
+			'rag-chat-ab-general-settings', // Menu slug
+			array( RAGCHATAB()->pages['general-settings'], 'page_content' ) // Callback function
 		);
 
 		add_submenu_page(
-			'wp-rag-ab-main',
-			'WP RAG Content Management',
+			'rag-chat-ab-main',
+			'RAG Chat Content Management',
 			'Content Management',
 			'manage_options',
-			'wp-rag-ab-content-management',
-			array( WPRAGAB()->pages['content-management'], 'page_content' )
+			'rag-chat-ab-content-management',
+			array( RAGCHATAB()->pages['content-management'], 'page_content' )
 		);
 
 		add_submenu_page(
-			'wp-rag-ab-main',
-			'WP RAG for Amazon Bedrock Chat UI',
+			'rag-chat-ab-main',
+			'RAG Chat for Amazon Bedrock Chat UI',
 			'Chat UI',
 			'manage_options',
-			'wp-rag-ab-chat-ui',
-			array( WPRAGAB()->pages['chat-ui'], 'page_content' )
+			'rag-chat-ab-chat-ui',
+			array( RAGCHATAB()->pages['chat-ui'], 'page_content' )
 		);
 	}
 
 	public function admin_notices() {
 		settings_errors( 'general' ); // Show default message(s).
-		settings_errors( 'wp_rag_ab_messages' );
+		settings_errors( 'rag_chat_ab_messages' );
 	}
 
 
@@ -194,47 +194,47 @@ class Wp_Rag_Ab_Run {
 			$referer_page = null;
 		}
 
-		if ( 'wp-rag-ab-main' === $current_page || 'wp-rag-ab-main' === $referer_page ) {
-			$cls = WPRAGAB()->pages['main'];
+		if ( 'rag-chat-ab-main' === $current_page || 'rag-chat-ab-main' === $referer_page ) {
+			$cls = RAGCHATAB()->pages['main'];
 
 			$cls->enqueue_scripts_and_styles();
 
-			if ( isset( $_POST['wp_rag_ab_query_submit'] ) ) {
-				$nonce = isset( $_POST['wp_rag_ab_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['wp_rag_ab_nonce'] ) ) : '';
-				if ( ! wp_verify_nonce( $nonce, 'wp_rag_ab_query_submit' ) ) {
-					wp_die( esc_html__( 'Security check failed. Please try again.', 'wp-rag-ab' ) );
+			if ( isset( $_POST['rag_chat_ab_query_submit'] ) ) {
+				$nonce = isset( $_POST['rag_chat_ab_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['rag_chat_ab_nonce'] ) ) : '';
+				if ( ! wp_verify_nonce( $nonce, 'rag_chat_ab_query_submit' ) ) {
+					wp_die( esc_html__( 'Security check failed. Please try again.', 'rag-chat-ab' ) );
 				}
 				$cls->handle_query_form_submission();
 			}
-		} elseif ( 'wp-rag-ab-general-settings' === $current_page || 'wp-rag-ab-general-settings' === $referer_page ) {
-			$cls = WPRAGAB()->pages['general-settings'];
+		} elseif ( 'rag-chat-ab-general-settings' === $current_page || 'rag-chat-ab-general-settings' === $referer_page ) {
+			$cls = RAGCHATAB()->pages['general-settings'];
 
 			register_setting(
-				'wp_rag_ab_options',
+				'rag_chat_ab_options',
 				$cls::OPTION_NAME,
 				array(
-					'sanitize_callback' => array( WPRAGAB()->helpers, 'sanitize_array' ),
+					'sanitize_callback' => array( RAGCHATAB()->helpers, 'sanitize_array' ),
 				)
 			);
 
 			$cls->add_wordpress_authentication_section_and_fields();
 			$cls->add_aws_section_and_fields();
-		} elseif ( 'wp-rag-ab-content-management' === $current_page || 'wp-rag-ab-content-management' === $referer_page ) {
-			$cls = WPRAGAB()->pages['content-management'];
+		} elseif ( 'rag-chat-ab-content-management' === $current_page || 'rag-chat-ab-content-management' === $referer_page ) {
+			$cls = RAGCHATAB()->pages['content-management'];
 
-			if ( isset( $_POST['wp_rag_ab_export_submit'] ) ) {
+			if ( isset( $_POST['rag_chat_ab_export_submit'] ) ) {
 				$cls->handle_export_form_submission();
 			}
 
 			$cls->add_export_posts_section_and_fields();
-		} elseif ( 'wp-rag-ab-chat-ui' === $current_page || 'wp-rag-ab-chat-ui' === $referer_page ) {
-			$cls = WPRAGAB()->pages['chat-ui'];
+		} elseif ( 'rag-chat-ab-chat-ui' === $current_page || 'rag-chat-ab-chat-ui' === $referer_page ) {
+			$cls = RAGCHATAB()->pages['chat-ui'];
 
 			register_setting(
-				'wp_rag_ab_options',
+				'rag_chat_ab_options',
 				$cls::OPTION_NAME,
 				array(
-					'sanitize_callback' => array( WPRAGAB()->helpers, 'sanitize_array' ),
+					'sanitize_callback' => array( RAGCHATAB()->helpers, 'sanitize_array' ),
 				)
 			);
 

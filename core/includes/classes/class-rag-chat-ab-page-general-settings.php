@@ -6,18 +6,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Wp_Rag_Ab_Page_GeneralSettings
+ * Class Rag_Chat_Ab_Page_GeneralSettings
  *
  * This class handles rendering of the general settings page.
  *
- * @package     WPRAGAB
- * @subpackage  Classes/Wp_Rag_Ab_Page_GeneralSettings
+ * @package     RAGCHATAB
+ * @subpackage  Classes/Rag_Chat_Ab_Page_GeneralSettings
  * @author      Kashima, Kazuo
  * @since       0.0.1
  */
-class Wp_Rag_Ab_Page_GeneralSettings {
+class Rag_Chat_Ab_Page_GeneralSettings {
 
-	const OPTION_NAME = 'wp_rag_ab_general_settings';
+	const OPTION_NAME = 'rag_chat_ab_general_settings';
 
 	/**
 	 * Executed before saving the options.
@@ -35,9 +35,9 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 			<form action="options.php" method="post">
 				<?php
-				settings_fields( 'wp_rag_ab_options' );
-				do_settings_sections( 'wp-rag-ab-general-settings' );
-				submit_button( __( 'Save Settings', 'wp-rag-ab' ) );
+				settings_fields( 'rag_chat_ab_options' );
+				do_settings_sections( 'rag-chat-ab-general-settings' );
+				submit_button( __( 'Save Settings', 'rag-chat-ab' ) );
 				?>
 			</form>
 		</div>
@@ -49,22 +49,22 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 			'wordpress_authentication_section', // Section ID
 			'WordPress Configuration', // Title
 			array( $this, 'wordpress_authentication_section_callback' ), // Callback
-			'wp-rag-ab-general-settings' // Slug of the page
+			'rag-chat-ab-general-settings' // Slug of the page
 		);
 
 		add_settings_field(
-			'wp_rag_ab_wordpress_username', // Field ID
+			'rag_chat_ab_wordpress_username', // Field ID
 			'WordPress user', // Title
 			array( $this, 'wordpress_user_field_render' ), // callback
-			'wp-rag-ab-general-settings', // Page slug
+			'rag-chat-ab-general-settings', // Page slug
 			'wordpress_authentication_section' // Section this field belongs to
 		);
 
 		add_settings_field(
-			'wp_rag_ab_wordpress_password', // Field ID
+			'rag_chat_ab_wordpress_password', // Field ID
 			'WordPress password', // Title
 			array( $this, 'wordpress_password_field_render' ), // callback
-			'wp-rag-ab-general-settings', // Page slug
+			'rag-chat-ab-general-settings', // Page slug
 			'wordpress_authentication_section' // Section this field belongs to
 		);
 	}
@@ -96,54 +96,54 @@ class Wp_Rag_Ab_Page_GeneralSettings {
 			'aws_section', // Section ID
 			'AWS Configuration', // Title
 			array( $this, 'aws_section_callback' ), // Callback
-			'wp-rag-ab-general-settings' // Slug of the page
+			'rag-chat-ab-general-settings' // Slug of the page
 		);
 
 		add_settings_field(
-			'wp_rag_ab_aws_region', // Field ID
+			'rag_chat_ab_aws_region', // Field ID
 			'Region', // Title
 			array( $this, 'aws_region_field_render' ), // callback
-			'wp-rag-ab-general-settings', // Page slug
+			'rag-chat-ab-general-settings', // Page slug
 			'aws_section' // Section this field belongs to
 		);
 
 		add_settings_field(
-			'wp_rag_ab_aws_access_key', // Field ID
+			'rag_chat_ab_aws_access_key', // Field ID
 			'IAM Access Key', // Title
 			array( $this, 'aws_access_key_field_render' ), // callback
-			'wp-rag-ab-general-settings', // Page slug
+			'rag-chat-ab-general-settings', // Page slug
 			'aws_section' // Section this field belongs to
 		);
 
 		add_settings_field(
-			'wp_rag_ab_aws_secret_key', // Field ID
+			'rag_chat_ab_aws_secret_key', // Field ID
 			'IAM Secret Key', // Title
 			array( $this, 'aws_secret_key_field_render' ), // callback
-			'wp-rag-ab-general-settings', // Page slug
+			'rag-chat-ab-general-settings', // Page slug
 			'aws_section' // Section this field belongs to
 		);
 
 		add_settings_field(
-			'wp_rag_ab_bedorck_knowledge_base_id', // Field ID
+			'rag_chat_ab_bedorck_knowledge_base_id', // Field ID
 			'Knowledge Base ID', // Title
 			array( $this, 'knowledge_base_id_field_render' ), // callback
-			'wp-rag-ab-general-settings', // Page slug
+			'rag-chat-ab-general-settings', // Page slug
 			'aws_section' // Section this field belongs to
 		);
 
 		add_settings_field(
-			'wp_rag_ab_bedorck_data_source_id', // Field ID
+			'rag_chat_ab_bedorck_data_source_id', // Field ID
 			'Data source ID', // Title
 			array( $this, 'data_source_id_field_render' ), // callback
-			'wp-rag-ab-general-settings', // Page slug
+			'rag-chat-ab-general-settings', // Page slug
 			'aws_section' // Section this field belongs to
 		);
 
 		add_settings_field(
-			'wp_rag_ab_model_arn',
+			'rag_chat_ab_model_arn',
 			'Model ARN',
 			array( $this, 'model_arn_field_render' ),
-			'wp-rag-ab-general-settings',
+			'rag-chat-ab-general-settings',
 			'aws_section'
 		);
 	}

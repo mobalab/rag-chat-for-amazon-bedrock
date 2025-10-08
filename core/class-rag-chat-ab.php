@@ -14,25 +14,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * To add a new class, here's what you need to do:
  * 1. Add your new class within the following folder: core/includes/classes
  * 2. Create a new variable you want to assign the class to (as e.g. public $helpers)
- * 3. Assign the class within the instance() function ( as e.g. self::$instance->helpers = new Wp_Rag_Ab_Helpers();)
+ * 3. Assign the class within the instance() function ( as e.g. self::$instance->helpers = new Rag_Chat_Ab_Helpers();)
  * 4. Register the class you added to core/includes/classes within the includes() function
  *
  * HELPER COMMENT END
  */
 
-if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
+if ( ! class_exists( 'Rag_Chat_Ab' ) ) :
 
 	/**
-	 * Main Wp_Rag_Ab Class.
+	 * Main Rag_Chat_Ab Class.
 	 *
-	 * @package     WPRAGAB
-	 * @subpackage  Classes/Wp_Rag_Ab
+	 * @package     RAGCHATAB
+	 * @subpackage  Classes/Rag_Chat_Ab
 	 * @since       0.0.1
 	 * @author      Kashima, Kazuo
 	 */
-	final class Wp_Rag_Ab {
+	final class Rag_Chat_Ab {
 
-		const OPTION_NAME_FOR_AUTH_DATA = 'wp_rag_ab_auth_data';
+		const OPTION_NAME_FOR_AUTH_DATA = 'rag_chat_ab_auth_data';
 
 
 		/**
@@ -40,25 +40,25 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 		 *
 		 * @access  private
 		 * @since   0.0.1
-		 * @var     object|Wp_Rag_Ab
+		 * @var     object|Rag_Chat_Ab
 		 */
 		private static $instance;
 
 		/**
-		 * WPRAGAB helpers object.
+		 * RAGCHATAB helpers object.
 		 *
 		 * @access  public
 		 * @since   0.0.1
-		 * @var     object|Wp_Rag_Ab_Helpers
+		 * @var     object|Rag_Chat_Ab_Helpers
 		 */
 		public $helpers;
 
 		/**
-		 * WPRAGAB settings object.
+		 * RAGCHATAB settings object.
 		 *
 		 * @access  public
 		 * @since   0.0.1
-		 * @var     object|Wp_Rag_Ab_Settings
+		 * @var     object|Rag_Chat_Ab_Settings
 		 */
 		public $settings;
 
@@ -70,20 +70,20 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 		public $pages;
 
 		/**
-		 * WPRAGAB frontend object.
+		 * RAGCHATAB frontend object.
 		 *
 		 * @access  public
 		 * @since   0.0.1
-		 * @var     object|Wp_Rag_Ab_Frontend
+		 * @var     object|Rag_Chat_Ab_Frontend
 		 */
 		public $frontend;
 
 		/**
-		 * WPRAGAB PostHooks object.
+		 * RAGCHATAB PostHooks object.
 		 *
 		 * @access  public
 		 * @since   0.0.3
-		 * @var     object|Wp_Rag_Ab_PostHooks
+		 * @var     object|Rag_Chat_Ab_PostHooks
 		 */
 		public $posthooks;
 
@@ -97,7 +97,7 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 		 * @return  void
 		 */
 		public function __clone() {
-			_doing_it_wrong( __FUNCTION__, esc_html__( 'You are not allowed to clone this class.', 'wp-rag-ab' ), '0.0.1' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'You are not allowed to clone this class.', 'rag-chat-ab' ), '0.0.1' );
 		}
 
 		/**
@@ -108,7 +108,7 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 		 * @return  void
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __FUNCTION__, esc_html__( 'You are not allowed to unserialize this class.', 'wp-rag-ab' ), '0.0.1' );
+			_doing_it_wrong( __FUNCTION__, esc_html__( 'You are not allowed to unserialize this class.', 'rag-chat-ab' ), '0.0.1' );
 		}
 
 		/**
@@ -120,32 +120,32 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 		 * @access      public
 		 * @since       0.0.1
 		 * @static
-		 * @return      object|Wp_Rag_Ab   The one true Wp_Rag
+		 * @return      object|Rag_Chat_Ab   The one true Wp_Rag
 		 */
 		public static function instance() {
-			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Wp_Rag_Ab ) ) {
-				self::$instance = new Wp_Rag_Ab();
+			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Rag_Chat_Ab ) ) {
+				self::$instance = new Rag_Chat_Ab();
 				self::$instance->base_hooks();
 				self::$instance->includes();
-				self::$instance->helpers   = new Wp_Rag_Ab_Helpers();
-				self::$instance->settings  = new Wp_Rag_Ab_Settings();
+				self::$instance->helpers   = new Rag_Chat_Ab_Helpers();
+				self::$instance->settings  = new Rag_Chat_Ab_Settings();
 				self::$instance->pages     = array(
-					'main'               => new Wp_Rag_Ab_Page_Main(),
-					'general-settings'   => new Wp_Rag_Ab_Page_GeneralSettings(),
-					'content-management' => new Wp_Rag_Ab_Page_ContentManagement(),
-					'chat-ui'            => new Wp_Rag_Ab_Page_ChatUI(),
+					'main'               => new Rag_Chat_Ab_Page_Main(),
+					'general-settings'   => new Rag_Chat_Ab_Page_GeneralSettings(),
+					'content-management' => new Rag_Chat_Ab_Page_ContentManagement(),
+					'chat-ui'            => new Rag_Chat_Ab_Page_ChatUI(),
 				);
-				self::$instance->frontend  = new Wp_Rag_Ab_Frontend();
-				self::$instance->posthooks = new Wp_Rag_Ab_PostHooks();
+				self::$instance->frontend  = new Rag_Chat_Ab_Frontend();
+				self::$instance->posthooks = new Rag_Chat_Ab_PostHooks();
 
 				// Fire the plugin logic.
-				new Wp_Rag_Ab_Run();
+				new Rag_Chat_Ab_Run();
 
 				/**
 				 * Fire a custom action to allow dependencies
 				 * after the successful plugin setup
 				 */
-				do_action( 'WPRAGAB/plugin_loaded' );
+				do_action( 'RAGCHATAB/plugin_loaded' );
 			}
 
 			return self::$instance;
@@ -159,22 +159,22 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 		 * @return  void
 		 */
 		private function includes() {
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-helpers.php';
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-settings.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-helpers.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-settings.php';
 
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-page-main.php';
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-page-general-settings.php';
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-page-content-management.php';
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-page-chat-ui.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-page-main.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-page-general-settings.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-page-content-management.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-page-chat-ui.php';
 
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-frontend.php';
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-posthooks.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-frontend.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-posthooks.php';
 
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-aws-sigv4.php';
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-amazon-bedrock-client.php';
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-sync-service.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-aws-sigv4.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-amazon-bedrock-client.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-sync-service.php';
 
-			require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-run.php';
+			require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-run.php';
 		}
 
 		/**
@@ -196,7 +196,7 @@ if ( ! class_exists( 'Wp_Rag_Ab' ) ) :
 		 * @return  void
 		 */
 		public function load_textdomain() {
-			load_plugin_textdomain( 'wp-rag-ab', false, dirname( plugin_basename( WPRAGAB_PLUGIN_FILE ) ) . '/languages/' );
+			load_plugin_textdomain( 'rag-chat-ab', false, dirname( plugin_basename( RAGCHATAB_PLUGIN_FILE ) ) . '/languages/' );
 		}
 	}
 
