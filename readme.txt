@@ -1,6 +1,6 @@
-=== WP RAG for Amazon Bedrock ===
+=== RAG Chat for Amazon Bedrock ===
 Author URI: https://github.com/mobalab
-Plugin URI: https://github.com/mobalab/wp-rag-for-amazon-bedrock
+Plugin URI: https://github.com/mobalab/rag-chat-for-amazon-bedrock
 Description: Integrate WordPress content with Amazon Bedrock Knowledge Bases to create an intelligent RAG chatbot system
 Donate link: 
 Contributors: 
@@ -16,7 +16,7 @@ Integrate WordPress content with Amazon Bedrock Knowledge Bases to create an int
 
 == Description ==
 
-WP RAG for Amazon Bedrock is a WordPress plugin that seamlessly integrates your WordPress content with Amazon Bedrock Knowledge Bases to create an intelligent RAG (Retrieval-Augmented Generation) chatbot system.
+RAG Chat for Amazon Bedrock is a WordPress plugin that seamlessly integrates your WordPress content with Amazon Bedrock Knowledge Bases to create an intelligent RAG (Retrieval-Augmented Generation) chatbot system.
 
 **Key Features:**
 
@@ -42,9 +42,9 @@ WP RAG for Amazon Bedrock is a WordPress plugin that seamlessly integrates your 
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/wp-rag-for-amazon-bedrock` directory, or install the plugin through the WordPress plugins screen directly
+1. Upload the plugin files to the `/wp-content/plugins/rag-chat-for-amazon-bedrock` directory, or install the plugin through the WordPress plugins screen directly
 2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Go to the WP RAG admin menu to configure your Amazon Bedrock settings
+3. Go to the RAG Chat admin menu to configure your Amazon Bedrock settings
 4. Enter your AWS credentials and Knowledge Base details
 5. Configure your chat interface settings
 6. Your content will automatically sync to Amazon Bedrock
@@ -77,9 +77,9 @@ Yes! While this plugin is free to use, we understand that setting up AWS and Ama
 
 == Related Projects ==
 
-This plugin is based on **WP RAG** (https://github.com/mobalab/wp-rag), which provides RAG functionality using external servers and OpenAI's APIs. WP RAG for Amazon Bedrock offers a different approach by integrating directly with Amazon Bedrock Knowledge Bases for users who prefer AWS-native solutions.
+This plugin is based on **WP RAG** (https://github.com/mobalab/wp-rag), which provides RAG functionality using external servers and OpenAI's APIs. RAG Chat for Amazon Bedrock offers a different approach by integrating directly with Amazon Bedrock Knowledge Bases for users who prefer AWS-native solutions.
 
 == Changelog ==
 
 = 0.0.1: October 7th, 2025 =
-* Birthday of WP RAG for Amazon Bedrock!
+* Birthday of RAG Chat for Amazon Bedrock!
