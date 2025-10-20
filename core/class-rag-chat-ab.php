@@ -185,18 +185,6 @@ if ( ! class_exists( 'Rag_Chat_Ab' ) ) :
 		 * @return  void
 		 */
 		private function base_hooks() {
-			add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
-		}
-
-		/**
-		 * Loads the plugin language files.
-		 *
-		 * @access  public
-		 * @since   0.0.1
-		 * @return  void
-		 */
-		public function load_textdomain() {
-			load_plugin_textdomain( 'rag-chat-ab', false, dirname( plugin_basename( RAGCHATAB_PLUGIN_FILE ) ) . '/languages/' );
 		}
 	}
 
