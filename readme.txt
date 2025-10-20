@@ -5,7 +5,7 @@ Description: Integrate WordPress content with Amazon Bedrock Knowledge Bases to 
 Donate link: 
 Contributors: 
 Tags: rag, ai, amazon bedrock, chatbot, knowledge base
-Requires at least: 6.6.0
+Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
 Stable tag: 0.0.1
