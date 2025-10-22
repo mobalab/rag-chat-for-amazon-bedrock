@@ -82,8 +82,6 @@ class Rag_Chat_Ab_Run {
 		add_action( 'wp_ajax_rag_chat_ab_process_chat', array( RAGCHATAB()->frontend, 'process_chat' ) );
 		add_action( 'wp_ajax_nopriv_rag_chat_ab_process_chat', array( RAGCHATAB()->frontend, 'process_chat' ) );
 
-		add_action( 'wp_head', array( RAGCHATAB()->frontend, 'output_custom_css' ) );
-
 		add_shortcode( 'rag_chat_ab_chat', array( RAGCHATAB()->frontend, 'shortcode' ) );
 		// Render the chat window after the footer.
 		add_action( 'wp_footer', array( RAGCHATAB()->frontend, 'show_chat_window' ) );
