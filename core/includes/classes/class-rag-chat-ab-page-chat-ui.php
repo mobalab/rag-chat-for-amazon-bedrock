@@ -44,9 +44,15 @@ class Rag_Chat_Ab_Page_ChatUI {
 	}
 
 	public function page_content() {
+		$customizer_url = admin_url( 'customize.php?autofocus[section]=custom_css' );
 		?>
 		<div class="wrap rag-chat-ab-settings">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+			<p>If you would like to customize the CSS of the chat window:</p>
+			<ul>
+				<li>Classic Themes: Use Additional CSS in <a href="<?php echo esc_url( $customizer_url ); ?>" target="_blank">the Customizer.</a></li>
+				<li>Block Themes: Adjust styles via theme.json or your child theme’s CSS.</li>
+			</ul>
 			<form action="options.php" method="post">
 				<?php
 				settings_fields( 'rag_chat_ab_options' );
