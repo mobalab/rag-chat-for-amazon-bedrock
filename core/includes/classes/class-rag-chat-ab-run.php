@@ -236,7 +236,6 @@ class Rag_Chat_Ab_Run {
 				)
 			);
 
-			$cls->add_appearance_section_and_fields();
 			$cls->add_windows_settings_section_and_fields();
 			$cls->add_input_and_button_labels_section_and_fields();
 			$cls->add_participant_names_section_and_fields();
