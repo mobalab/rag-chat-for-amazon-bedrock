@@ -45,7 +45,7 @@ class Rag_Chat_Ab_Page_Main {
 			</form>
 			<?php if ( ! empty( $this->response ) ) : ?>
 				<?php if ( 200 === $this->response['status_code'] ) : ?>
-					<p>Question: <?php echo esc_html( wp_unslash( $_POST['rag_chat_ab_question'] ) ); ?></p>
+					<p>Question: <?php echo esc_html( sanitize_text_field( wp_unslash( $_POST['rag_chat_ab_question'] ) ) ); ?></p>
 					<p>Answer: <?php echo esc_html( $this->response['body']['output']['text'] ); ?></p>
 					Context posts:
 					<ul>
