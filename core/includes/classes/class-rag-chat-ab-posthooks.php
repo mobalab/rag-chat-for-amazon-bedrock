@@ -6,16 +6,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Wp_Rag_Ab_PostHooks
+ * Class Rag_Chat_Ab_PostHooks
  *
  * This class contains hooks called when a post/page is saved.
  *
- * @package     WPRAGAB
- * @subpackage  Classes/Wp_Rag_Ab_PostHooks
+ * @package     RAGCHATAB
+ * @subpackage  Classes/Rag_Chat_Ab_PostHooks
  * @author      Kashima, Kazuo
  * @since       0.0.1
  */
-class Wp_Rag_Ab_PostHooks {
+class Rag_Chat_Ab_PostHooks {
 	/**
 	 * @var array wp_post_id => status string
 	 */
@@ -61,7 +61,7 @@ class Wp_Rag_Ab_PostHooks {
 			return;
 		}
 
-		$sync_service = new Wp_Rag_Ab_SyncService();
+		$sync_service = new Rag_Chat_Ab_SyncService();
 
 		$new_status = $post->post_status;
 		$old_status = isset( $this->previous_status[ $post_id ] )
@@ -101,7 +101,7 @@ class Wp_Rag_Ab_PostHooks {
 		}
 
 		if ( 'publish' === $post->post_status ) {
-			$sync_service = new Wp_Rag_Ab_SyncService();
+			$sync_service = new Rag_Chat_Ab_SyncService();
 			$sync_service->delete_from_bedrock( $post_id );
 		}
 	}

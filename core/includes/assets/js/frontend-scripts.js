@@ -24,7 +24,7 @@ Frontend related javascript
  *
  * You can add the localized variables in here as followed: wprag.plugin_name
  * These variables are defined within the localization function in the following file:
- * core/includes/classes/class-wp-rag-ab-run.php
+ * core/includes/classes/class-rag-chat-ab-run.php
  *
  * HELPER COMMENT END
  */
@@ -38,17 +38,17 @@ Frontend related javascript
 	}
 
 	function showUserMessage(messages, userName, message) {
-		const container = $( '<div class="wp-rag-ab-message wp-rag-ab-message--user"></div>' );
-		container.append( $( '<div class="wp-rag-ab-message__author">' ).text( userName ) )
-		container.append( $( '<div class="wp-rag-ab-message__text--user">' ).text( message ) );
+		const container = $( '<div class="rag-chat-ab-message rag-chat-ab-message--user"></div>' );
+		container.append( $( '<div class="rag-chat-ab-message__author">' ).text( userName ) )
+		container.append( $( '<div class="rag-chat-ab-message__text--user">' ).text( message ) );
 		messages.append( container );
 		scrollToBottom( messages );
 	}
 
 	function showBotMessage(messages, botName, message, contexts = null) {
-		const container = $( '<div class="wp-rag-ab-message wp-rag-ab-message--bot"></div>' );
-		container.append( $( '<div class="wp-rag-ab-message__author--bot">' ).text( botName ) )
-		container.append( $( '<div class="wp-rag-ab-message__text--bot">' ).text( message ) );
+		const container = $( '<div class="rag-chat-ab-message rag-chat-ab-message--bot"></div>' );
+		container.append( $( '<div class="rag-chat-ab-message__author--bot">' ).text( botName ) )
+		container.append( $( '<div class="rag-chat-ab-message__text--bot">' ).text( message ) );
 		if (contexts !== null) {
 			showContexts(container, contexts)
 		}
@@ -61,19 +61,19 @@ Frontend related javascript
 			return;
 		}
 
-		const relatedInfoDiv = $( '<div class="wp-rag-ab-related"></div>' );
+		const relatedInfoDiv = $( '<div class="rag-chat-ab-related"></div>' );
 
-		const titleDiv = $( '<div class="wp-rag-ab-related__title"></div>' );
-		titleDiv.append( '<span class="wp-rag-ab-related__icon">📖</span>' );
-		titleDiv.append( '<span class="wp-rag-ab-related__text">Related info</span>' );
+		const titleDiv = $( '<div class="rag-chat-ab-related__title"></div>' );
+		titleDiv.append( '<span class="rag-chat-ab-related__icon">📖</span>' );
+		titleDiv.append( '<span class="rag-chat-ab-related__text">Related info</span>' );
 		relatedInfoDiv.append( titleDiv );
 
-		const linksDiv  = $( '<div class="wp-rag-ab-related__links"></div>' );
+		const linksDiv  = $( '<div class="rag-chat-ab-related__links"></div>' );
 		contexts.forEach(
 			context => {
-				const a = $( `<a href="${context.url}" target="_blank" class="wp-rag-ab-related__link"></a>` );
-				a.append( '<span class="wp-rag-ab-related__link-icon">🔗</span>' );
-				a.append( $( '<span class="wp-rag-ab-related__link-text"></span>' ).text( context.title ) );
+				const a = $( `<a href="${context.url}" target="_blank" class="rag-chat-ab-related__link"></a>` );
+				a.append( '<span class="rag-chat-ab-related__link-icon">🔗</span>' );
+				a.append( $( '<span class="rag-chat-ab-related__link-text"></span>' ).text( context.title ) );
 				linksDiv.append(a);
 			}
 		)
@@ -83,18 +83,18 @@ Frontend related javascript
 
 	$( document ).ready(
 		function () {
-			const chatWindow     = $( '#wp-rag-ab-chat-window' );
-			const chatIcon       = $( '#wp-rag-ab-chat-icon' );
-			const form           = $( '#wp-rag-ab-chat-form' );
-			const input          = $( '#wp-rag-ab-chat-input' );
-			const submitButton   = form.find( '.wp-rag-ab-chat__submit' );
-			const messages       = $( '#wp-rag-ab-chat-messages' );
-			const minimizeButton = $( '.wp-rag-ab-chat__minimize' );
-			const clearButton    = $( '.wp-rag-ab-chat__clear' );
+			const chatWindow     = $( '#rag-chat-ab-chat-window' );
+			const chatIcon       = $( '#rag-chat-ab-chat-icon' );
+			const form           = $( '#rag-chat-ab-chat-form' );
+			const input          = $( '#rag-chat-ab-chat-input' );
+			const submitButton   = form.find( '.rag-chat-ab-chat__submit' );
+			const messages       = $( '#rag-chat-ab-chat-messages' );
+			const minimizeButton = $( '.rag-chat-ab-chat__minimize' );
+			const clearButton    = $( '.rag-chat-ab-chat__clear' );
 
-			const userName       = wpRagAb.chat_ui_options['user_name'] || 'You';
-			const botName        = wpRagAb.chat_ui_options['bot_name'] || 'Bot';
-			const initialMessage = wpRagAb.chat_ui_options['initial_message'];
+			const userName       = ragChatAb.chat_ui_options['user_name'] || 'You';
+			const botName        = ragChatAb.chat_ui_options['bot_name'] || 'Bot';
+			const initialMessage = ragChatAb.chat_ui_options['initial_message'];
 
 			let sessionId = null;
 
@@ -110,25 +110,25 @@ Frontend related javascript
 				showBotMessage( messages, botName, initialMessage );
 			}
 
-			const isMinimized = localStorage.getItem( 'wp-rag-ab-chat-minimized' ) === 'true';
+			const isMinimized = localStorage.getItem( 'rag-chat-ab-chat-minimized' ) === 'true';
 			if (isMinimized) {
-				chatWindow.addClass( 'wp-rag-ab--hidden' );
-				chatIcon.removeClass( 'wp-rag-ab--hidden' );
+				chatWindow.addClass( 'rag-chat-ab--hidden' );
+				chatIcon.removeClass( 'rag-chat-ab--hidden' );
 			}
 			minimizeButton.on(
 				'click',
 				function () {
-					chatWindow.addClass( 'wp-rag-ab--hidden' );
-					chatIcon.removeClass( 'wp-rag-ab--hidden' );
-					localStorage.setItem( 'wp-rag-ab-chat-minimized', 'true' );
+					chatWindow.addClass( 'rag-chat-ab--hidden' );
+					chatIcon.removeClass( 'rag-chat-ab--hidden' );
+					localStorage.setItem( 'rag-chat-ab-chat-minimized', 'true' );
 				}
 			);
 			chatIcon.on(
 				'click',
 				function () {
-					chatWindow.removeClass( 'wp-rag-ab--hidden' );
-					chatIcon.addClass( 'wp-rag-ab--hidden' );
-					localStorage.setItem( 'wp-rag-ab-chat-minimized', 'false' );
+					chatWindow.removeClass( 'rag-chat-ab--hidden' );
+					chatIcon.addClass( 'rag-chat-ab--hidden' );
+					localStorage.setItem( 'rag-chat-ab-chat-minimized', 'false' );
 					input.focus();
 				}
 			);
@@ -146,18 +146,18 @@ Frontend related javascript
 				'submit',
 				function (e) {
 					e.preventDefault();
-					const message = $( '#wp-rag-ab-chat-input' ).val();
+					const message = $( '#rag-chat-ab-chat-input' ).val();
 
 					if (message.trim() === '') {
 						return;
 					}
 
-					submitButton.prop( 'disabled', true ).addClass( 'wp-rag-ab-chat__submit--loading' );
+					submitButton.prop( 'disabled', true ).addClass( 'rag-chat-ab-chat__submit--loading' );
 
 					const ajaxData = {
-						action: 'wp_rag_ab_process_chat',
+						action: 'rag_chat_ab_process_chat',
 						message: message,
-						nonce: wpRagAb.security_nonce
+						nonce: ragChatAb.security_nonce
 					};
 
 					if (sessionId) {
@@ -166,7 +166,7 @@ Frontend related javascript
 
 					$.ajax(
 						{
-							url: wpRagAb.ajaxurl,
+							url: ragChatAb.ajaxurl,
 							type: 'POST',
 							data: ajaxData,
 							success: function (response) {
@@ -176,7 +176,7 @@ Frontend related javascript
 									}
 
 									showUserMessage( messages, userName, message );
-									if ('yes' === wpRagAb.chat_ui_options['display_context_links']) {
+									if ('yes' === ragChatAb.chat_ui_options['display_context_links']) {
 										showBotMessage( messages, botName, response.data.answer, response.data.contexts );
 									} else {
 										showBotMessage( messages, botName, response.data.answer );
@@ -197,7 +197,7 @@ Frontend related javascript
 							},
 							complete: function () {
 								input.val( '' ).focus();
-								submitButton.prop( 'disabled', false ).removeClass( 'wp-rag-ab-chat__submit--loading' );
+								submitButton.prop( 'disabled', false ).removeClass( 'rag-chat-ab-chat__submit--loading' );
 							}
 						}
 					);

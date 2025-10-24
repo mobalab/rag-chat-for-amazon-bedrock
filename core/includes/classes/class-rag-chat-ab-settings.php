@@ -18,23 +18,23 @@ if ( ! defined( 'ABSPATH' ) ) {
  * These callable functions can be called everywhere within the plugin
  * as followed using the get_plugin_name() as an example:
  *
- * WPRAGAB->settings->get_plugin_name();
+ * RAGCHATAB->settings->get_plugin_name();
  *
  * HELPER COMMENT END
  */
 
 /**
- * Class Wp_Rag_Ab_Settings
+ * Class Rag_Chat_Ab_Settings
  *
  * This class contains all of the plugin settings.
  * Here you can configure the whole plugin data.
  *
- * @package     WPRAGAB
- * @subpackage  Classes/Wp_Rag_Ab_Settings
+ * @package     RAGCHATAB
+ * @subpackage  Classes/Rag_Chat_Ab_Settings
  * @author      Kashima, Kazuo
  * @since       0.0.1
  */
-class Wp_Rag_Ab_Settings {
+class Rag_Chat_Ab_Settings {
 
 	/**
 	 * The plugin name
@@ -45,13 +45,13 @@ class Wp_Rag_Ab_Settings {
 	private $plugin_name;
 
 	/**
-	 * Our Wp_Rag_Settings constructor
+	 * Our Rag_Chat_Ab_Settings constructor
 	 * to run the plugin logic.
 	 *
 	 * @since 0.0.1
 	 */
 	public function __construct() {
-		$this->plugin_name = WPRAGAB_NAME;
+		$this->plugin_name = RAGCHATAB_NAME;
 	}
 
 	/**
@@ -70,6 +70,6 @@ class Wp_Rag_Ab_Settings {
 	 * @return  string The plugin name
 	 */
 	public function get_plugin_name() {
-		return apply_filters( 'WPRAGAB/settings/get_plugin_name', $this->plugin_name );
+		return apply_filters( 'RAGCHATAB/settings/get_plugin_name', $this->plugin_name );
 	}
 }

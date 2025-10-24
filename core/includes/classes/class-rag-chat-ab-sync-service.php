@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Wp_Rag_Ab_SyncService
+ * Class Rag_Chat_Ab_SyncService
  *
- * @package     WPRAGAB
- * @subpackage  Classes/Wp_Rag_Ab_SyncService
+ * @package     RAGCHATAB
+ * @subpackage  Classes/Rag_Chat_Ab_SyncService
  * @author      Kashima, Kazuo
  * @since       0.0.1
  */
-class Wp_Rag_Ab_SyncService {
+class Rag_Chat_Ab_SyncService {
 	/**
 	 * @return stdClass Available properties are total, not_synced and synced.
 	 */
@@ -21,7 +21,7 @@ class Wp_Rag_Ab_SyncService {
 		global $wpdb;
 		$posts_table    = $wpdb->prefix . 'posts';
 		$postmeta_table = $wpdb->prefix . 'postmeta';
-		$meta_key       = '_wpragab_sync_status';
+		$meta_key       = '_ragchatab_sync_status';
 
 		return $wpdb->get_row(
 			"
@@ -97,7 +97,7 @@ class Wp_Rag_Ab_SyncService {
 	 * @return bool true if all posts are sent successfully, false otherwise.
 	 */
 	public function send_posts_to_bedrock( array $posts ) {
-		$client = WPRAGAB()->helpers->get_bedrock_client();
+		$client = RAGCHATAB()->helpers->get_bedrock_client();
 
 		foreach ( array_chunk( $posts, 10 ) as $at_most_10_posts ) {
 			$post_ids  = array();
@@ -110,15 +110,15 @@ class Wp_Rag_Ab_SyncService {
 				$response    = $client->ingest_documents( $documents );
 				$sync_status = 202 === $response['status_code'] ? 1 : 2; // 1: success, 2: error.
 				if ( 2 === $sync_status ) {
-					WPRAGAB()->helpers->log_error( 'Error (Save): ' . wp_json_encode( $response ) );
+					RAGCHATAB()->helpers->log_error( 'Error (Save): ' . wp_json_encode( $response ) );
 					return false;
 				}
 				foreach ( $post_ids as $post_id ) {
-					update_post_meta( $post_id, '_wpragab_sync_status', $sync_status );
+					update_post_meta( $post_id, '_ragchatab_sync_status', $sync_status );
 				}
 				return true;
 			} catch ( Exception $e ) {
-				WPRAGAB()->helpers->log_error( 'Error (Save): ' . $e->getMessage() );
+				RAGCHATAB()->helpers->log_error( 'Error (Save): ' . $e->getMessage() );
 				return false;
 			}
 		}
@@ -131,7 +131,7 @@ class Wp_Rag_Ab_SyncService {
 	 * @return bool
 	 */
 	public function send_post_to_bedrock( WP_Post $post ) {
-		$client = WPRAGAB()->helpers->get_bedrock_client();
+		$client = RAGCHATAB()->helpers->get_bedrock_client();
 
 		$documents = array(
 			$this->convert_post_to_bedrock_document( $post ),
@@ -141,12 +141,12 @@ class Wp_Rag_Ab_SyncService {
 			$response    = $client->ingest_documents( $documents );
 			$sync_status = 202 === $response['status_code'] ? 1 : 2; // 1: success, 2: error.
 			if ( 2 === $sync_status ) {
-				WPRAGAB()->helpers->log_error( 'Error (Save): ' . wp_json_encode( $response ) );
+				RAGCHATAB()->helpers->log_error( 'Error (Save): ' . wp_json_encode( $response ) );
 			}
-			update_post_meta( $post->ID, '_wpragab_sync_status', $sync_status );
+			update_post_meta( $post->ID, '_ragchatab_sync_status', $sync_status );
 			return true;
 		} catch ( Exception $e ) {
-			WPRAGAB()->helpers->log_error( 'Error (Save): ' . $e->getMessage() );
+			RAGCHATAB()->helpers->log_error( 'Error (Save): ' . $e->getMessage() );
 			return false;
 		}
 	}
@@ -158,17 +158,17 @@ class Wp_Rag_Ab_SyncService {
 	 * @return void
 	 */
 	public function delete_post_from_bedrock( int $post_id ) {
-		$client = WPRAGAB()->helpers->get_bedrock_client();
+		$client = RAGCHATAB()->helpers->get_bedrock_client();
 
 		try {
 			$response = $client->delete_document( (string) $post_id );
 			if ( 202 === $response['status_code'] ) {
-				delete_post_meta( $post_id, '_wpragab_sync_status' );
+				delete_post_meta( $post_id, '_ragchatab_sync_status' );
 			} else {
-				WPRAGAB()->helpers->log_error( 'Error (Remove): ' . wp_json_encode( $response ) );
+				RAGCHATAB()->helpers->log_error( 'Error (Remove): ' . wp_json_encode( $response ) );
 			}
 		} catch ( Exception $e ) {
-			WPRAGAB()->helpers->log_error( 'Error (Remove): ' . $e->getMessage() );
+			RAGCHATAB()->helpers->log_error( 'Error (Remove): ' . $e->getMessage() );
 		}
 	}
 }

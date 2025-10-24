@@ -4,25 +4,25 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-define( 'WPRAGAB_NAME', 'WP RAG' );
-define( 'WPRAGAB_PLUGIN_FILE', __FILE__ );
-define( 'WPRAGAB_PLUGIN_BASE', plugin_basename( WPRAGAB_PLUGIN_FILE ) );
-define( 'WPRAGAB_PLUGIN_DIR', plugin_dir_path( WPRAGAB_PLUGIN_FILE ) );
+define( 'RAGCHATAB_NAME', 'RAG Chat' );
+define( 'RAGCHATAB_PLUGIN_FILE', __FILE__ );
+define( 'RAGCHATAB_PLUGIN_BASE', plugin_basename( RAGCHATAB_PLUGIN_FILE ) );
+define( 'RAGCHATAB_PLUGIN_DIR', plugin_dir_path( RAGCHATAB_PLUGIN_FILE ) );
 
-require_once WPRAGAB_PLUGIN_DIR . 'core/class-wp-rag-ab.php';
-require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-helpers.php';
-require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-page-main.php';
-require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-page-general-settings.php';
-require_once WPRAGAB_PLUGIN_DIR . 'core/includes/classes/class-wp-rag-ab-page-chat-ui.php';
+require_once RAGCHATAB_PLUGIN_DIR . 'core/class-rag-chat-ab.php';
+require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-helpers.php';
+require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-page-main.php';
+require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-page-general-settings.php';
+require_once RAGCHATAB_PLUGIN_DIR . 'core/includes/classes/class-rag-chat-ab-page-chat-ui.php';
 
-function WPRAGAB() {
-	return Wp_Rag_Ab::instance();
+function RAGCHATAB() {
+	return Rag_Chat_Ab::instance();
 }
 
 $option_names = array(
-	WPRAGAB()::OPTION_NAME_FOR_AUTH_DATA,
-	WPRAGAB()->pages['general-settings']::OPTION_NAME,
-	WPRAGAB()->pages['chat-ui']::OPTION_NAME,
+	RAGCHATAB()::OPTION_NAME_FOR_AUTH_DATA,
+	RAGCHATAB()->pages['general-settings']::OPTION_NAME,
+	RAGCHATAB()->pages['chat-ui']::OPTION_NAME,
 );
 foreach ( $option_names as $option_name ) {
 	delete_option( $option_name );

@@ -6,17 +6,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Wp_Rag_Ab_Helpers
+ * Class Rag_Chat_Ab_Helpers
  *
  * This class contains repetitive functions that
  * are used globally within the plugin.
  *
- * @package     WPRAGAB
- * @subpackage  Classes/Wp_Rag_Ab_Helpers
+ * @package     RAGCHATAB
+ * @subpackage  Classes/Rag_Chat_Ab_Helpers
  * @author      Kashima, Kazuo
  * @since       0.0.1
  */
-class Wp_Rag_Ab_Helpers {
+class Rag_Chat_Ab_Helpers {
 
 
 	/**
@@ -36,7 +36,7 @@ class Wp_Rag_Ab_Helpers {
 	 * Down below you will find a demo function called output_text()
 	 * To access this function from any other class, you can call it as followed:
 	 *
-	 * WPRAGAB()->helpers->output_text( 'my text' );
+	 * RAGCHATAB()->helpers->output_text( 'my text' );
 	 */
 
 	/**
@@ -54,7 +54,7 @@ class Wp_Rag_Ab_Helpers {
 	public function log_error( $message, $context = array() ) {
 		$formatted_message = sprintf(
 			'[%s] [%s] %s',
-			WPRAGAB_NAME,
+			RAGCHATAB_NAME,
 			current_time( 'Y-m-d H:i:s' ),
 			$message
 		);
@@ -68,12 +68,12 @@ class Wp_Rag_Ab_Helpers {
 	}
 
 	public function get_bedrock_client() {
-		$options = get_option( Wp_Rag_Ab::instance()->pages['general-settings']::OPTION_NAME );
+		$options = get_option( Rag_Chat_Ab::instance()->pages['general-settings']::OPTION_NAME );
 		if ( empty( $options['aws_region'] ) || empty( $options['aws_access_key'] ) || empty( $options['aws_secret_key'] ) || empty( $options['knowledge_base_id'] ) || empty( $options['data_source_id'] ) ) {
 			return null;
 		}
 
-		return new Wp_Rag_Ab_Amazon_Bedrock_Client( $options['aws_access_key'], $options['aws_secret_key'], $options['aws_region'], $options['knowledge_base_id'], $options['data_source_id'] );
+		return new Rag_Chat_Ab_Amazon_Bedrock_Client( $options['aws_access_key'], $options['aws_secret_key'], $options['aws_region'], $options['knowledge_base_id'], $options['data_source_id'] );
 	}
 
 	/**
@@ -99,7 +99,7 @@ class Wp_Rag_Ab_Helpers {
 	 * @return void
 	 */
 	function save_auth_data( $data ) {
-		$option_name     = Wp_Rag_Ab::OPTION_NAME_FOR_AUTH_DATA;
+		$option_name     = Rag_Chat_Ab::OPTION_NAME_FOR_AUTH_DATA;
 		$serialized_data = maybe_serialize( $data );
 		update_option( $option_name, $serialized_data, 'no' );
 	}
@@ -112,7 +112,7 @@ class Wp_Rag_Ab_Helpers {
 	 * @return mixed The authentication data associated with the given key, or the entire data set if no key is provided.
 	 */
 	function get_auth_data( $key = null ) {
-		$option_name     = Wp_Rag_Ab::OPTION_NAME_FOR_AUTH_DATA;
+		$option_name     = Rag_Chat_Ab::OPTION_NAME_FOR_AUTH_DATA;
 		$serialized_data = get_option( $option_name );
 		if ( false === $serialized_data ) {
 			return null;
@@ -147,7 +147,7 @@ class Wp_Rag_Ab_Helpers {
 	 * @return void
 	 */
 	function delete_auth_data() {
-		$option_name = Wp_Rag::OPTION_NAME_FOR_AUTH_DATA;
+		$option_name = Rag_Chat_Ab::OPTION_NAME_FOR_AUTH_DATA;
 		delete_option( $option_name );
 	}
 

@@ -6,17 +6,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Wp_Rag_Ab_Page_ChatUI
+ * Class Rag_Chat_Ab_Page_ChatUI
  *
  * This class handles rendering of the chat UI
  *
- * @package     WPRAGAB
- * @subpackage  Classes/Wp_Rag_Ab_Page_ChatUI
+ * @package     RAGCHATAB
+ * @subpackage  Classes/Rag_Chat_Ab_Page_ChatUI
  * @author      Kashima, Kazuo
  * @since       0.0.1
  */
-class Wp_Rag_Ab_Page_ChatUI {
-	const OPTION_NAME = 'wp_rag_ab_chat_ui';
+class Rag_Chat_Ab_Page_ChatUI {
+	const OPTION_NAME = 'rag_chat_ab_chat_ui';
 
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
@@ -28,66 +28,39 @@ class Wp_Rag_Ab_Page_ChatUI {
 	public function enqueue_admin_styles( $hook ) {
 		wp_add_inline_style(
 			'wp-admin',
-			'.wrap.wp-rag-ab-settings h3 {
+			'.wrap.rag-chat-ab-settings h3 {
 				font-size: 1.2em;
 				margin: 1em 0 1em;
 			}
 			/* Space between sections */
-			.wrap.wp-rag-ab-settings .form-table {
+			.wrap.rag-chat-ab-settings .form-table {
 				/* margin-left: 1em; */
 			}
 			/* Margin above the first h3 */
-			.wrap.wp-rag-ab-settings h2 + h3 {
+			.wrap.rag-chat-ab-settings h2 + h3 {
 				margin-top: 1em;
 			}'
 		);
 	}
 
 	public function page_content() {
+		$customizer_url = admin_url( 'customize.php?autofocus[section]=custom_css' );
 		?>
-		<div class="wrap wp-rag-ab-settings">
+		<div class="wrap rag-chat-ab-settings">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+			<p>If you would like to customize the CSS of the chat window:</p>
+			<ul>
+				<li>Classic Themes: Use Additional CSS in <a href="<?php echo esc_url( $customizer_url ); ?>" target="_blank">the Customizer.</a></li>
+				<li>Block Themes: Adjust styles via theme.json or your child theme’s CSS.</li>
+			</ul>
 			<form action="options.php" method="post">
 				<?php
-				settings_fields( 'wp_rag_ab_options' );
-				do_settings_sections( 'wp-rag-ab-chat-ui' );
-				submit_button( __( 'Submit', 'wp-rag-ab' ) );
+				settings_fields( 'rag_chat_ab_options' );
+				do_settings_sections( 'rag-chat-ab-chat-ui' );
+				submit_button( __( 'Submit', 'rag-chat-ab' ) );
 				?>
 			</form>
 		</div>
-		<?php
-	}
-
-	public function add_appearance_section_and_fields() {
-		$section_id = 'appearance_section';
-		add_settings_section(
-			$section_id,
-			'Appearance',
-			array( $this, 'appearance_section_callback' ),
-			'wp-rag-ab-chat-ui',
-			array(
-				'after_section' => '<hr />',
-			)
-		);
-
-		add_settings_field(
-			'custom_css',
-			'Custom CSS',
-			array( $this, 'custom_css_field_render' ),
-			'wp-rag-ab-chat-ui',
-			$section_id
-		);
-	}
-
-	public function appearance_section_callback() {
-		echo '';
-	}
-
-	public function custom_css_field_render() {
-		$options = get_option( self::OPTION_NAME );
-		?>
-		<textarea name="<?php echo esc_html( self::OPTION_NAME ); ?>[custom_css]" rows="5" cols="50" style="resize: both;"
-			><?php echo esc_textarea( $options['custom_css'] ?? '' ); ?></textarea>
 		<?php
 	}
 
@@ -100,14 +73,14 @@ class Wp_Rag_Ab_Page_ChatUI {
 			$section_id,
 			'Labels & Messages', // This is the first "subsection", so show the title of the parent section.
 			array( $this, 'windows_settings_section_callback' ),
-			'wp-rag-ab-chat-ui'
+			'rag-chat-ab-chat-ui'
 		);
 
 		add_settings_field(
 			'initial_message',
 			'Initial Message',
 			array( $this, 'initial_message_field_render' ),
-			'wp-rag-ab-chat-ui',
+			'rag-chat-ab-chat-ui',
 			$section_id
 		);
 
@@ -115,7 +88,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 			'window_title',
 			'Window Title',
 			array( $this, 'window_title_field_render' ),
-			'wp-rag-ab-chat-ui',
+			'rag-chat-ab-chat-ui',
 			$section_id
 		);
 	}
@@ -157,14 +130,14 @@ class Wp_Rag_Ab_Page_ChatUI {
 			$section_id,
 			'', // Show nothing here, but in the callback with <h3>.
 			array( $this, 'input_and_button_labels_section_callback' ),
-			'wp-rag-ab-chat-ui'
+			'rag-chat-ab-chat-ui'
 		);
 
 		add_settings_field(
 			'input_placeholder_text',
 			'Input Placeholder Text',
 			array( $this, 'input_placeholder_text_field_render' ),
-			'wp-rag-ab-chat-ui',
+			'rag-chat-ab-chat-ui',
 			$section_id
 		);
 
@@ -172,7 +145,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 			'send_button_text',
 			'Send Button Text',
 			array( $this, 'send_button_text_field_render' ),
-			'wp-rag-ab-chat-ui',
+			'rag-chat-ab-chat-ui',
 			$section_id
 		);
 	}
@@ -217,7 +190,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 			$section_id,
 			'', // Show nothing here, but in the callback with <h3>.
 			array( $this, 'participant_names_section_callback' ),
-			'wp-rag-ab-chat-ui',
+			'rag-chat-ab-chat-ui',
 			array(
 				'after_section' => '<hr />',
 			)
@@ -227,7 +200,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 			'bot_name',
 			'Bot Name',
 			array( $this, 'bot_name_field_render' ),
-			'wp-rag-ab-chat-ui',
+			'rag-chat-ab-chat-ui',
 			$section_id
 		);
 
@@ -235,7 +208,7 @@ class Wp_Rag_Ab_Page_ChatUI {
 			'user_name',
 			'User Name',
 			array( $this, 'user_name_field_render' ),
-			'wp-rag-ab-chat-ui',
+			'rag-chat-ab-chat-ui',
 			$section_id
 		);
 	}
@@ -276,14 +249,14 @@ class Wp_Rag_Ab_Page_ChatUI {
 			'display_options_section',
 			'Display options',
 			array( $this, 'display_options_section_callback' ),
-			'wp-rag-ab-chat-ui'
+			'rag-chat-ab-chat-ui'
 		);
 
 		add_settings_field(
 			'display_context_links',
 			'Display context links',
 			array( $this, 'display_context_links_field_render' ),
-			'wp-rag-ab-chat-ui',
+			'rag-chat-ab-chat-ui',
 			'display_options_section'
 		);
 	}

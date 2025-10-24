@@ -3,7 +3,7 @@
 # WordPress Plugin Packaging Script
 # Creates a clean ZIP package for WordPress.org submission
 
-PLUGIN_NAME="wp-rag-ab"
+PLUGIN_NAME="rag-chat-ab"
 PACKAGE_DIR="./package-temp"
 PLUGIN_DIR="$PACKAGE_DIR/$PLUGIN_NAME"
 ZIP_FILE="./${PLUGIN_NAME}.zip"

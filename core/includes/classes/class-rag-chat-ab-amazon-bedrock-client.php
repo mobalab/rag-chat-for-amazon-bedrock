@@ -6,17 +6,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Wp_Rag_Ab_Amazon_Bedrock_Client
+ * Class Rag_Chat_Ab_Amazon_Bedrock_Client
  *
- * @package     WPRAGAB
- * @subpackage  Classes/Wp_Rag_Ab_Amazon_Bedrock_Client
+ * @package     RAGCHATAB
+ * @subpackage  Classes/Rag_Chat_Ab_Amazon_Bedrock_Client
  * @author      Kashima, Kazuo
  * @since       0.0.1
  */
-class Wp_Rag_Ab_Amazon_Bedrock_Client {
+class Rag_Chat_Ab_Amazon_Bedrock_Client {
 
 	/**
-	 * @var Wp_Rag_Ab_Aws_SigV4 $signer To sign the request.
+	 * @var Rag_Chat_Ab_Aws_SigV4 $signer To sign the request.
 	 */
 	private $signer;
 	private $region;
@@ -34,7 +34,7 @@ class Wp_Rag_Ab_Amazon_Bedrock_Client {
 	 * @param string $data_source_id Amazon Bedrock data source ID.
 	 */
 	public function __construct( $access_key, $secret_key, $region, $knowledge_base_id, $data_source_id ) {
-		$this->signer            = new Wp_Rag_Ab_Aws_SigV4( $access_key, $secret_key, $region, 'bedrock' );
+		$this->signer            = new Rag_Chat_Ab_Aws_SigV4( $access_key, $secret_key, $region, 'bedrock' );
 		$this->region            = $region;
 		$this->knowledge_base_id = $knowledge_base_id;
 		$this->data_source_id    = $data_source_id;
