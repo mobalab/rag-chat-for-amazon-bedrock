@@ -170,17 +170,4 @@ class Rag_Chat_Ab_Frontend {
 
 		return '';
 	}
-
-	/**
-	 * Outputs the custom CSS.
-	 *
-	 * @since   0.0.1
-	 */
-	public function output_custom_css() {
-		$options = get_option( Rag_Chat_Ab::instance()->pages['chat-ui']::OPTION_NAME );
-
-		if ( ! empty( $options['custom_css'] ) ) {
-			echo '<style lang="text/css">' . esc_html( $options['custom_css'] ) . '</style>';
-		}
-	}
 }

@@ -44,9 +44,15 @@ class Rag_Chat_Ab_Page_ChatUI {
 	}
 
 	public function page_content() {
+		$customizer_url = admin_url( 'customize.php?autofocus[section]=custom_css' );
 		?>
 		<div class="wrap rag-chat-ab-settings">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+			<p>If you would like to customize the CSS of the chat window:</p>
+			<ul>
+				<li>Classic Themes: Use Additional CSS in <a href="<?php echo esc_url( $customizer_url ); ?>" target="_blank">the Customizer.</a></li>
+				<li>Block Themes: Adjust styles via theme.json or your child theme’s CSS.</li>
+			</ul>
 			<form action="options.php" method="post">
 				<?php
 				settings_fields( 'rag_chat_ab_options' );
@@ -55,39 +61,6 @@ class Rag_Chat_Ab_Page_ChatUI {
 				?>
 			</form>
 		</div>
-		<?php
-	}
-
-	public function add_appearance_section_and_fields() {
-		$section_id = 'appearance_section';
-		add_settings_section(
-			$section_id,
-			'Appearance',
-			array( $this, 'appearance_section_callback' ),
-			'rag-chat-ab-chat-ui',
-			array(
-				'after_section' => '<hr />',
-			)
-		);
-
-		add_settings_field(
-			'custom_css',
-			'Custom CSS',
-			array( $this, 'custom_css_field_render' ),
-			'rag-chat-ab-chat-ui',
-			$section_id
-		);
-	}
-
-	public function appearance_section_callback() {
-		echo '';
-	}
-
-	public function custom_css_field_render() {
-		$options = get_option( self::OPTION_NAME );
-		?>
-		<textarea name="<?php echo esc_html( self::OPTION_NAME ); ?>[custom_css]" rows="5" cols="50" style="resize: both;"
-			><?php echo esc_textarea( $options['custom_css'] ?? '' ); ?></textarea>
 		<?php
 	}
 

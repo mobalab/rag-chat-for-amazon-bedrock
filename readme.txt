@@ -5,7 +5,7 @@ Description: Integrate WordPress content with Amazon Bedrock Knowledge Bases to 
 Donate link: 
 Contributors: 
 Tags: rag, ai, amazon bedrock, chatbot, knowledge base
-Requires at least: 6.6.0
+Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
 Stable tag: 0.0.1
@@ -74,6 +74,27 @@ Not at the moment, but this feature is planned for future versions.
 = Do you offer professional setup and integration services? =
 
 Yes! While this plugin is free to use, we understand that setting up AWS and Amazon Bedrock can be complex. We offer professional integration services to help you get your RAG system up and running smoothly. For more information about our integration services, please contact us at https://tally.so/r/3jjoga
+
+== External services ==
+
+This plugin uses the following Amazon Bedrock API endpoints provided by Amazon Web Services, Inc.:
+* PUT https://bedrock-agent.{$region}.amazonaws.com/knowledgebases/{$knowledge_base_id}/datasources/{$data_source_id}
+    * Called when a post or page is created or updated.
+    * Used to add / update content on Amazon Bedrock.
+    * The whole content (post or page) is sent.
+* POST https://bedrock-agent.{$region}.amazonaws.com/knowledgebases/{$knowledge_base_id}/datasources/{$data_source_id}/documents/deleteDocuments
+    * Called when a post is deleted or moved to trash.
+    * Used to delete content from Amazon Bedrock.
+    * Only the post / page ID is sent.
+* POST https://bedrock-agent-runtime.{$region}.amazonaws.com/retrieveAndGenerate
+    * Called when a visitor asks a question.
+    * Used to generate responses using Amazon Bedrock's AI.
+    * The query that the user enters is sent.
+    * The response contains a session ID, and it will be send to this endpoint in the subsequent requests along with the query.
+
+Please see the following links for more information about Amazon Web Services:
+* [AWS Service Terms](https://aws.amazon.com/service-terms/)
+* [AWS Privacy](https://aws.amazon.com/privacy/)
 
 == Related Projects ==
 
