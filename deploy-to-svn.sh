@@ -9,7 +9,7 @@ SVN_REPO="https://plugins.svn.wordpress.org/$PLUGIN_NAME"
 SVN_DIR="./${PLUGIN_NAME}-svn"
 TRUNK_DIR="$SVN_DIR/trunk"
 VERSION=""
-SVN_USERNAME=""
+SVN_USERNAME="mobalabkashima"
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
