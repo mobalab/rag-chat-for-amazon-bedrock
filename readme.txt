@@ -78,6 +78,7 @@ Yes! While this plugin is free to use, we understand that setting up AWS and Ama
 == External services ==
 
 This plugin uses the following Amazon Bedrock API endpoints provided by Amazon Web Services, Inc.:
+
 * PUT https://bedrock-agent.{$region}.amazonaws.com/knowledgebases/{$knowledge_base_id}/datasources/{$data_source_id}
     * Called when a post or page is created or updated.
     * Used to add / update content on Amazon Bedrock.
@@ -93,6 +94,7 @@ This plugin uses the following Amazon Bedrock API endpoints provided by Amazon W
     * The response contains a session ID, and it will be send to this endpoint in the subsequent requests along with the query.
 
 Please see the following links for more information about Amazon Web Services:
+
 * [AWS Service Terms](https://aws.amazon.com/service-terms/)
 * [AWS Privacy](https://aws.amazon.com/privacy/)
 
