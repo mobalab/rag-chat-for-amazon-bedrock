@@ -78,7 +78,7 @@ class Rag_Chat_Ab_Page_ContentManagement {
 
 		add_settings_field(
 			'export_from',
-			'From date:',
+			'From Date',
 			array( $this, 'export_from_field_render' ),
 			'rag-chat-ab-content-management',
 			'export_posts_section'
@@ -86,7 +86,7 @@ class Rag_Chat_Ab_Page_ContentManagement {
 
 		add_settings_field(
 			'export_to',
-			'To date:',
+			'To Date',
 			array( $this, 'export_to_field_render' ),
 			'rag-chat-ab-content-management',
 			'export_posts_section'

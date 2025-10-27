@@ -55,7 +55,7 @@ class Rag_Chat_Ab_Page_Main {
 			<form method="post" action="">
 				<?php wp_nonce_field( 'rag_chat_ab_query_submit', 'rag_chat_ab_nonce' ); ?>
 				<input type="text" name="rag_chat_ab_question" />
-				<input type="submit" name="rag_chat_ab_query_submit" class="button button-primary" value="Query">
+				<input type="submit" name="rag_chat_ab_query_submit" class="button button-primary" value="Test Query">
 			</form>
 			<?php if ( ! empty( $this->response ) ) : ?>
 				<?php if ( 200 === $this->response['status_code'] ) : ?>

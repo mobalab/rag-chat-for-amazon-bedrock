@@ -59,7 +59,7 @@ class Rag_Chat_Ab_Page_ChatUI {
 				<?php
 				settings_fields( 'rag_chat_ab_options' );
 				do_settings_sections( 'rag-chat-ab-chat-ui' );
-				submit_button( __( 'Submit', 'rag-chat-ab' ) );
+				submit_button( __( 'Save Settings', 'rag-chat-ab' ) );
 				?>
 			</form>
 		</div>
@@ -99,7 +99,7 @@ class Rag_Chat_Ab_Page_ChatUI {
 	 * @since 0.0.1
 	 */
 	public function windows_settings_section_callback() {
-		echo '<h3>Windows Settings</h3>';
+		echo '<h3>Window Settings</h3>';
 	}
 
 	public function initial_message_field_render() {
@@ -249,7 +249,7 @@ class Rag_Chat_Ab_Page_ChatUI {
 	public function add_display_options_section_and_fields() {
 		add_settings_section(
 			'display_options_section',
-			'Display options',
+			'Display Options',
 			array( $this, 'display_options_section_callback' ),
 			'rag-chat-ab-chat-ui'
 		);
