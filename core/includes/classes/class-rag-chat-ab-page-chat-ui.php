@@ -108,6 +108,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[initial_message]"
 				value="<?php echo esc_attr( $options['initial_message'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Welcome message displayed when the chat window opens.
+		</p>
 		<?php
 	}
 
@@ -120,6 +123,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[window_title]"
 				value="<?php echo esc_attr( $options['window_title'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Title shown in the chat window header.
+		</p>
 		<?php
 	}
 
@@ -168,6 +174,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[input_placeholder_text]"
 				value="<?php echo esc_attr( $options['input_placeholder_text'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Text shown in the input field before user types.
+		</p>
 		<?php
 	}
 
@@ -180,6 +189,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[send_button_text]"
 				value="<?php echo esc_attr( $options['send_button_text'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Label for the button that sends messages.
+		</p>
 		<?php
 	}
 
@@ -231,6 +243,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[bot_name]"
 				value="<?php echo esc_attr( $options['bot_name'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Name displayed for AI responses in the chat.
+		</p>
 		<?php
 	}
 
@@ -243,6 +258,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[user_name]"
 				value="<?php echo esc_attr( $options['user_name'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Name displayed for visitor messages in the chat.
+		</p>
 		<?php
 	}
 
@@ -287,6 +305,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 			?>
 
 		/>Yes
+		<p class="description">
+			Show links to source posts and pages that contributed to the AI response.
+		</p>
 		<?php
 	}
 }
