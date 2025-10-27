@@ -35,6 +35,14 @@ class Rag_Chat_Ab_Page_Main {
 			<h2><?php echo esc_html( RAGCHATAB()->settings->get_plugin_name() ); ?></h2>
 			<h3>System Status</h3>
 			<ul>
+				<li>
+					<?php if ( RAGCHATAB()->helpers->is_setup_complete() ) : ?>
+						✅: Setup is complete.
+					<?php else : ?>
+						❌: Setup is not complete. Please make sure that all the fields on
+						<a href="<?php echo esc_html( admin_url( 'admin.php?page=rag-chat-ab-general-settings' ) ); ?>">the AWS Configuration</a> are filled in.
+					<?php endif; ?>
+				</li>
 				<li><?php echo $stats->synced > 0 ? '✅' : '❌'; ?>: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->synced ); ?>.</li>
 			</ul>
 			<h3>Test Query</h3>
