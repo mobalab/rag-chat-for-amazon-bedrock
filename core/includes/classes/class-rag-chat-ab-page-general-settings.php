@@ -54,7 +54,7 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 
 		add_settings_field(
 			'rag_chat_ab_wordpress_username', // Field ID
-			'WordPress user', // Title
+			'WordPress username', // Title
 			array( $this, 'wordpress_user_field_render' ), // callback
 			'rag-chat-ab-general-settings', // Page slug
 			'wordpress_authentication_section' // Section this field belongs to
@@ -70,7 +70,7 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 	}
 
 	function wordpress_authentication_section_callback() {
-		echo 'Configure WprdPress authentication settings here.';
+		echo 'Configure WordPress authentication settings here.';
 	}
 
 	function wordpress_user_field_render() {
@@ -149,7 +149,7 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 	}
 
 	function aws_section_callback() {
-		echo 'Configure AWS settings here.';
+		echo 'Enter your AWS credentials and Bedrock configuration details below.';
 	}
 
 	function aws_region_field_render() {
@@ -205,7 +205,7 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 				class="widefat"
 		/>
 		<p class="description">
-			ARN of the model to use for the RAG.
+			ARN of the model to use for RAG.
 		</p>
 		<?php
 	}

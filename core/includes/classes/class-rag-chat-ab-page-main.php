@@ -39,15 +39,15 @@ class Rag_Chat_Ab_Page_Main {
 					<?php if ( RAGCHATAB()->helpers->is_setup_complete() ) : ?>
 						✅: Setup is complete.
 					<?php else : ?>
-						❌: Setup is not complete. Please make sure that all the fields on
-						<a href="<?php echo esc_html( admin_url( 'admin.php?page=rag-chat-ab-general-settings' ) ); ?>">the AWS Configuration</a> are filled in.
+						❌: Setup is not complete. Please ensure all fields in the
+						<a href="<?php echo esc_html( admin_url( 'admin.php?page=rag-chat-ab-general-settings' ) ); ?>">AWS Configuration</a> section are completed.
 					<?php endif; ?>
 				</li>
 				<li>
 					<?php if ( $stats->synced > 0 ) : ?>
-						✅: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->synced ); ?>.
+						✅: <?php echo esc_html( $stats->synced ); ?> posts and pages have been exported to Amazon Bedrock.
 					<?php else : ?>
-						❌: Content isn't synced yet. Go to the <a href="<?php echo esc_html( admin_url( 'admin.php?page=rag-chat-ab-content-management' ) ); ?>">Content Management</a> page for manual sync.
+						❌: Content hasn't been synced yet. Visit the <a href="<?php echo esc_html( admin_url( 'admin.php?page=rag-chat-ab-content-management' ) ); ?>">Content Management</a> page to manually sync your content.
 					<?php endif; ?>
 				</li>
 			</ul>
