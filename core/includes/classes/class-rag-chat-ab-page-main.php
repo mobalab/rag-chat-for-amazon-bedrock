@@ -43,7 +43,13 @@ class Rag_Chat_Ab_Page_Main {
 						<a href="<?php echo esc_html( admin_url( 'admin.php?page=rag-chat-ab-general-settings' ) ); ?>">the AWS Configuration</a> are filled in.
 					<?php endif; ?>
 				</li>
-				<li><?php echo $stats->synced > 0 ? '✅' : '❌'; ?>: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->synced ); ?>.</li>
+				<li>
+					<?php if ( $stats->synced > 0 ) : ?>
+						✅: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->synced ); ?>.
+					<?php else : ?>
+						❌: Content isn't synced yet. Go to the <a href="<?php echo esc_html( admin_url( 'admin.php?page=rag-chat-ab-content-management' ) ); ?>">Content Management</a> page for manual sync.
+					<?php endif; ?>
+				</li>
 			</ul>
 			<h3>Test Query</h3>
 			<form method="post" action="">
