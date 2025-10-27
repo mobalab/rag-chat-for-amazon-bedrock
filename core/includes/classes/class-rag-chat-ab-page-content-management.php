@@ -24,7 +24,7 @@ class Rag_Chat_Ab_Page_ContentManagement {
 			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<form method="post" action="">
 				<h2>Post and Page Sync Controls</h2>
-				<p>Posts and pages with published dates within the specified range will be exported to Amazon Bedrock.</p>
+				<p>Posts and pages with published dates within the specified range will be exported to Amazon Bedrock. Leave date fields empty to export all published content.</p>
 				<?php
 				settings_fields( 'rag_chat_ab_options' );
 
