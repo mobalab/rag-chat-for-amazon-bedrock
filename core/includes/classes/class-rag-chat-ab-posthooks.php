@@ -46,6 +46,10 @@ class Rag_Chat_Ab_PostHooks {
 	 * @param WP_Post $post Post object.
 	 */
 	public function handle_post_save( int $post_id, WP_Post $post ) {
+		if ( false === RAGCHATAB()->helpers->is_setup_complete() ) {
+			return;
+		}
+
 		// Do not process revisions.
 		if ( wp_is_post_revision( $post_id ) ) {
 			return;
@@ -89,6 +93,10 @@ class Rag_Chat_Ab_PostHooks {
 	 * @param int $post_id Post ID.
 	 */
 	public function handle_post_delete( int $post_id ) {
+		if ( false === RAGCHATAB()->helpers->is_setup_complete() ) {
+			return;
+		}
+
 		// Do not process revisions.
 		if ( wp_is_post_revision( $post_id ) ) {
 			return;

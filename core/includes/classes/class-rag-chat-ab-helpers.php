@@ -67,11 +67,22 @@ class Rag_Chat_Ab_Helpers {
 		error_log($formatted_message);
 	}
 
-	public function get_bedrock_client() {
+	/**
+	 * Check if the user has entered the necessary information in the plugin settings.
+	 *
+	 * @return bool
+	 */
+	public function is_setup_complete() {
 		$options = get_option( Rag_Chat_Ab::instance()->pages['general-settings']::OPTION_NAME );
-		if ( empty( $options['aws_region'] ) || empty( $options['aws_access_key'] ) || empty( $options['aws_secret_key'] ) || empty( $options['knowledge_base_id'] ) || empty( $options['data_source_id'] ) ) {
+
+		return ! ( empty( $options['aws_region'] ) || empty( $options['aws_access_key'] ) || empty( $options['aws_secret_key'] ) || empty( $options['knowledge_base_id'] ) || empty( $options['data_source_id'] ) );
+	}
+
+	public function get_bedrock_client() {
+		if ( false === $this->is_setup_complete() ) {
 			return null;
 		}
+		$options = get_option( Rag_Chat_Ab::instance()->pages['general-settings']::OPTION_NAME );
 
 		return new Rag_Chat_Ab_Amazon_Bedrock_Client( $options['aws_access_key'], $options['aws_secret_key'], $options['aws_region'], $options['knowledge_base_id'], $options['data_source_id'] );
 	}
