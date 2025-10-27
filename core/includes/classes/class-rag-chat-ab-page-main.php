@@ -61,7 +61,7 @@ class Rag_Chat_Ab_Page_Main {
 				<?php if ( 200 === $this->response['status_code'] ) : ?>
 					<p>Question: <?php echo esc_html( sanitize_text_field( wp_unslash( $_POST['rag_chat_ab_question'] ) ) ); ?></p>
 					<p>Answer: <?php echo esc_html( $this->response['body']['output']['text'] ); ?></p>
-					Context posts:
+					Context posts and pages:
 					<ul>
 						<?php foreach ( $this->response['body']['citations'] as $citation ) : ?>
 							<?php foreach ( $citation['retrievedReferences'] as $reference ) : ?>
