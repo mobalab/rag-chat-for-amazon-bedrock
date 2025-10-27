@@ -42,12 +42,29 @@ RAG Chat for Amazon Bedrock is a WordPress plugin that seamlessly integrates you
 
 == Installation ==
 
-1. Upload the plugin files to the `/wp-content/plugins/rag-chat-for-amazon-bedrock` directory, or install the plugin through the WordPress plugins screen directly
+**WordPress Installation:**
+1. Install the plugin through the WordPress plugins screen directly, or upload the plugin files to the `/wp-content/plugins/rag-chat-ab` directory
 2. Activate the plugin through the 'Plugins' screen in WordPress
-3. Go to the RAG Chat admin menu to configure your Amazon Bedrock settings
-4. Enter your AWS credentials and Knowledge Base details
-5. Configure your chat interface settings
-6. Your content will automatically sync to Amazon Bedrock
+
+**AWS Setup (Required):**
+Before using this plugin, you need to set up Amazon Bedrock and create a Knowledge Base:
+1. Create an AWS account if you don't have one: [AWS Account Setup](https://aws.amazon.com/resources/create-account/)
+2. Set up Amazon Bedrock access: [Getting Started with Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/getting-started.html)
+3. Create a Knowledge Base: [Amazon Bedrock Knowledge Base Setup](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html)
+4. Create a data source of "Custom" type within your Knowledge Base (required for the plugin to sync WordPress content)
+5. Create an IAM user with the following permissions:
+   - `bedrock:IngestKnowledgeBaseDocuments` (to sync WordPress content)
+   - `bedrock:DeleteKnowledgeBaseDocuments` (to remove deleted WordPress content)
+   - `bedrock:RetrieveAndGenerate` (to generate chat responses)
+   - See [IAM Permissions for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_service-with-iam.html) for detailed setup
+6. Create AWS credentials (Access Key ID and Secret Access Key): [Managing AWS Access Keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html)
+
+**Plugin Configuration:**
+1. Go to the RAG Chat admin menu to configure your Amazon Bedrock settings
+2. Enter your AWS credentials and Knowledge Base details
+3. Your content will automatically sync to Amazon Bedrock
+4. Insert the shortcode `[rag_chat_ab_chat]` where you want the chat interface to appear
+5. (Optional) Configure your chat interface settings for custom styling and behavior
 
 == Frequently Asked Questions ==
 
