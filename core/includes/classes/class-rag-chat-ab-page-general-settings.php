@@ -54,7 +54,7 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 
 		add_settings_field(
 			'rag_chat_ab_wordpress_username', // Field ID
-			'WordPress user', // Title
+			'WordPress username', // Title
 			array( $this, 'wordpress_user_field_render' ), // callback
 			'rag-chat-ab-general-settings', // Page slug
 			'wordpress_authentication_section' // Section this field belongs to
@@ -70,7 +70,7 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 	}
 
 	function wordpress_authentication_section_callback() {
-		echo 'Configure WprdPress authentication settings here.';
+		echo 'Configure WordPress authentication settings here.';
 	}
 
 	function wordpress_user_field_render() {
@@ -79,6 +79,9 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[wordpress_username]"
 				value="<?php echo esc_attr( $options['wordpress_username'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			WordPress user with permission to access posts and pages.
+		</p>
 		<?php
 	}
 
@@ -88,6 +91,9 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[wordpress_password]"
 				value="<?php echo esc_attr( $options['wordpress_password'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Password for the WordPress user above.
+		</p>
 		<?php
 	}
 
@@ -149,7 +155,7 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 	}
 
 	function aws_section_callback() {
-		echo 'Configure AWS settings here.';
+		echo 'Enter your AWS credentials and Bedrock configuration details below.';
 	}
 
 	function aws_region_field_render() {
@@ -158,6 +164,9 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[aws_region]"
 				value="<?php echo esc_attr( $options['aws_region'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			AWS region where your Bedrock resources are located (e.g., us-east-1, us-west-2).
+		</p>
 		<?php
 	}
 
@@ -167,6 +176,9 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[aws_access_key]"
 				value="<?php echo esc_attr( $options['aws_access_key'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			IAM user access key with Bedrock permissions.
+		</p>
 		<?php
 	}
 
@@ -176,6 +188,9 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 		<input type="password" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[aws_secret_key]"
 				value="<?php echo esc_attr( $options['aws_secret_key'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Secret key corresponding to the access key above.
+		</p>
 		<?php
 	}
 
@@ -185,6 +200,9 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 		<input type="text" name="<?php echo esc_attr( self::OPTION_NAME ); ?>[knowledge_base_id]"
 				value="<?php echo esc_attr( $options['knowledge_base_id'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Unique identifier of your Bedrock Knowledge Base.
+		</p>
 		<?php
 	}
 
@@ -194,6 +212,9 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[data_source_id]"
 				value="<?php echo esc_attr( $options['data_source_id'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Data source ID within your Knowledge Base where content will be stored.
+		</p>
 		<?php
 	}
 
@@ -205,7 +226,7 @@ class Rag_Chat_Ab_Page_GeneralSettings {
 				class="widefat"
 		/>
 		<p class="description">
-			ARN of the model to use for the RAG.
+			ARN of the model to use for RAG.
 		</p>
 		<?php
 	}

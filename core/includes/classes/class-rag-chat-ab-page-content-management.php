@@ -23,8 +23,8 @@ class Rag_Chat_Ab_Page_ContentManagement {
 		<div class="wrap">
 			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<form method="post" action="">
-				<h2>Post Sync Controls</h2>
-				<p>Posts and pages with published dates within the specified range will be exported to Amazon Bedrock.</p>
+				<h2>Post and Page Sync Controls</h2>
+				<p>Posts and pages with published dates within the specified range will be exported to Amazon Bedrock. Leave date fields empty to export all published content.</p>
 				<?php
 				settings_fields( 'rag_chat_ab_options' );
 
@@ -32,7 +32,7 @@ class Rag_Chat_Ab_Page_ContentManagement {
 				do_settings_fields( 'rag-chat-ab-content-management', 'export_posts_section' );
 				echo '</table>';
 
-				submit_button( __( 'Export Posts to Amazon Bedrock', 'rag-chat-ab' ), 'primary', 'rag_chat_ab_export_submit' );
+				submit_button( __( 'Export Posts and Pages to Amazon Bedrock', 'rag-chat-ab' ), 'primary', 'rag_chat_ab_export_submit' );
 				?>
 			</form>
 			<hr />
@@ -41,7 +41,7 @@ class Rag_Chat_Ab_Page_ContentManagement {
 			<table class="" role="presentation">
 				<tr>
 					<th scope="row">
-						Total published posts
+						Total published posts and pages
 					</th>
 					<td>
 						<?php echo esc_html( $stats->total ); ?>
@@ -49,7 +49,7 @@ class Rag_Chat_Ab_Page_ContentManagement {
 				</tr>
 				<tr>
 					<th scope="row">
-						Number of posts not synced with Amazon Bedrock
+						Number of posts and pages not synced with Amazon Bedrock
 					</th>
 					<td>
 						<?php echo esc_html( $stats->not_synced ); ?>
@@ -57,7 +57,7 @@ class Rag_Chat_Ab_Page_ContentManagement {
 				</tr>
 				<tr>
 					<th scope="row">
-						Number of posts synced with Amazon Bedrock
+						Number of posts and pages synced with Amazon Bedrock
 					</th>
 					<td>
 						<?php echo esc_html( $stats->synced ); ?>
@@ -71,14 +71,14 @@ class Rag_Chat_Ab_Page_ContentManagement {
 	public function add_export_posts_section_and_fields() {
 		add_settings_section(
 			'export_posts_section',
-			'Export posts', // Not used.
+			'Export posts and pages', // Not used.
 			null,
 			'rag-chat-ab-content-management'
 		);
 
 		add_settings_field(
 			'export_from',
-			'From date:',
+			'From Date',
 			array( $this, 'export_from_field_render' ),
 			'rag-chat-ab-content-management',
 			'export_posts_section'
@@ -86,7 +86,7 @@ class Rag_Chat_Ab_Page_ContentManagement {
 
 		add_settings_field(
 			'export_to',
-			'To date:',
+			'To Date',
 			array( $this, 'export_to_field_render' ),
 			'rag-chat-ab-content-management',
 			'export_posts_section'

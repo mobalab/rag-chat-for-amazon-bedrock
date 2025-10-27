@@ -48,16 +48,18 @@ class Rag_Chat_Ab_Page_ChatUI {
 		?>
 		<div class="wrap rag-chat-ab-settings">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-			<p>If you would like to customize the CSS of the chat window:</p>
-			<ul>
-				<li>Classic Themes: Use Additional CSS in <a href="<?php echo esc_url( $customizer_url ); ?>" target="_blank">the Customizer.</a></li>
-				<li>Block Themes: Adjust styles via theme.json or your child theme’s CSS.</li>
-			</ul>
+			<div class="notice notice-info">
+				<p><strong>Customizing Chat Window Styles:</strong></p>
+				<ul>
+					<li><strong>Classic Themes:</strong> Use Additional CSS in <a href="<?php echo esc_url( $customizer_url ); ?>" target="_blank">the Customizer</a></li>
+					<li><strong>Block Themes:</strong> Adjust styles via theme.json or your child theme's CSS</li>
+				</ul>
+			</div>
 			<form action="options.php" method="post">
 				<?php
 				settings_fields( 'rag_chat_ab_options' );
 				do_settings_sections( 'rag-chat-ab-chat-ui' );
-				submit_button( __( 'Submit', 'rag-chat-ab' ) );
+				submit_button( __( 'Save Settings', 'rag-chat-ab' ) );
 				?>
 			</form>
 		</div>
@@ -97,7 +99,7 @@ class Rag_Chat_Ab_Page_ChatUI {
 	 * @since 0.0.1
 	 */
 	public function windows_settings_section_callback() {
-		echo '<h3>Windows Settings</h3>';
+		echo '<h3>Window Settings</h3>';
 	}
 
 	public function initial_message_field_render() {
@@ -106,6 +108,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[initial_message]"
 				value="<?php echo esc_attr( $options['initial_message'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Welcome message displayed when the chat window opens.
+		</p>
 		<?php
 	}
 
@@ -118,6 +123,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[window_title]"
 				value="<?php echo esc_attr( $options['window_title'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Title shown in the chat window header.
+		</p>
 		<?php
 	}
 
@@ -166,6 +174,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[input_placeholder_text]"
 				value="<?php echo esc_attr( $options['input_placeholder_text'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Text shown in the input field before user types.
+		</p>
 		<?php
 	}
 
@@ -178,6 +189,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[send_button_text]"
 				value="<?php echo esc_attr( $options['send_button_text'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Label for the button that sends messages.
+		</p>
 		<?php
 	}
 
@@ -229,6 +243,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[bot_name]"
 				value="<?php echo esc_attr( $options['bot_name'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Name displayed for AI responses in the chat.
+		</p>
 		<?php
 	}
 
@@ -241,13 +258,16 @@ class Rag_Chat_Ab_Page_ChatUI {
 		<input type="text" name="<?php echo esc_html( self::OPTION_NAME ); ?>[user_name]"
 				value="<?php echo esc_attr( $options['user_name'] ?? '' ); ?>"
 		/>
+		<p class="description">
+			Name displayed for visitor messages in the chat.
+		</p>
 		<?php
 	}
 
 	public function add_display_options_section_and_fields() {
 		add_settings_section(
 			'display_options_section',
-			'Display options',
+			'Display Options',
 			array( $this, 'display_options_section_callback' ),
 			'rag-chat-ab-chat-ui'
 		);
@@ -285,6 +305,9 @@ class Rag_Chat_Ab_Page_ChatUI {
 			?>
 
 		/>Yes
+		<p class="description">
+			Show links to source posts and pages that contributed to the AI response.
+		</p>
 		<?php
 	}
 }

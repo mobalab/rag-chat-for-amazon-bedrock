@@ -35,19 +35,33 @@ class Rag_Chat_Ab_Page_Main {
 			<h2><?php echo esc_html( RAGCHATAB()->settings->get_plugin_name() ); ?></h2>
 			<h3>System Status</h3>
 			<ul>
-				<li><?php echo $stats->synced > 0 ? '✅' : '❌'; ?>: Number of the posts exported to Amazon Bedrock is <?php echo esc_html( $stats->synced ); ?>.</li>
+				<li>
+					<?php if ( RAGCHATAB()->helpers->is_setup_complete() ) : ?>
+						✅: Setup is complete.
+					<?php else : ?>
+						❌: Setup is not complete. Please ensure all fields in the
+						<a href="<?php echo esc_html( admin_url( 'admin.php?page=rag-chat-ab-general-settings' ) ); ?>">AWS Configuration</a> section are completed.
+					<?php endif; ?>
+				</li>
+				<li>
+					<?php if ( $stats->synced > 0 ) : ?>
+						✅: <?php echo esc_html( $stats->synced ); ?> posts and pages have been exported to Amazon Bedrock.
+					<?php else : ?>
+						❌: Content hasn't been synced yet. Visit the <a href="<?php echo esc_html( admin_url( 'admin.php?page=rag-chat-ab-content-management' ) ); ?>">Content Management</a> page to manually sync your content.
+					<?php endif; ?>
+				</li>
 			</ul>
 			<h3>Test Query</h3>
 			<form method="post" action="">
 				<?php wp_nonce_field( 'rag_chat_ab_query_submit', 'rag_chat_ab_nonce' ); ?>
 				<input type="text" name="rag_chat_ab_question" />
-				<input type="submit" name="rag_chat_ab_query_submit" class="button button-primary" value="Query">
+				<input type="submit" name="rag_chat_ab_query_submit" class="button button-primary" value="Test Query">
 			</form>
 			<?php if ( ! empty( $this->response ) ) : ?>
 				<?php if ( 200 === $this->response['status_code'] ) : ?>
 					<p>Question: <?php echo esc_html( sanitize_text_field( wp_unslash( $_POST['rag_chat_ab_question'] ) ) ); ?></p>
 					<p>Answer: <?php echo esc_html( $this->response['body']['output']['text'] ); ?></p>
-					Context posts:
+					Context posts and pages:
 					<ul>
 						<?php foreach ( $this->response['body']['citations'] as $citation ) : ?>
 							<?php foreach ( $citation['retrievedReferences'] as $reference ) : ?>
