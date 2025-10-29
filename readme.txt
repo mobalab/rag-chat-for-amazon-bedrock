@@ -8,7 +8,7 @@ Tags: rag, ai, amazon bedrock, chatbot, knowledge base
 Requires at least: 6.6
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.0.1
+Stable tag: 0.0.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -210,6 +210,11 @@ Please see the following links for more information about Amazon Web Services:
 This plugin is based on **WP RAG** (https://github.com/mobalab/wp-rag), which provides RAG functionality using external servers and OpenAI's APIs. RAG Chat for Amazon Bedrock offers a different approach by integrating directly with Amazon Bedrock Knowledge Bases for users who prefer AWS-native solutions.
 
 == Changelog ==
+
+= 0.0.2: October 30th, 2025 =
+* Fix bugs
+* Add / fix text
+* Update documentation
 
 = 0.0.1: October 7th, 2025 =
 * Birthday of RAG Chat for Amazon Bedrock!
