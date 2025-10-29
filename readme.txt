@@ -55,7 +55,8 @@ Before using this plugin, you need to set up Amazon Bedrock and create a Knowled
 5. Create an IAM user with the following permissions:
    - `bedrock:IngestKnowledgeBaseDocuments` (to sync WordPress content)
    - `bedrock:DeleteKnowledgeBaseDocuments` (to remove deleted WordPress content)
-   - `bedrock:RetrieveAndGenerate` (to generate chat responses)
+   - `bedrock:RetrieveAndGenerate`, `bedrock:RetrieveAndGenerate` (to generate chat responses)
+   - AWS managed policy `AmazonBedrockAgentCoreMemoryBedrockModelInferenceExecutionRolePolicy`
    - See [IAM Permissions for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_service-with-iam.html) for detailed setup
 6. Create AWS credentials (Access Key ID and Secret Access Key): [Managing AWS Access Keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html)
 
