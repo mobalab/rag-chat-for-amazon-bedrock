@@ -30,9 +30,10 @@ RAG Chat for Amazon Bedrock is a WordPress plugin that seamlessly integrates you
 **How It Works:**
 
 1. Configure your AWS credentials and Amazon Bedrock Knowledge Base in the plugin settings
-2. Your WordPress posts and pages are automatically synchronized to Amazon Bedrock
-3. Visitors can use the chat interface to ask questions about your content
-4. Amazon Bedrock retrieves relevant content and generates intelligent responses using your WordPress data
+2. New WordPress posts and pages are automatically synchronized to Amazon Bedrock when saved or deleted
+3. Existing content can be synchronized using the export function in the Content Management page
+4. Visitors can use the chat interface to ask questions about your content
+5. Amazon Bedrock retrieves relevant content and generates intelligent responses using your WordPress data
 
 **Requirements:**
 
@@ -63,9 +64,10 @@ Before using this plugin, you need to set up Amazon Bedrock and create a Knowled
 **Plugin Configuration:**
 1. Go to the RAG Chat admin menu to configure your Amazon Bedrock settings
 2. Enter your AWS credentials and Knowledge Base details
-3. Your content will automatically sync to Amazon Bedrock
-4. Insert the shortcode `[rag_chat_ab_chat]` where you want the chat interface to appear
-5. (Optional) Configure your chat interface settings for custom styling and behavior
+3. New content will automatically sync to Amazon Bedrock when created, updated, or deleted
+4. For existing posts and pages, use "Export Posts and Pages to Amazon Bedrock" on the Content Management page
+5. Insert the shortcode `[rag_chat_ab_chat]` where you want the chat interface to appear
+6. (Optional) Configure your chat interface settings for custom styling and behavior
 
 == Frequently Asked Questions ==
 
