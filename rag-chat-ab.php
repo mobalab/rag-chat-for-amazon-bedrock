@@ -5,13 +5,13 @@
  * @package       RAGCHATAB
  * @author        Mobalab, KK
  * @license       gplv3
- * @version       0.0.1
+ * @version       0.0.2
  *
  * @wordpress-plugin
  * Plugin Name:   RAG Chat for Amazon Bedrock
  * Plugin URI:    https://github.com/mobalab/wp-rag-for-amazon-bedrock
  * Description:   Integrates WordPress content with Amazon Bedrock Knowledge Bases to create an intelligent RAG (Retrieval-Augmented Generation) chatbot system with automatic content synchronization.
- * Version:       0.0.1
+ * Version:       0.0.2
  * Author:        Mobalab, KK
  * Author URI:    https://github.com/mobalab
  * Text Domain:   rag-chat-ab
@@ -49,7 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'RAGCHATAB_NAME', 'RAG Chat for Amazon Bedrock' );
 
 // Plugin version
-define( 'RAGCHATAB_VERSION', '0.0.1' );
+define( 'RAGCHATAB_VERSION', '0.0.2' );
 
 // Plugin Root File
 define( 'RAGCHATAB_PLUGIN_FILE', __FILE__ );
