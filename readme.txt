@@ -211,5 +211,10 @@ This plugin is based on **WP RAG** (https://github.com/mobalab/wp-rag), which pr
 
 == Changelog ==
 
+= 0.0.2: October 30th, 2025 =
+* Fix bugs
+* Add / fix text
+* Update documentation
+
 = 0.0.1: October 7th, 2025 =
 * Birthday of RAG Chat for Amazon Bedrock!
