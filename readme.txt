@@ -96,6 +96,84 @@ Not at the moment, but this feature is planned for future versions.
 
 Yes! While this plugin is free to use, we understand that setting up AWS and Amazon Bedrock can be complex. We offer professional integration services to help you get your RAG system up and running smoothly. For more information about our integration services, please contact us at [https://tally.so/r/3jjoga](https://tally.so/r/3jjoga)
 
+== Troubleshooting ==
+
+**Plugin Installation & Setup Issues**
+
+= Plugin activation fails =
+
+1. Ensure your WordPress version meets the minimum requirement (6.6+)
+2. Check that your PHP version is 7.4 or higher
+3. Verify there are no plugin conflicts by temporarily deactivating other plugins
+
+= The chat interface doesn't appear on my page =
+
+1. Make sure you've inserted the shortcode `[rag_chat_ab_chat]` in the correct location
+2. Check that the plugin is activated
+3. Verify your AWS credentials are correctly configured in the plugin settings
+
+**Content Synchronization Issues**
+
+= Content sync is failing =
+
+1. Verify your AWS credentials have the correct permissions
+2. Check that your Knowledge Base ID and Data Source ID are correct
+3. Ensure your Knowledge Base has a "Custom" type data source
+4. For existing content, use the "Export Posts and Pages to Amazon Bedrock" feature on the Content Management page
+
+= Export operation times out =
+
+If you have many posts and pages, "Export Posts and Pages to Amazon Bedrock" may take a long time and cause timeout errors depending on your PHP settings. To reduce the risk of timeout:
+
+1. Export content in smaller batches by selecting specific date ranges
+2. Consider increasing your PHP execution time limit if you have server access
+3. Contact your hosting provider if timeout issues persist
+
+**AWS Authentication & Permissions**
+
+= AWS permission errors =
+
+1. Double-check all required IAM permissions are granted to your user
+2. Verify your AWS Access Key ID and Secret Access Key are correct
+3. Ensure your AWS account has access to Amazon Bedrock in the selected region
+4. Check the AWS CloudTrail logs for detailed error information
+
+= AWS Marketplace subscription error =
+
+If you encounter "Model access is denied" with "aws-marketplace:ViewSubscriptions" permission errors:
+
+1. Your IAM user needs the `aws-marketplace:ViewSubscriptions` permission
+2. Add this permission to your IAM user's policy
+3. Wait 15 minutes after fixing the permissions before trying again
+4. This is required for AWS Marketplace subscription completion
+
+**Model Access & Configuration**
+
+= Model use case details required =
+
+If you encounter an error like "Model use case details have not been submitted for this account. Fill out the Anthropic use case details form before using the model":
+
+1. Anthropic requires use case details before using their models
+2. Fill out the Anthropic use case details form in your AWS console
+3. Wait 15 minutes after submitting before trying again
+4. See the AWS documentation: https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html
+
+= Inference profile required error =
+
+If you get an error like "Invocation of model ID anthropic.claude-haiku-4-5-20251001-v1:0 with on-demand throughput isn't supported. Retry your request with the ID or ARN of an inference profile":
+
+1. Some models require using inference profiles instead of direct model invocation
+2. Use the ID or ARN of an inference profile that contains the model
+3. Configure inference profiles in your Amazon Bedrock settings
+4. See the AWS documentation: https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html
+
+= Chat responses are not working =
+
+1. Verify that your AWS region is correct in the plugin settings
+2. Check that your Knowledge Base contains synchronized content
+3. Ensure your IAM user has `bedrock:RetrieveAndGenerate` permissions
+4. Try asking questions related to your synchronized content
+
 == External services ==
 
 This plugin uses the following Amazon Bedrock API endpoints provided by Amazon Web Services, Inc.:
