@@ -41,6 +41,10 @@ RAG Chat for Amazon Bedrock is a WordPress plugin that seamlessly integrates you
 * Amazon Bedrock Knowledge Base configured
 * Valid AWS credentials (Access Key ID and Secret Access Key)
 
+**Demo:**
+
+See the plugin in action: [Live Demo](https://wp-rag-demo.mobalab.net/ask-rag-chat-for-amazon-bedrock/)
+
 == Installation ==
 
 **WordPress Installation:**
