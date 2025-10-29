@@ -62,6 +62,9 @@ Before using this plugin, you need to set up Amazon Bedrock and create a Knowled
    - See [IAM Permissions for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_service-with-iam.html) for detailed setup
 6. Create AWS credentials (Access Key ID and Secret Access Key): [Managing AWS Access Keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html)
 
+**Need Help with AWS Setup?**
+Setting up AWS infrastructure can be complex. We offer an automated infrastructure package that includes shell scripts and CDK (Cloud Development Kit) code to construct all necessary AWS resources automatically. This package handles the complete setup including Knowledge Bases, IAM permissions, and proper configurations. For more information about our infrastructure automation package, please contact us at [https://tally.so/r/3jjoga](https://tally.so/r/3jjoga)
+
 **Plugin Configuration:**
 1. Go to the RAG Chat admin menu to configure your Amazon Bedrock settings
 2. Enter your AWS credentials and Knowledge Base details
@@ -128,6 +131,7 @@ If you have many posts and pages, "Export Posts and Pages to Amazon Bedrock" may
 1. Export content in smaller batches by selecting specific date ranges
 2. Consider increasing your PHP execution time limit if you have server access
 3. Contact your hosting provider if timeout issues persist
+4. For large-scale exports, we offer a dedicated bulk export PHP script that runs independently on your server and can handle large volumes of content without web browser timeout limitations. Contact us at [https://tally.so/r/3jjoga](https://tally.so/r/3jjoga) for more information about our bulk export solution
 
 **AWS Authentication & Permissions**
 
