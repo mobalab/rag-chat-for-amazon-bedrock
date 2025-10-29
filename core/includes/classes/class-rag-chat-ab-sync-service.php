@@ -116,12 +116,12 @@ class Rag_Chat_Ab_SyncService {
 				foreach ( $post_ids as $post_id ) {
 					update_post_meta( $post_id, '_ragchatab_sync_status', $sync_status );
 				}
-				return true;
 			} catch ( Exception $e ) {
 				RAGCHATAB()->helpers->log_error( 'Error (Save): ' . $e->getMessage() );
 				return false;
 			}
 		}
+		return true;
 	}
 
 	/**

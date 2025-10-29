@@ -70,7 +70,7 @@ class Rag_Chat_Ab_Page_Main {
 						<?php endforeach; ?>
 					</ul>
 				<?php else : ?>
-					<p>Error: <?php esc_attr( $this->response['body']['message'] ); ?></p>
+					<p>Error: <?php echo esc_html( $this->response['body']['message'] ); ?></p>
 				<?php endif; ?>
 			<?php endif; ?>
 		</div>
