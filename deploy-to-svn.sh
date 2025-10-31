@@ -75,19 +75,7 @@ rm -rf "$TRUNK_DIR"/*
 
 # Copy plugin files to trunk (excluding development files)
 echo "📁 Copying plugin files to trunk..."
-rsync -av \
-  --exclude='.git*' \
-  --exclude='CLAUDE.md' \
-  --exclude='composer.json' \
-  --exclude='composer.lock' \
-  --exclude='vendor/' \
-  --exclude='.idea/' \
-  --exclude='package-temp/' \
-  --exclude='package-plugin.sh' \
-  --exclude='deploy-to-svn.sh' \
-  --exclude="${PLUGIN_NAME}.zip" \
-  --exclude="${PLUGIN_NAME}-svn/" \
-  ./ "$TRUNK_DIR/"
+rsync -av --exclude-from='.svnignore' ./ "$TRUNK_DIR/"
 
 # Add new files to SVN
 echo "➕ Adding files to SVN..."

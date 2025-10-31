@@ -1,0 +1,13 @@
+.git*
+CLAUDE.md
+.claude
+composer.json
+composer.lock
+vendor/
+.svnignore
+.idea/
+package-temp/
+package-plugin.sh
+deploy-to-svn.sh
+rag-chat-ab.zip
+rag-chat-ab-svn/
