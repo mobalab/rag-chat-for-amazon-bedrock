@@ -73,14 +73,26 @@ fi
 echo "🧹 Cleaning trunk directory..."
 rm -rf "$TRUNK_DIR"/*
 
-# Copy plugin files to trunk (excluding development files)
+# Copy plugin files to trunk (excluding development files and assets folder)
 echo "📁 Copying plugin files to trunk..."
-rsync -av --exclude-from='.svnignore' ./ "$TRUNK_DIR/"
+rsync -av --exclude-from='.svnignore' --exclude='assets/' ./ "$TRUNK_DIR/"
+
+# Handle special assets folder for WordPress.org
+echo "🎨 Handling WordPress.org assets folder..."
+if [ -d "assets" ]; then
+	echo "📁 Copying assets to SVN root..."
+	rsync -av assets/ "$SVN_DIR/assets/"
+else
+	echo "ℹ️ No assets folder found (optional)"
+fi
 
 # Add new files to SVN
 echo "➕ Adding files to SVN..."
 cd "$SVN_DIR" || exit 1
 svn add --force trunk/*
+if [ -d "assets" ]; then
+	svn add --force assets/*
+fi
 
 # Create/update tag for this version
 echo "🏷️ Creating tag for version $VERSION..."
